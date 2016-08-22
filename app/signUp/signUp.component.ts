@@ -6,7 +6,7 @@ import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MdToolbar} from '@angular2-material/toolbar';
-import {MATERIAL_DIRECTIVES} from 'ng2-material';
+import {MATERIAL_DIRECTIVES} from '../ng2-material';
 import { MdRadioModule } from '@angular2-material/radio';
 import {User} from '../shared/user';
 import {SessionServices} from '../services/session-services.service';
