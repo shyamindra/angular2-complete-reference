@@ -6,7 +6,6 @@
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "postinstall": "typings install",
     "typings": "typings"
   },
   "license": "ISC",
@@ -39,7 +38,8 @@
     "rxjs": "^5.0.0-beta.11",
     "rxjs-es": "^5.0.0-beta.11",
     "systemjs": "0.19.27",
-    "zone.js": "^0.6.12"
+    "zone.js": "^0.6.12",
+    "typings": "^1.0.4"
   },
   "devDependencies": {
     "bootstrap": "^3.3.7",
@@ -47,7 +47,6 @@
     "jquery": "^3.1.0",
     "lite-server": "^2.2.0",
     "ng2-pagination": "^0.3.5",
-    "typescript": "^1.8.10",
-    "typings": "^1.0.4"
+    "typescript": "^1.8.10"
   }
 }
