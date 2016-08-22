@@ -1,0 +1,47 @@
+<html>
+
+  <head>
+    <base href="/">
+    <title>Rooster</title>
+    <!-- 1. Load libraries -->
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+    <script src="node_modules/rxjs/bundles/Rx.js"></script>
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    
+    <script src="node_modules/ng2-pagination/dist/ng2-pagination-bundle.js"></script>
+    <script src="node_modules/jquery/dist/jquery.js"></script>
+    <script src="node_modules/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="//connect.facebook.net/en_US/sdk.js"></script>
+    
+    
+    <link rel="stylesheet" href="node_modules/ng2-material/ng2-material.css">
+    <link rel="stylesheet" href="node_modules/ng2-material/font/font.css">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-social/4.12.0/bootstrap-social.min.css" rel="stylesheet">
+    <link href="node_modules/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="css/custom-styles.css" rel="stylesheet">
+    <link href="css/login-styles.css" rel="stylesheet">
+    <link href="css/navbar-styles.css" rel="stylesheet">
+    <link href="css/simple-sidebar-styles.css" rel="stylesheet">
+    <link href="css/notification-styles.css" rel="stylesheet">
+    <link href="css/profile-feed-styles.css" rel="stylesheet">
+    <link href="css/widget-styles.css" rel="stylesheet">
+    <link rel="shortcut icon" href="assets/favicon.ico" />
+
+    <!-- 2. Configure SystemJS -->
+      <script src="systemjs.config.js"></script>
+      <script>
+        System.import('app').catch(function(err){ console.error(err); });
+      </script>
+
+    <!-- 3. Custom JS files-->
+    <script src="js/showIFrame.js"></script>
+
+  </head>
+  <body>
+    <my-app>Loading...</my-app>
+  </body>
+</html>

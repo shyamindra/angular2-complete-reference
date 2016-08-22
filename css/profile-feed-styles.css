@@ -1,0 +1,173 @@
+.spinner-custom{
+    position: fixed;
+    z-index: 999;
+    height: 2em;
+    width: 2em;
+    overflow: show;
+    margin: auto;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.profile-feed{
+    float:left; 
+    width: 48%;
+    margin: 10px;
+    padding: 5px;
+    box-shadow: 2px 2px 1px lightgrey; 
+    background-color: white;
+    position: relative;
+}
+
+.tags{
+    float:left;
+    margin-right: 5px;
+    margin-top: -5px;
+    margin-bottom: 10px;
+    color: grey;
+    font-size: 10;
+}
+
+#location-div{
+    clear: both;
+    text-align: center;
+    cursor: pointer; cursor: hand;
+}
+
+#location{
+    float: left;
+    width: 15px;
+    height: 15px;
+    margin-bottom: 10px;
+}
+
+#location img{
+    padding-bottom: 2%;
+    max-width: 100%;
+    height: auto;
+    width: auto\9; /* ie8 */
+}
+
+#location-address{
+    float: left;
+    font-size: 10px;
+}
+
+#date{
+    float: right;
+    font-family: Arial, Helvetica, sans-serif;
+    color: slategrey;
+    font-size: 10px;
+}
+
+#date img{
+    width: 15px;
+    height: 15px;
+}
+
+#img-div{
+    clear: both;
+    width: 100%;
+    height: 35vh;
+    overflow: hidden;
+}
+
+#img-div img{ 
+    padding-bottom: 2%;
+    width: 100%;
+    max-height: 100%;
+    object-fit: cover;
+}
+
+#vid-div{
+    clear: both;
+    width: 100%;
+    height: 35vh;
+    overflow: hidden;
+}
+
+#vid-div video{ 
+    padding-bottom: 2%;
+    width: 100%;
+    height: 35vh;
+    object-fit: cover;
+}
+
+#vid-div .videoContainer{
+    position: relative;
+}
+
+#vid-div .videoContainer .player-buttons{
+    background: url(/assets/play_icon.png) center center no-repeat;
+    height: 128px;
+    left: 50%;
+    margin: -64px 0 0 -64px;
+    position: absolute;
+    top: 50%;
+    width: 128px;
+    z-index: 1; 
+    cursor: pointer;
+}
+
+#aud-div{
+    clear: both;
+    width: 100%;
+    height: 35vh;
+    overflow: hidden;
+}
+
+#aud-div audio{ 
+    padding-bottom: 2%;
+    width: 100%;
+    height: 35vh;
+    object-fit: cover;
+}
+
+#profileText{
+    clear: both;
+    padding-top: 5px;
+    height: 45px;
+    overflow: hidden; 
+}
+
+#Comments{
+    clear: both;
+    text-align: left;
+    font-size: 10px;
+    margin-top: 10px;
+    margin-bottom: -15px;
+    color: #0060B6;
+}
+
+#icons{
+    clear: both;
+    margin-top: -10px; 
+}
+
+.icon{
+    float: left;
+    padding-right: 30px;
+}
+
+.icon img{
+    height: 20px;
+    width: 20px;
+}
+
+.icon_share{
+    float: right;
+}
+
+.icon_share img{
+    height: 20px;
+    width: 20px;
+}
+
+.searchResults{
+    text-align: center;
+    color: grey;
+    font: 25px;
+    font-weight: bold;
+}

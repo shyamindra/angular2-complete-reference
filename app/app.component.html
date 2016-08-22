@@ -1,0 +1,124 @@
+<div (click)="handleOffClick()">
+<nav class = "navbar navbar-default navbar-fixed-top navbar-rooster" role = "navigation"> 
+    <div class = "navbar-header" style="width:100%">
+        <div style="float:left;">
+            <a href="#" class="pull-left"><img src="/assets/ab_logo.png" class="logo"></a>
+        </div>
+        <div style="float:left; width:40%">
+            <a [routerLink]="['home']" class = "navbar-brand navbar-header-custom">Rooster</a>
+        </div>
+        <div style="float:left; width:40%">
+            <form class="navbar-form navbar-left search-custom" role="search">
+                <div class="inner-addon left-addon">
+                    <input #searchText 
+                        class="form-control search-bar-custom" 
+                        placeholder="Search"
+                        (keyup.enter)="triggerSearch(searchText.value)"/>
+                    <a href="#"><i class="glyphicon glyphicon-search search-icon-custom"></i></a>
+                </div>
+            </form>
+        </div>
+        <div *ngIf="isUserLoggedIn==false" style="float:right;">
+            <a href="#" (click)="handleLogin()" class = "navbar-brand navbar-header-custom-right">Log In</a>
+        </div>
+        <div *ngIf="isUserLoggedIn==false" style="float:right;">
+            <a [routerLink]="['signUp']" (click)="setActiveFlagsFalse()" class = "navbar-brand navbar-header-custom-right">Sign Up</a>
+        </div>
+        <div *ngIf="isUserLoggedIn==true">
+            <div class ="userDetailsDiv">
+                <a href="#" class="pull-left"><img src="/assets/ab_logo.png" class="userDetailsImg"></a>
+            </div>
+            <div style="float:right; width:5%; max-width: 40px">
+                <div id="nav">
+                    <div (click)="toggleNotifications()" id="notification_li">
+                        <a href="#" id="notificationLink">
+                            <span *ngIf="showNotificationCount==true" id="notification_count">3</span>
+                            <span class="glyphicon glyphicon-bell notification-custom">
+                            </span>
+                        </a>
+                        <div *ngIf="showNotifications==true" id="notificationContainer">
+                        <div id="notificationTitle">Notifications</div>
+                        <div id="notificationsBody" class="notifications"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </nav>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li [ngClass] = "{active:isHome}">
+                    <a (click)="makeActive('Home')" [routerLink]="['home']"><img src="/assets/icon_home_active.png" class="side-nav-icon">   Home</a>
+                </li>
+                <li [ngClass] = "{active:isPromotions}">
+                    <a (click)="makeActive('Promotions')" [routerLink]="['promotions']"><img src="/assets/icon_promotions_active.png" class="side-nav-icon">   Promotions</a>
+                </li>
+                <li [ngClass] = "{active:isComplaints}">
+                    <a (click)="makeActive('Complaints')" [routerLink]="['complaints']"><img src="/assets/icon_complaints_active.png" class="side-nav-icon">   Complaints</a>
+                </li>
+                <li [ngClass] = "{active:isProfile}">
+                    <a (click)="makeActive('Profile')" [routerLink]="['profile']"><img src="/assets/icon_profile_active.png" class="side-nav-icon">   Profile</a>
+                </li>
+                <li [ngClass] = "{active:isPayment}">
+                    <a (click)="makeActive('Payment')" [routerLink]="['payment']"><img src="/assets/icon_settings_active.png" class="side-nav-icon">   Payment</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                      <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+            <div id="nav">
+                <div id="widget_div">
+                    <div *ngIf="showComplaint==true" id="widgetContainer">
+                        <iframe id="iFrameWidget" src="app/post/post-complaint.html" class="createWidget"></iframe>
+                    </div>
+                    <div *ngIf="showPromotion==true" id="widgetContainer">
+                        <iframe id="iFrameWidget" src="app/post/post-promotion.html" class="createWidget"></iframe>
+                    </div>
+                </div>
+                <div *ngIf="showAddButtons==true" id="widgetButtonPromotion">
+                     <button type="button" 
+                         (click)="showPromotionDiv()"
+                        class="btn btn-default btn-noBorder">
+                             Create a Promotion     <img src="assets/icon_promotions_active.png" width="20" />
+                     </button>
+                </div>
+                <div *ngIf="showAddButtons==true" id="widgetButtonComplaint">
+                     <button type="button" 
+                         (click)="showComplaintDiv()"
+                        class="btn btn-default btn-noBorder">
+                             Create a Complaint      <img src="assets/icon_complaints_active.png" width="20" />
+                     </button>
+                </div>
+                <div *ngIf="showPlus==true" id="widgetButtonPlus">
+                    <button type="button" 
+                         (click)="togglePlus()"
+                        class="btn btn-info btn-circle btn-xl">
+                        <i class="glyphicon glyphicon-plus"></i>
+                    </button>
+                </div>
+                <div *ngIf="showPlus==false" id="widgetButtonCross">
+                    <button type="button" 
+                         (click)="toggleCross()"
+                        class="btn btn-info btn-circle btn-xl">
+                        <i class="glyphicon glyphicon-remove"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    </div>

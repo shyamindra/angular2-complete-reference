@@ -1,0 +1,119 @@
+body { 
+    padding: 30px;
+    background-color: #F4F4F4;
+    color: #999999; 
+}
+
+
+.registerWrapper{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    margin: auto;
+}
+
+.buttonWrapper{
+    text-align: center;
+}
+
+.asteriskField{
+    color: red;
+}
+
+.labelDiv{
+    float: left;
+}
+.switchDiv{
+    float: left;
+    padding-top: 2px;
+    padding-left: 20px;
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 45px;
+  height: 20px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {display:none;}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 20px;
+  width: 20px;
+  /*left: 2px;*/
+  /*bottom: 4px;*/
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #2196F3;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #2196F3;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 24px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+
+.display-true{
+    display: block;
+}
+
+#landingVideo{
+    clear: both;
+    padding-left: -80px;
+    width: 90%;
+    height: 90%;
+    overflow: visible;
+}
+
+#landingVideo video{ 
+    padding-bottom: 2%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+md-toolbar.md-primary {
+    background: #009688;
+    color: white;
+    height: 20px;
+}
+
+md-toolbar {
+    min-height: 20px;
+}
+

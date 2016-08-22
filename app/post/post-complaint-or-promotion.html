@@ -1,0 +1,46 @@
+<html>
+    <head>
+        <title>Create a Post</title>
+
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+        <link href="/css/widget-styles.css" rel="stylesheet">
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) --> 
+        <script src="/js/jquery.js"></script>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+    </head>
+    <body>
+        <div>
+            <nav class = "navbar navbar-inverse navbar-fixed-top navbar-widget-custom" role = "navigation"> 
+            <a href="#" class = "navbar-brand">Create a Post</a>
+            <a href="#" 
+                onclick="closeIFrame();" 
+                class = "widget-close" 
+                style="float:right;">
+                <img src="/assets/icon_cancel.png"></img>
+            </a>
+            </nav>
+        </div>
+        
+        <div class="formDiv">
+            <div class="actionForm">
+            <a href="/app/post/post-complaint.html" class="form-control form-action">Post a Complaint</a>
+            </div>
+            <div class="actionForm">
+            <a href="/app/post/post-promotion.html" class="form-control form-action">Post a Promotion</a>
+            </div>
+            
+        </div>
+        
+        
+        
+        
+        <script>
+        function closeIFrame()   // Tested Code
+        {
+            var someIframe = window.parent.document.getElementById('widgetContainer');
+            someIframe.style.display = 'none'; 
+        }
+        </script>
+    </body>
+</html>

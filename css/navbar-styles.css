@@ -1,0 +1,112 @@
+.navbar-rooster{
+    background-color:  #FF4C44;
+}
+
+.navbar-default .navbar-header-custom{
+   color: white
+}
+
+.navbar-default .navbar-header-custom:hover{
+   color: antiquewhite;
+}
+
+.navbar-default .navbar-header-custom-right{
+    float: right;
+    color: white;
+}
+
+.navbar-default .navbar-header-custom-right:hover{
+    color: antiquewhite;
+}
+
+.navbar-default .logo{
+    padding-top: 10%;
+    padding-left: 10%;
+    padding-bottom: 10%;
+    max-width: 100%;
+    height: 50px;
+    width: auto\9; /* ie8 */
+}
+
+.btn-custom{
+    padding-top: 6px;
+}
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+.search-custom{
+    opacity: 0.75;
+}
+
+.search-icon-custom{
+    color: white;
+    cursor: help;
+}
+
+.navbar-form .search-bar-custom{
+    color: grey;
+    opacity: 0.75;
+    width: 320px;
+    cursor: help;
+}
+
+#nav{
+    list-style:none;margin: 0px;padding: 0px;
+}
+
+#nav li {
+    float: left;
+    margin-right: 20px;
+    font-size: 14px;
+    font-weight:bold;
+}
+
+#nav li a{
+    color:#333333;
+    text-decoration:none
+}
+
+#nav li a:hover{
+    color:#006699;
+    text-decoration:none
+}
+
+.login{
+    float: right;
+    color: white;
+    padding: 15px;
+    height: 50px;
+    font-size: 18px;
+    line-height: 20px;
+}
+
+.userDetailsDiv{
+    float: right;
+    width: 15%;
+    max-width: 50px;
+    padding-right: 10px; 
+    padding-top: 5px;
+}
+
+.userDetailsDiv img{
+    float: left;
+    max-width: 40px;
+    height: auto;
+}
