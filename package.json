@@ -1,12 +1,11 @@
 {
-  "name": "angular2-quickstart",
+  "name": "rooster",
   "version": "1.0.0",
   "scripts": {
     "start": "concurrent \"npm run tsc:w\" \"npm run lite\" ",
     "tsc": "tsc",
     "tsc:w": "tsc -w",
     "lite": "lite-server",
-    "postinstall": "typings install",
     "typings": "typings"
   },
   "license": "ISC",
