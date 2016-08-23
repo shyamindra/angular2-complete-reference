@@ -18,8 +18,8 @@
                 </div>
             </form>
         </div>
-        <div *ngIf="isUserLoggedIn==false" style="float:right;">
-            <a href="#" (click)="handleLogin()" class = "navbar-brand navbar-header-custom-right">Log In</a>
+        <div *ngIf="isUserLoggedIn==false" style="float:right; cursor:pointer">
+            <a (click)="handleLogin()" class = "navbar-brand navbar-header-custom-right">Log In</a>
         </div>
         <div *ngIf="isUserLoggedIn==false" style="float:right;">
             <a [routerLink]="['signUp']" (click)="setActiveFlagsFalse()" class = "navbar-brand navbar-header-custom-right">Sign Up</a>
@@ -81,16 +81,17 @@
             </div>
             <div id="nav">
                 <div id="widget_div">
-                    <div *ngIf="showComplaint==true" id="widgetContainer">
+                    <div *ngIf="showComplaint==true" id="widgetContainerComplaint">
                         <iframe id="iFrameWidget" src="app/post/post-complaint.html" class="createWidget"></iframe>
                     </div>
-                    <div *ngIf="showPromotion==true" id="widgetContainer">
+                    <div *ngIf="showPromotion==true" id="widgetContainerPromotion">
                         <iframe id="iFrameWidget" src="app/post/post-promotion.html" class="createWidget"></iframe>
                     </div>
                 </div>
                 <div *ngIf="showAddButtons==true" id="widgetButtonPromotion">
                      <button type="button" 
                          (click)="showPromotionDiv()"
+                         onclick="showIFrame();" 
                         class="btn btn-default btn-noBorder">
                              Create a Promotion     <img src="assets/icon_promotions_active.png" width="20" />
                      </button>
@@ -98,6 +99,7 @@
                 <div *ngIf="showAddButtons==true" id="widgetButtonComplaint">
                      <button type="button" 
                          (click)="showComplaintDiv()"
+                         onclick="showIFrame();" 
                         class="btn btn-default btn-noBorder">
                              Create a Complaint      <img src="assets/icon_complaints_active.png" width="20" />
                      </button>
@@ -111,7 +113,7 @@
                 </div>
                 <div *ngIf="showPlus==false" id="widgetButtonCross">
                     <button type="button" 
-                         (click)="toggleCross()"
+                         (click)="togglePlus()"
                         class="btn btn-info btn-circle btn-xl">
                         <i class="glyphicon glyphicon-remove"></i>
                     </button>

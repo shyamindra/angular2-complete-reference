@@ -35,7 +35,7 @@ var HomeComponent = (function () {
             _this.isLoading = false;
             _this.feeds = feeds;
         });
-        console.log("feeds -- " + this.feeds);
+        console.log("feeds -- " + JSON.stringify(this.feeds));
     };
     HomeComponent.prototype.playVideo = function (id) {
         console.log(id);

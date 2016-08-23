@@ -1,12 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {Cache} from '../shared/cache';
 import {CORE_DIRECTIVES} from '@angular/common';
 
 import {FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES} from '@angular/forms';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {MD_INPUT_DIRECTIVES} from '@angular2-material/input';
 import {MdToolbar} from '@angular2-material/toolbar';
-import {MATERIAL_DIRECTIVES} from '../ng2-material';
+import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import { MdRadioModule } from '@angular2-material/radio';
 import {User} from '../shared/user';
 import {SessionServices} from '../services/session-services.service';
@@ -35,7 +34,7 @@ export class SignUpComponent implements OnInit {
     response: any;
     signUp: boolean;
   
-    constructor(fb: FormBuilder, private sessionService: SessionServices, private cacheServ: Cache, private user: User) {
+    constructor(fb: FormBuilder, private sessionService: SessionServices, private user: User) {
         this.form = fb.group({
             email: ["", Validators.required]
         });
@@ -46,6 +45,9 @@ export class SignUpComponent implements OnInit {
         });
     }
 
+    ngOnInit() {
+    }
+    
     onFacebookSignUpClick() {
         this.signUp = true;
         FB.getLoginStatus(response => {
@@ -57,8 +59,13 @@ export class SignUpComponent implements OnInit {
       console.log(resp);
         if (resp.status == 'connected') {
             if(this.signUp == true){
-             this.sessionService.registerUser(resp.authResponse.userID, resp.authResponse.accessToken, 
-                this.user.first_name, this.user.last_name, this.user.gender, this.user.email, this.parseDate(this.user.dob))
+                this.sessionService.registerUser(resp.authResponse.userID, 
+                    resp.authResponse.accessToken, 
+                    this.user.first_name, 
+                    this.user.last_name, 
+                    this.user.gender, 
+                    this.user.email, 
+                    this.parseDate(this.user.dob))
                 .subscribe(res => {
                     this.response = res;
                 });
@@ -72,11 +79,5 @@ export class SignUpComponent implements OnInit {
             var res: string[] = date.split("/");
             return res[2] + "-" + res[1] + "-" + res[0]; 
         }
-    }
-
-    ngOnInit() {
-        FB.getLoginStatus(response => {
-            this.statusChangeCallback(response);
-        });
     }
 }

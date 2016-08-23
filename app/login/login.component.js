@@ -10,44 +10,40 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
-var cache_1 = require('../shared/cache');
+var session_services_service_1 = require('../services/session-services.service');
+var http_1 = require('@angular/http');
+require('rxjs/add/operator/map');
+require('rxjs/add/operator/do');
 var LoginComponent = (function () {
-    function LoginComponent(_cacheServ, _router) {
-        this._cacheServ = _cacheServ;
+    function LoginComponent(_router, sessionService) {
         this._router = _router;
+        this.sessionService = sessionService;
         FB.init({
             appId: '1720733194853739',
             xfbml: true,
             version: 'v2.7'
         });
-        this._cacheServ = _cacheServ;
     }
+    LoginComponent.prototype.ngOnInit = function () {
+    };
     LoginComponent.prototype.onFacebookLoginClick = function () {
-        if (!this._cacheServ.isUserLoggedIn()) {
-            FB.login();
-        }
+        FB.login();
     };
     LoginComponent.prototype.isUserLoggedIn = function () {
         return this.isLoggedIn;
     };
     LoginComponent.prototype.statusChangeCallback = function (resp) {
+        var _this = this;
         console.log(resp);
         if (null != resp) {
             if (resp.status === 'connected') {
-                this._cacheServ.setIsLoggedIn(true);
-                this._cacheServ.setToken(resp.authResponse.accessToken);
-                this._cacheServ.setUserId(resp.authResponse.userID);
-                this.isLoggedIn = true;
+                this.sessionService.loginUser(resp.authResponse.userID, resp.authResponse.accessToken)
+                    .subscribe(function (res) { return _this.response = res; }, function (error) { return _this.error = error; });
             }
-            else if (resp.status === 'not_authorized') {
-                this._cacheServ.setIsLoggedIn(false);
-            }
-            else {
-                this._cacheServ.setIsLoggedIn(false);
-            }
+            ;
+            console.log(JSON.stringify(this.response) + "--" + JSON.stringify(this.error));
         }
     };
-    ;
     LoginComponent.prototype.login = function () {
         var _this = this;
         FB.getLoginStatus(function (response) {
@@ -59,9 +55,10 @@ var LoginComponent = (function () {
         core_1.Component({
             selector: 'facebook-login',
             template: '',
-            directives: [router_1.ROUTER_DIRECTIVES]
+            directives: [router_1.ROUTER_DIRECTIVES],
+            providers: [session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [cache_1.Cache, router_1.Router])
+        __metadata('design:paramtypes', [router_1.Router, session_services_service_1.SessionServices])
     ], LoginComponent);
     return LoginComponent;
 }());

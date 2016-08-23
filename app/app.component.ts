@@ -2,16 +2,18 @@ import {Component, OnInit} from '@angular/core';
 import {Routes, Router, RouterModule, ROUTER_DIRECTIVES} from '@angular/router';
 import {NgClass} from '@angular/common';
 import {Cache} from './shared/cache';
+import {HTTP_PROVIDERS} from '@angular/http';
 
 import {LoginComponent} from './login/login.component';
 import {PostPromotionComponent} from './post/post-promotion.component';
 import {PostComplaintComponent} from './post/post-complaint.component';
+import {SessionServices} from './services/session-services.service';
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
     directives: [ROUTER_DIRECTIVES, NgClass],
-    providers: [Cache, LoginComponent]
+    providers: [Cache, LoginComponent, SessionServices, HTTP_PROVIDERS]
 })
 export class AppComponent implements OnInit{
     isHome: boolean = false;
@@ -50,10 +52,6 @@ export class AppComponent implements OnInit{
         this._login.login();
         this.isUserLoggedIn = this._login.isUserLoggedIn();
         this.isHome = true;
-        console.log("this" + this._login.isUserLoggedIn());
-        console.log("this" + this._cacheService._isLoggedIn);
-        console.log("this" + this._cacheService._userId);
-        console.log("this" + this._cacheService._token);
     }
 
     triggerSearch(searchTxt: string){
@@ -91,11 +89,6 @@ export class AppComponent implements OnInit{
         this.toggleAddButtons();
     }
 
-    toggleCross(){
-        this.showPlus = !this.showPlus;
-        this.showComplaint = false;
-        this.showPromotion = false;
-    }
     
     toggleAddButtons(){
         this.showAddButtons = !this.showAddButtons;
@@ -103,12 +96,12 @@ export class AppComponent implements OnInit{
 
     showPromotionDiv(){
         this.showPromotion = true;
-        this.toggleAddButtons();
+        this.togglePlus();
     }
 
     showComplaintDiv(){
         this.showComplaint = true;
-        this.toggleAddButtons();
+        this.togglePlus();
     }
 
     setActiveFlagsFalse(){

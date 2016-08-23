@@ -12,7 +12,9 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var cache_1 = require('./shared/cache');
+var http_1 = require('@angular/http');
 var login_component_1 = require('./login/login.component');
+var session_services_service_1 = require('./services/session-services.service');
 var AppComponent = (function () {
     function AppComponent(_router, _cacheService, _login) {
         this._router = _router;
@@ -47,10 +49,6 @@ var AppComponent = (function () {
         this._login.login();
         this.isUserLoggedIn = this._login.isUserLoggedIn();
         this.isHome = true;
-        console.log("this" + this._login.isUserLoggedIn());
-        console.log("this" + this._cacheService._isLoggedIn);
-        console.log("this" + this._cacheService._userId);
-        console.log("this" + this._cacheService._token);
     };
     AppComponent.prototype.triggerSearch = function (searchTxt) {
         console.log(searchTxt);
@@ -84,21 +82,16 @@ var AppComponent = (function () {
         this.showPlus = !this.showPlus;
         this.toggleAddButtons();
     };
-    AppComponent.prototype.toggleCross = function () {
-        this.showPlus = !this.showPlus;
-        this.showComplaint = false;
-        this.showPromotion = false;
-    };
     AppComponent.prototype.toggleAddButtons = function () {
         this.showAddButtons = !this.showAddButtons;
     };
     AppComponent.prototype.showPromotionDiv = function () {
         this.showPromotion = true;
-        this.toggleAddButtons();
+        this.togglePlus();
     };
     AppComponent.prototype.showComplaintDiv = function () {
         this.showComplaint = true;
-        this.toggleAddButtons();
+        this.togglePlus();
     };
     AppComponent.prototype.setActiveFlagsFalse = function () {
         this.isHome = false;
@@ -129,7 +122,7 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass],
-            providers: [cache_1.Cache, login_component_1.LoginComponent]
+            providers: [cache_1.Cache, login_component_1.LoginComponent, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
         }), 
         __metadata('design:paramtypes', [router_1.Router, cache_1.Cache, login_component_1.LoginComponent])
     ], AppComponent);

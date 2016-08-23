@@ -14,7 +14,7 @@
             <nav class = "navbar navbar-inverse navbar-fixed-top navbar-widget-custom" role = "navigation"> 
             <a href="#" class = "navbar-brand">Post Promotion</a>
             <a href="#" 
-                onclick="closeIFrame();" 
+                onclick="closeIFramePromotion();" 
                 class = "widget-close" 
                 style="float:right;">
                 <img src="/assets/icon_cancel.png"></img>
@@ -66,14 +66,11 @@
             
         </div>
         
-        
-        
-        
         <script>
-        function closeIFrame()   // Tested Code
+        function closeIFramePromotion() 
         {
-            var someIframe = window.parent.document.getElementById('widgetContainer');
-            someIframe.style.display = 'none'; 
+            var iFrame = window.parent.document.getElementById('widgetContainerPromotion');
+            iFrame.style.display = 'none'; 
         }
         function uploadImg() {
             window.document.getElementById('imgUploadField').click();   

@@ -37,12 +37,25 @@ export class SessionServices {
             email: string, dob: string, profile_image?: string, mobile?: string){
         return this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, facebook_token: facebook_token, 
             name: first_name, surname: last_name, email: email, dob: dob, gender: gender, mobile_number: mobile}), this.getRequestOptions())
-            .map(res => res);
+            .map(res => res.json());
+    }
+
+    loginUser(facebook_id: string, facebook_token: string){
+        console.log(this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, 
+            facebook_token: facebook_token}), this.getRequestOptions()));
+        return this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, 
+            facebook_token: facebook_token}), this.getRequestOptions())
+            .map(res => res.json())
+            .toPromise();
+    }
+
+    handleError(error: any){
+
     }
 
     logOutUser(auth: string){
         return this._http.delete(this._url + "logout")
-            .map(res => res);
+            .map(res => res.json());
     }
     
 }

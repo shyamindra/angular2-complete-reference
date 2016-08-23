@@ -9,7 +9,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
-var cache_1 = require('../shared/cache');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
 var forms_2 = require('@angular/forms');
@@ -22,9 +21,8 @@ require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
 var http_client_1 = require('../shared/http.client');
 var SignUpComponent = (function () {
-    function SignUpComponent(fb, sessionService, cacheServ, user) {
+    function SignUpComponent(fb, sessionService, user) {
         this.sessionService = sessionService;
-        this.cacheServ = cacheServ;
         this.user = user;
         this.form = fb.group({
             email: ["", forms_2.Validators.required]
@@ -35,6 +33,8 @@ var SignUpComponent = (function () {
             version: 'v2.7'
         });
     }
+    SignUpComponent.prototype.ngOnInit = function () {
+    };
     SignUpComponent.prototype.onFacebookSignUpClick = function () {
         var _this = this;
         this.signUp = true;
@@ -62,12 +62,6 @@ var SignUpComponent = (function () {
             return res[2] + "-" + res[1] + "-" + res[0];
         }
     };
-    SignUpComponent.prototype.ngOnInit = function () {
-        var _this = this;
-        FB.getLoginStatus(function (response) {
-            _this.statusChangeCallback(response);
-        });
-    };
     SignUpComponent = __decorate([
         core_1.Component({
             selector: 'facebook-login',
@@ -75,7 +69,7 @@ var SignUpComponent = (function () {
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
             providers: [forms_2.FormBuilder, user_1.User, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS, http_client_1.HttpClient]
         }), 
-        __metadata('design:paramtypes', [forms_2.FormBuilder, session_services_service_1.SessionServices, cache_1.Cache, user_1.User])
+        __metadata('design:paramtypes', [forms_2.FormBuilder, session_services_service_1.SessionServices, user_1.User])
     ], SignUpComponent);
     return SignUpComponent;
 }());

@@ -1,32 +1,39 @@
 import {Component, OnInit} from '@angular/core';
 import {ROUTER_DIRECTIVES, Router} from '@angular/router';
-import {Cache} from '../shared/cache';
-import {Observable} from 'rxjs/Observable';
+
+import {SessionServices} from '../services/session-services.service';
+import {HTTP_PROVIDERS} from '@angular/http';
+import {Observable} from 'rxjs/Rx';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/do';
 
 declare const FB:any;
 
 @Component({
     selector: 'facebook-login',
     template: '',
-    directives: [ROUTER_DIRECTIVES]
+     directives: [ROUTER_DIRECTIVES],
+    providers: [SessionServices, HTTP_PROVIDERS]
 })
 
-export class LoginComponent {
+export class LoginComponent implements OnInit{
     isLoggedIn: boolean;
+    response: any;
+    error: any;
 
-    constructor(private _cacheServ : Cache, private _router: Router) {
+    constructor(private _router: Router, private sessionService: SessionServices) {
         FB.init({
           appId      : '1720733194853739',
           xfbml      : true,
           version    : 'v2.7'
         });
-        this._cacheServ = _cacheServ;
+    }
+
+    ngOnInit(){
     }
 
     onFacebookLoginClick() {
-      if(!this._cacheServ.isUserLoggedIn()){
         FB.login(); 
-      }
     }
 
     isUserLoggedIn(){
@@ -37,17 +44,16 @@ export class LoginComponent {
       console.log(resp);
       if(null != resp){
         if (resp.status === 'connected') {
-          this._cacheServ.setIsLoggedIn(true);
-          this._cacheServ.setToken(resp.authResponse.accessToken);
-          this._cacheServ.setUserId(resp.authResponse.userID);
-          this.isLoggedIn = true;
-        }else if (resp.status === 'not_authorized') {
-          this._cacheServ.setIsLoggedIn(false);
-        }else {
-          this._cacheServ.setIsLoggedIn(false);
-        } 
+          this.sessionService.loginUser(resp.authResponse.userID, 
+                    resp.authResponse.accessToken)
+                    .subscribe(
+                        res =>      this.response = <any>res,
+                        error =>    this.error = <any>error);
+        };
+        console.log(JSON.stringify(this.response) + "--" + JSON.stringify(this.error));
       }
-    };
+    }
+
     login(){
         FB.getLoginStatus(response => {
             this.statusChangeCallback(response);

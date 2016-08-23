@@ -36,11 +36,21 @@ var SessionServices = (function () {
     SessionServices.prototype.registerUser = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, profile_image, mobile) {
         return this._http.post(this._url + "register", JSON.stringify({ facebook_id: facebook_id, facebook_token: facebook_token,
             name: first_name, surname: last_name, email: email, dob: dob, gender: gender, mobile_number: mobile }), this.getRequestOptions())
-            .map(function (res) { return res; });
+            .map(function (res) { return res.json(); });
+    };
+    SessionServices.prototype.loginUser = function (facebook_id, facebook_token) {
+        console.log(this._http.post(this._url + "register", JSON.stringify({ facebook_id: facebook_id,
+            facebook_token: facebook_token }), this.getRequestOptions()));
+        return this._http.post(this._url + "register", JSON.stringify({ facebook_id: facebook_id,
+            facebook_token: facebook_token }), this.getRequestOptions())
+            .map(function (res) { return res.json(); })
+            .toPromise();
+    };
+    SessionServices.prototype.handleError = function (error) {
     };
     SessionServices.prototype.logOutUser = function (auth) {
         return this._http.delete(this._url + "logout")
-            .map(function (res) { return res; });
+            .map(function (res) { return res.json(); });
     };
     SessionServices = __decorate([
         core_1.Injectable(), 

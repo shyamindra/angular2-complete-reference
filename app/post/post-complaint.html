@@ -14,7 +14,7 @@
             <nav class = "navbar navbar-inverse navbar-fixed-top navbar-widget-custom" role = "navigation"> 
             <a href="#" class = "navbar-brand">Post Complaint</a>
             <a href="#" 
-                onclick="closeIFrame();" 
+                onclick="closeIFrameComplaint();" 
                 class = "widget-close" 
                 style="float:right;">
                 <img src="/assets/icon_cancel.png"></img>
@@ -70,10 +70,10 @@
         
         
         <script>
-        function closeIFrame()   // Tested Code
+        function closeIFrameComplaint()  
         {
-            var someIframe = window.parent.document.getElementById('widgetContainer');
-            someIframe.style.display = 'none'; 
+            var iFrame = window.parent.document.getElementById('widgetContainerComplaint');
+            iFrame.style.display = 'none'; 
         }
 
         function uploadImg() {

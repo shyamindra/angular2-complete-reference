@@ -55,7 +55,7 @@ export class HomeComponent implements OnInit{
             this.isLoading = false;
             this.feeds = feeds;
             });
-        console.log("feeds -- " + this.feeds);
+        console.log("feeds -- " + JSON.stringify(this.feeds));
     }
 
     playVideo(id: number){
