@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
-import {HTTP_PROVIDERS} from '@angular/http';
+import {HTTP_PROVIDERS, Headers} from '@angular/http';
 import {ComplaintsService} from '../services/complaint.service';
 import {Complaint} from './complaint';
 
@@ -20,10 +20,14 @@ export class ComplaintsComponent {
     }
     
     ngOnInit(){
-        this._complaintsService.getComplaints("all")
+        this.getFeeds(1);
+    }
+
+    getFeeds(page: number){
+        this._complaintsService.getAllComplaints()
             .subscribe(complaints => {
                 this.isLoading = false;
-                this.complaints = complaints;
+                this.complaints = complaints.results as Complaint[];
             });
     }
 

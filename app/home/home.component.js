@@ -13,9 +13,9 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var roost_services_service_1 = require('../services/roost-services.service');
-var ng2_pagination_1 = require('ng2-pagination');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
+var ng2_pagination_1 = require('ng2-pagination');
 var HomeComponent = (function () {
     function HomeComponent(_feedsService) {
         this._feedsService = _feedsService;
@@ -23,6 +23,7 @@ var HomeComponent = (function () {
         this.isLoading = true;
     }
     HomeComponent.prototype.ngOnInit = function () {
+        this.padeSize = 50;
         this.getPage(1);
     };
     HomeComponent.prototype.getPage = function (page) {
@@ -30,6 +31,7 @@ var HomeComponent = (function () {
         this._feedsService.getFeeds()
             .subscribe(function (feeds) {
             _this.isLoading = false;
+            _this.total = feeds.count;
             _this.feeds = feeds.results;
         });
     };

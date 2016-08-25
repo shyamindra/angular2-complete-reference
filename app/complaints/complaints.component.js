@@ -22,11 +22,14 @@ var ComplaintsComponent = (function () {
         this.isLoading = true;
     }
     ComplaintsComponent.prototype.ngOnInit = function () {
+        this.getFeeds(1);
+    };
+    ComplaintsComponent.prototype.getFeeds = function (page) {
         var _this = this;
-        this._complaintsService.getComplaints("all")
+        this._complaintsService.getAllComplaints()
             .subscribe(function (complaints) {
             _this.isLoading = false;
-            _this.complaints = complaints;
+            _this.complaints = complaints.results;
         });
     };
     ComplaintsComponent.prototype.toggleShout = function (index) {

@@ -17,7 +17,7 @@ const appRoutes: Routes = [
     { path: 'complaints', component: ComplaintsComponent },
     { path: 'payment', component: PaymentComponent },
     { path: 'profile', component: ProfileComponent },
-    { path: 'search', component: SearchComponent },
+    { path: 'search/:searchKey', component: SearchComponent },
     { path: 'signUp', component: SignUpComponent },
     { path:	'', component: LandingComponent } 
 ];

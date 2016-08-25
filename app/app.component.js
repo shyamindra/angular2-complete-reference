@@ -55,8 +55,6 @@ var AppComponent = (function () {
         this.fb.login().then(function (response) {
             _this._cacheService.set('userIdFB', response.authResponse.userID);
             _this._cacheService.set('accessTokenFB', response.authResponse.accessToken);
-            // console.log(response),
-            // console.log( this._cacheService.get('userId') +  this._cacheService.get('accessTokenFB'));
             _this.handleAppLogin();
             (function (error) { return console.error(error); });
         });
@@ -74,7 +72,7 @@ var AppComponent = (function () {
     AppComponent.prototype.triggerSearch = function (searchTxt) {
         console.log(searchTxt);
         this.setActiveFlagsFalse();
-        this._router.navigate(['search', { searchString: searchTxt }]);
+        this._router.navigate(['search', searchTxt]);
     };
     AppComponent.prototype.makeActive = function (path) {
         this.setActiveFlagsFalse();

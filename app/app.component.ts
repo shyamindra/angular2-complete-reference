@@ -65,8 +65,6 @@ export class AppComponent implements OnInit{
         (response: FacebookLoginResponse) => {
             this._cacheService.set('userIdFB', response.authResponse.userID);
             this._cacheService.set('accessTokenFB', response.authResponse.accessToken);
-            // console.log(response),
-            // console.log( this._cacheService.get('userId') +  this._cacheService.get('accessTokenFB'));
             this.handleAppLogin();
             (error: any) => console.error(error)
         });
@@ -88,7 +86,7 @@ export class AppComponent implements OnInit{
     triggerSearch(searchTxt: string){
         console.log(searchTxt);
         this.setActiveFlagsFalse();
-        this._router.navigate(['search', {searchString : searchTxt}]);
+        this._router.navigate(['search',  searchTxt]);
     }
     
     makeActive(path: string){

@@ -10,48 +10,36 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
-var Observable_1 = require('rxjs/Observable');
 require('rxjs/add/operator/map');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var UserServices = (function () {
     function UserServices(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this._url = "http://52.43.46.127:80/api/user/";
+        this._url = "http://192.168.1.6:8000/api/user/";
+        this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     UserServices.prototype.createAuthorizationHeader = function (headers) {
-        headers.append('Authorization', 'Token ' +
-            this._cacheService.get('accessTokenRooster'));
-        headers.append('Content-Type', 'text/plain');
+        headers.append('Authorization', this.accessToken);
     };
-    UserServices.prototype.updateProfile = function (user) {
-        var headers = new http_1.Headers();
-        this.createAuthorizationHeader(headers);
-        var options = new http_1.RequestOptions({ headers: headers });
-        return this._http.patch(this._url + "profile", JSON.stringify(user), options)
-            .map(function (res) { return res.json(); })
-            .catch(this.handleError);
+    UserServices.prototype.updateProfile = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, mobile, profile_image) {
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.patch(this._url + "profile", JSON.stringify({ facebook_id: facebook_id,
+            facebook_token: facebook_token,
+            name: first_name,
+            surname: last_name,
+            email: email,
+            dob: dob,
+            gender: gender,
+            mobile_number: mobile }), { headers: myHeader })
+            .map(function (res) { return res.json(); });
     };
     UserServices.prototype.getUserInfo = function (id) {
-        var headers = new http_1.Headers();
-        this.createAuthorizationHeader(headers);
-        var options = new http_1.RequestOptions({ headers: headers });
-        console.log(this._url + "info/" + id);
-        console.log(options);
-        return this._http.get(this._url + "info/" + id, options)
-            .map(function (res) {
-            console.log(res),
-                function (error) { return console.log(error); },
-                function () { return console.log('yay'); };
-        });
-    };
-    UserServices.prototype.handleError = function (error) {
-        // In a real world app, we might use a remote logging infrastructure
-        // We'd also dig deeper into the error to get a better message
-        var errMsg = (error.message) ? error.message :
-            error.status ? error.status + " - " + error.statusText : 'Server error';
-        console.error(errMsg); // log to console instead
-        return Observable_1.Observable.throw(errMsg);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "info/" + id, { headers: myHeader })
+            .map(function (res) { return res.json(); });
     };
     UserServices = __decorate([
         core_1.Injectable(), 

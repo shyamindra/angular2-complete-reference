@@ -15,7 +15,7 @@ var appRoutes = [
     { path: 'complaints', component: complaints_component_1.ComplaintsComponent },
     { path: 'payment', component: payment_component_1.PaymentComponent },
     { path: 'profile', component: profile_component_1.ProfileComponent },
-    { path: 'search', component: search_component_1.SearchComponent },
+    { path: 'search/:searchKey', component: search_component_1.SearchComponent },
     { path: 'signUp', component: signUp_component_1.SignUpComponent },
     { path: '', component: landing_component_1.LandingComponent }
 ];

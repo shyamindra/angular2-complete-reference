@@ -11,18 +11,30 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var RoostService = (function () {
-    function RoostService(_http) {
+    function RoostService(_http, _cacheService) {
         this._http = _http;
-        this._url = "http://52.43.46.127:80/api/roost/";
+        this._cacheService = _cacheService;
+        this._url = "http://192.168.1.6:8000/api/roost/";
+        this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
+    RoostService.prototype.createAuthorizationHeader = function (headers) {
+        headers.append('Authorization', this.accessToken);
+    };
     RoostService.prototype.getFeeds = function () {
         return this._http.get(this._url + "feeds/")
             .map(function (res) { return res.json(); });
     };
+    RoostService.prototype.search = function (key) {
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "search/" + key + "/", { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
     RoostService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http])
+        __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
     ], RoostService);
     return RoostService;
 }());

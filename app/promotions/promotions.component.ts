@@ -16,16 +16,39 @@ export class PromotionsComponent {
     header = "Promotions Page";
     isLoading = true;
     promotions: Promotion[];
+    diff: number;
+    padeSize: number;
+    total: number;
 
     constructor(private _promotionsService: PromotionsService){
     }
     
     ngOnInit(){
+        this.getFeeds(1);
+    }
+
+    getFeeds(page: number){
         this._promotionsService.getAllPromotions()
-            .map(promotions => {
+            .subscribe(promotions => {
                 this.isLoading = false;
                 this.promotions = promotions.results as Promotion[];
             });
+    }
+
+    extractDate(date: string) {
+        this.diff = (new Date().getTime() - new Date(date).getTime())/1000;
+        if(this.diff <= 60)
+            return "Just Now";
+        else if(this.diff < 3600)
+            return Math.round(this.diff/60) + " minutes ago";
+        else if(this.diff < 7200)
+            return "1 hour ago";
+        else if(this.diff <= 86400)
+            return Math.round(this.diff/3600) + " hours ago";
+        else if(this.diff == 172800)
+            return "1 day ago";
+        else if(this.diff > 172800)
+            return Math.round(this.diff/86400) + " days ago";
     }
 
     toggleShout(index: number){

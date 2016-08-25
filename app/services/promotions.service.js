@@ -11,40 +11,33 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 require('rxjs/add/operator/map');
 var http_1 = require('@angular/http');
-var promotion_1 = require('../promotions/promotion');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var PromotionsService = (function () {
-    function PromotionsService(_http, _promotion, _cacheService) {
+    function PromotionsService(_http, _cacheService) {
         this._http = _http;
-        this._promotion = _promotion;
         this._cacheService = _cacheService;
-        this._url = "http://52.43.46.127:80/api/roost/promotions/";
+        this._url = "http://192.168.1.6:8000/api/roost/promotions/";
+        this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     PromotionsService.prototype.createAuthorizationHeader = function (headers) {
-        headers.append('Authorization', 'Token ' +
-            this._cacheService.get('accessTokenRooster'));
+        headers.append('Authorization', this.accessToken);
     };
     PromotionsService.prototype.getAllPromotions = function () {
-        var headers = new http_1.Headers();
-        this.createAuthorizationHeader(headers);
-        var options = new http_1.RequestOptions({ headers: headers });
-        return this._http.get(this._url, options)
-            .map(function (res) {
-            res = res.json();
-            console.log("Got in");
-            (function (error) { return console.log(error); });
-        });
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url, { headers: myHeader })
+            .map(function (res) { return res.json(); });
     };
     PromotionsService.prototype.postPromotion = function () {
         var headers = new http_1.Headers();
         this.createAuthorizationHeader(headers);
         var options = new http_1.RequestOptions({ headers: headers });
-        return this._http.post(this._url, JSON.stringify(this._promotion), options)
+        return this._http.post(this._url, options)
             .map(function (res) { return res.json(); });
     };
     PromotionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, promotion_1.Promotion, ng2_cache_1.CacheService])
+        __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
     ], PromotionsService);
     return PromotionsService;
 }());

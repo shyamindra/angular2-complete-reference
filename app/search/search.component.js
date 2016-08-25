@@ -10,21 +10,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
+var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var user_services_service_1 = require('../services/user-services.service');
 var roost_services_service_1 = require('../services/roost-services.service');
 var search_pipe_1 = require('../shared/search.pipe');
 var SearchComponent = (function () {
-    function SearchComponent(_userService) {
+    function SearchComponent(route, _userService) {
+        var _this = this;
+        this.route = route;
         this._userService = _userService;
         this.isLoading = true;
+        this.sub = this.route.params.subscribe(function (params) {
+            _this.searchQry = params['searchKey'];
+        });
     }
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._userService.getFeeds()
+        this._userService.search(this.searchQry)
             .subscribe(function (feeds) {
             _this.isLoading = false;
-            _this.feeds = feeds;
+            _this.feeds = feeds.results;
         }, function (error) { return _this.errorMessage; });
     };
     SearchComponent.prototype.toggleShout = function (index) {
@@ -42,7 +48,7 @@ var SearchComponent = (function () {
             directives: [common_1.CORE_DIRECTIVES],
             pipes: [search_pipe_1.SearchFilterPipe]
         }), 
-        __metadata('design:paramtypes', [roost_services_service_1.RoostService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_services_service_1.RoostService])
     ], SearchComponent);
     return SearchComponent;
 }());

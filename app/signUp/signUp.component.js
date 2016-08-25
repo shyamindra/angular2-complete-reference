@@ -18,40 +18,43 @@ var session_services_service_1 = require('../services/session-services.service')
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
+var ng2_facebook_sdk_1 = require('ng2-facebook-sdk');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var SignUpComponent = (function () {
-    function SignUpComponent(fb, sessionService, user) {
+    function SignUpComponent(formBuilder, sessionService, _cacheService, user, fb) {
         this.sessionService = sessionService;
+        this._cacheService = _cacheService;
         this.user = user;
+        this.fb = fb;
         this.form = fb.group({
             email: ["", forms_1.Validators.required]
         });
-        FB.init({
+        var fbParams = {
             appId: '1720733194853739',
             xfbml: true,
             version: 'v2.7'
-        });
+        };
+        this.fb.init(fbParams);
     }
     SignUpComponent.prototype.ngOnInit = function () {
     };
     SignUpComponent.prototype.onFacebookSignUpClick = function () {
         var _this = this;
-        this.signUp = true;
-        FB.getLoginStatus(function (response) {
+        this.fb.login().then(function (response) {
+            _this._cacheService.set('userIdFB', response.authResponse.userID);
+            _this._cacheService.set('accessTokenFB', response.authResponse.accessToken);
             _this.statusChangeCallback(response);
+            (function (error) { return console.error(error); });
         });
     };
     SignUpComponent.prototype.statusChangeCallback = function (resp) {
         var _this = this;
         console.log(resp);
-        if (resp.status == 'connected') {
-            if (this.signUp == true) {
-                this.sessionService.registerUser(resp.authResponse.userID, resp.authResponse.accessToken, this.user.first_name, this.user.last_name, this.user.gender, this.user.email, this.parseDate(this.user.dob))
-                    .subscribe(function (res) {
-                    _this.response = res;
-                });
-                console.log(this.response);
-            }
-        }
+        this.sessionService.registerUser(resp.authResponse.userID, resp.authResponse.accessToken, this.user.first_name, this.user.last_name, this.user.gender, this.user.email, this.parseDate(this.user.dob))
+            .subscribe(function (res) {
+            _this.response = res;
+        });
+        console.log(this.response);
     };
     ;
     SignUpComponent.prototype.parseDate = function (date) {
@@ -67,9 +70,10 @@ var SignUpComponent = (function () {
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
             providers: [forms_1.FormBuilder, user_1.User, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, session_services_service_1.SessionServices, user_1.User])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, session_services_service_1.SessionServices, ng2_cache_1.CacheService, user_1.User, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object])
     ], SignUpComponent);
     return SignUpComponent;
+    var _a;
 }());
 exports.SignUpComponent = SignUpComponent;
 //# sourceMappingURL=signUp.component.js.map

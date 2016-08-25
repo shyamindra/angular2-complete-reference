@@ -30,8 +30,8 @@
             </div>
             <div style="float:right; width:5%; max-width: 40px">
                 <div id="nav">
-                    <div (click)="toggleNotifications()" id="notification_li">
-                        <a href="#" id="notificationLink">
+                    <div (click)="toggleNotifications()" id="notification_li" style="cursor:pointer">
+                        <a id="notificationLink">
                             <span *ngIf="showNotificationCount==true" id="notification_count">3</span>
                             <span class="glyphicon glyphicon-bell notification-custom">
                             </span>

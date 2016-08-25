@@ -5,10 +5,10 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {RoostService} from '../services/roost-services.service';
 import {Feed} from '../shared/feed';
 
-import {PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance} from 'ng2-pagination';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
 
 export interface PagedResponse<T> {
     total: number;
@@ -32,18 +32,22 @@ export class HomeComponent implements OnInit{
     isLoading = true;
     feeds: Feed[];
     diff: number;
+    padeSize: number;
+    total: number;
 
     constructor(private _feedsService: RoostService){
     }
     
    ngOnInit() {
-        this.getPage(1);
+        this.padeSize = 50;
+        this.getPage(1);    
     }
 
     getPage(page: number) {
         this._feedsService.getFeeds()
            .subscribe(feeds => {
             this.isLoading = false;
+            this.total = feeds.count;
             this.feeds = feeds.results as Feed[];
             });
     }

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
-import {Router, Routes} from '@angular/router';
+import {Router, Routes, ActivatedRoute } from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 
 import {UserServices} from '../services/user-services.service';
@@ -20,20 +20,24 @@ export class SearchComponent {
     searchQry: string;
     errorMessage: string;
     feeds: Feed[];
+    sub: any;
 
-constructor(private _userService: RoostService){
+constructor(private route: ActivatedRoute, private _userService: RoostService){
+    this.sub = this.route.params.subscribe(params => {
+        this.searchQry = params['searchKey'];
+    }); 
 }
 
 ngOnInit(){
-    this._userService.getFeeds()
+    this._userService.search(this.searchQry)
         .subscribe(feeds => {
             this.isLoading = false;
-            this.feeds = feeds;
+            this.feeds = feeds.results as Feed[];
         },
         error => this.errorMessage);
 }
 
-    toggleShout(index: number){
+toggleShout(index: number){
     console.log(index);
     this.feeds[index].isShout = !this.feeds[index].isShout;
 }

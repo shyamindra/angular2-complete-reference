@@ -12,6 +12,8 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
+import {FacebookService, FacebookLoginResponse, FacebookInitParams} from 'ng2-facebook-sdk';
+import {CacheService} from 'ng2-cache/ng2-cache';
 
 
 declare const FB:any;
@@ -32,32 +34,38 @@ export class SignUpComponent implements OnInit {
     response: any;
     signUp: boolean;
   
-    constructor(fb: FormBuilder, private sessionService: SessionServices, private user: User) {
+    constructor(formBuilder: FormBuilder, 
+        private sessionService: SessionServices, 
+        private _cacheService: CacheService,
+        private user: User,
+        private fb: FacebookService) {
         this.form = fb.group({
             email: ["", Validators.required]
         });
-        FB.init({
-          appId      : '1720733194853739',
-          xfbml      : true,
-          version    : 'v2.7'
-        });
+        let fbParams: FacebookInitParams = {
+                        appId: '1720733194853739',
+                        xfbml: true,
+                        version: 'v2.7'
+                        };
+        this.fb.init(fbParams);
     }
 
     ngOnInit() {
     }
     
     onFacebookSignUpClick() {
-        this.signUp = true;
-        FB.getLoginStatus(response => {
+        this.fb.login().then(
+        (response: FacebookLoginResponse) => {
+            this._cacheService.set('userIdFB', response.authResponse.userID);
+            this._cacheService.set('accessTokenFB', response.authResponse.accessToken);
             this.statusChangeCallback(response);
+            (error: any) => console.error(error)
         });
     }
 
     statusChangeCallback(resp) {
       console.log(resp);
-        if (resp.status == 'connected') {
-            if(this.signUp == true){
-                this.sessionService.registerUser(resp.authResponse.userID, 
+      this.sessionService.registerUser(resp.authResponse.userID, 
                     resp.authResponse.accessToken, 
                     this.user.first_name, 
                     this.user.last_name, 
@@ -68,8 +76,6 @@ export class SignUpComponent implements OnInit {
                     this.response = res;
                 });
             console.log(this.response);
-            }
-        }
     };
 
     parseDate(date: string){

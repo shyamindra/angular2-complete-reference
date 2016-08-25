@@ -14,7 +14,7 @@ require('rxjs/add/operator/map');
 var SessionServices = (function () {
     function SessionServices(_http) {
         this._http = _http;
-        this._url = "http://52.43.46.127:80/api/session/";
+        this._url = "http://192.168.1.6:8000/api/session/";
     }
     SessionServices.prototype.getRequestOptions = function (params) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
