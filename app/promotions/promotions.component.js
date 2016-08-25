@@ -14,22 +14,18 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var promotions_service_1 = require('../services/promotions.service');
 var promotion_1 = require('./promotion');
-var http_client_1 = require('../shared/http.client');
-var cache_1 = require('../shared/cache');
 var PromotionsComponent = (function () {
-    function PromotionsComponent(_promotionsService, _router) {
+    function PromotionsComponent(_promotionsService) {
         this._promotionsService = _promotionsService;
-        this._router = _router;
         this.header = "Promotions Page";
         this.isLoading = true;
-        console.log(this.promotions);
     }
     PromotionsComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._promotionsService.getPromotions("all")
-            .subscribe(function (promotions) {
+        this._promotionsService.getAllPromotions()
+            .map(function (promotions) {
             _this.isLoading = false;
-            _this.promotions = promotions;
+            _this.promotions = promotions.results;
         });
     };
     PromotionsComponent.prototype.toggleShout = function (index) {
@@ -44,9 +40,9 @@ var PromotionsComponent = (function () {
             selector: 'promotions',
             templateUrl: 'app/promotions/promotions.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
-            providers: [promotion_1.Promotion, promotions_service_1.PromotionsService, http_1.HTTP_PROVIDERS, http_client_1.HttpClient, cache_1.Cache]
+            providers: [promotion_1.Promotion, promotions_service_1.PromotionsService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [promotions_service_1.PromotionsService, router_1.Router])
+        __metadata('design:paramtypes', [promotions_service_1.PromotionsService])
     ], PromotionsComponent);
     return PromotionsComponent;
 }());

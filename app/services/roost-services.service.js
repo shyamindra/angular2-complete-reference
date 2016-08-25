@@ -17,10 +17,8 @@ var RoostService = (function () {
         this._url = "http://52.43.46.127:80/api/roost/";
     }
     RoostService.prototype.getFeeds = function () {
-        console.log(this._url + "feeds/");
         return this._http.get(this._url + "feeds/")
-            .toPromise()
-            .then(function (res) { return res.json().results; });
+            .map(function (res) { return res.json(); });
     };
     RoostService = __decorate([
         core_1.Injectable(), 

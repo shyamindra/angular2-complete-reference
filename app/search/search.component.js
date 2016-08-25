@@ -13,8 +13,6 @@ var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
 var user_services_service_1 = require('../services/user-services.service');
 var roost_services_service_1 = require('../services/roost-services.service');
-var cache_1 = require('../shared/cache');
-var http_client_1 = require('../shared/http.client');
 var search_pipe_1 = require('../shared/search.pipe');
 var SearchComponent = (function () {
     function SearchComponent(_userService) {
@@ -24,7 +22,7 @@ var SearchComponent = (function () {
     SearchComponent.prototype.ngOnInit = function () {
         var _this = this;
         this._userService.getFeeds()
-            .then(function (feeds) {
+            .subscribe(function (feeds) {
             _this.isLoading = false;
             _this.feeds = feeds;
         }, function (error) { return _this.errorMessage; });
@@ -40,7 +38,7 @@ var SearchComponent = (function () {
         core_1.Component({
             selector: 'search',
             templateUrl: 'app/search/search.component.html',
-            providers: [user_services_service_1.UserServices, roost_services_service_1.RoostService, http_client_1.HttpClient, http_1.HTTP_PROVIDERS, cache_1.Cache],
+            providers: [user_services_service_1.UserServices, roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS],
             directives: [common_1.CORE_DIRECTIVES],
             pipes: [search_pipe_1.SearchFilterPipe]
         }), 

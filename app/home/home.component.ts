@@ -5,9 +5,6 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {RoostService} from '../services/roost-services.service';
 import {Feed} from '../shared/feed';
 
-import {HttpClient} from '../shared/http.client';
-import {Cache} from '../shared/cache';
-
 import {PaginatePipe, PaginationService, PaginationControlsCmp, IPaginationInstance} from 'ng2-pagination';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -27,7 +24,7 @@ export interface DataModel {
     selector: 'home',
     templateUrl: 'app/home/home.component.html',
     directives: [RouterLink, CORE_DIRECTIVES, PaginationControlsCmp],
-    providers: [RoostService, HTTP_PROVIDERS, HttpClient, Cache, PaginationService],
+    providers: [RoostService, HTTP_PROVIDERS, PaginationService],
     pipes: [PaginatePipe]
 })
 export class HomeComponent implements OnInit{
@@ -35,12 +32,6 @@ export class HomeComponent implements OnInit{
     isLoading = true;
     feeds: Feed[];
     diff: number;
-    errorMessage: string;
-
-    private _data: Observable<DataModel[]>;
-    private _page: number = 1;
-    private _total: number;
-    res: any; 
 
     constructor(private _feedsService: RoostService){
     }
@@ -51,11 +42,10 @@ export class HomeComponent implements OnInit{
 
     getPage(page: number) {
         this._feedsService.getFeeds()
-           .then(feeds => {
+           .subscribe(feeds => {
             this.isLoading = false;
-            this.feeds = feeds;
+            this.feeds = feeds.results as Feed[];
             });
-        console.log("feeds -- " + JSON.stringify(this.feeds));
     }
 
     playVideo(id: number){
@@ -83,11 +73,11 @@ export class HomeComponent implements OnInit{
     }
 
     toggleShout(index: number){
-        // this.feeds[index].isShout = !this.feeds[index].isShout;
+        this.feeds[index].isShout = !this.feeds[index].isShout;
     }
 
     toggleListen(index: number){
-        // this.feeds[index].isListened = !this.feeds[index].isListened;
+        this.feeds[index].isListened = !this.feeds[index].isListened;
     }
     
 }

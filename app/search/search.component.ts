@@ -5,15 +5,13 @@ import {HTTP_PROVIDERS} from '@angular/http';
 
 import {UserServices} from '../services/user-services.service';
 import {RoostService} from '../services/roost-services.service';
-import {Cache} from '../shared/cache';
-import {HttpClient} from '../shared/http.client';
 import {Feed} from '../shared/feed';
 import {SearchFilterPipe} from '../shared/search.pipe';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
-    providers: [UserServices, RoostService, HttpClient, HTTP_PROVIDERS, Cache],
+    providers: [UserServices, RoostService, HTTP_PROVIDERS],
     directives: [CORE_DIRECTIVES],
     pipes: [SearchFilterPipe]
 })
@@ -28,7 +26,7 @@ constructor(private _userService: RoostService){
 
 ngOnInit(){
     this._userService.getFeeds()
-        .then(feeds => {
+        .subscribe(feeds => {
             this.isLoading = false;
             this.feeds = feeds;
         },

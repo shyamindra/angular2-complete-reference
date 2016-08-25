@@ -5,15 +5,13 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {RoostService} from '../services/roost-services.service';
 import {Feed} from '../shared/feed';
 
-import {HttpClient} from '../shared/http.client';
-import {Cache} from '../shared/cache';
 import {SortDatePipe} from '../shared/sort.pipe';
 
 @Component({
     selector: 'recent-activity',
     templateUrl: 'app/recent-activity/recent-activity.component.html',
     directives: [RouterLink,CORE_DIRECTIVES],
-    providers: [RoostService, HTTP_PROVIDERS, HttpClient, Cache],
+    providers: [RoostService, HTTP_PROVIDERS],
     pipes: [SortDatePipe]
 })
 export class RecentActivityComponent {

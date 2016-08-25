@@ -1,10 +1,9 @@
 import {Injectable} from '@angular/core';
-import {URLSearchParams, Http,  Headers, RequestOptions} from '@angular/http';
+import {URLSearchParams, Http,  Headers, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import {User} from '../shared/user';
-import {HttpClient} from '../shared/http.client';
 
 @Injectable()
 export class SessionServices {
@@ -15,8 +14,6 @@ export class SessionServices {
     
     getRequestOptions(params?: URLSearchParams){
         let headers = new Headers({ 'Content-Type': 'application/json' });
-        // {'Authorization': 'Token ' + this.authToken});
-        // console.log('Authorization'+ ':' + 'Token ' + this.authToken);
         if(null == params){
             return new RequestOptions({ headers: headers });
         }
@@ -33,29 +30,39 @@ export class SessionServices {
             .map(res => res);
     }
 
-    registerUser(facebook_id: string, facebook_token: string, first_name: string, last_name: string, gender: number, 
-            email: string, dob: string, profile_image?: string, mobile?: string){
-        return this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, facebook_token: facebook_token, 
-            name: first_name, surname: last_name, email: email, dob: dob, gender: gender, mobile_number: mobile}), this.getRequestOptions())
+    registerUser(facebook_id: string, 
+            facebook_token: string, 
+            first_name: string, 
+            last_name: string, 
+            gender: number, 
+            email: string, 
+            dob: string, 
+            profile_image?: string, 
+            mobile?: string): Observable<any>{
+        return this._http.post(this._url + "register", 
+                JSON.stringify({facebook_id: facebook_id, 
+                    facebook_token: facebook_token, 
+                    name: first_name, surname: 
+                    last_name, 
+                    email: email, 
+                    dob: dob, 
+                    gender: gender, 
+                    mobile_number: mobile}), 
+                    this.getRequestOptions())
             .map(res => res.json());
     }
 
-    loginUser(facebook_id: string, facebook_token: string){
-        console.log(this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, 
-            facebook_token: facebook_token}), this.getRequestOptions()));
+    loginUser(facebook_id: string, 
+            facebook_token: string): Observable<any>{
         return this._http.post(this._url + "register", JSON.stringify({facebook_id: facebook_id, 
             facebook_token: facebook_token}), this.getRequestOptions())
-            .map(res => res.json())
-            .toPromise();
+            .map((res: Response) => res.json());
     }
 
-    handleError(error: any){
 
-    }
-
-    logOutUser(auth: string){
+    logOutUser(auth: string): Observable<any>{
         return this._http.delete(this._url + "logout")
-            .map(res => res.json());
+            .map((res: Response) => res.json());
     }
     
 }

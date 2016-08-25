@@ -11,15 +11,16 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
-var cache_1 = require('./shared/cache');
 var http_1 = require('@angular/http');
-var login_component_1 = require('./login/login.component');
 var session_services_service_1 = require('./services/session-services.service');
+var ng2_facebook_sdk_1 = require('ng2-facebook-sdk');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var AppComponent = (function () {
-    function AppComponent(_router, _cacheService, _login) {
+    function AppComponent(_router, _cacheService, fb, _sessionService) {
         this._router = _router;
         this._cacheService = _cacheService;
-        this._login = _login;
+        this.fb = fb;
+        this._sessionService = _sessionService;
         this.isHome = false;
         this.isProfile = false;
         this.isComplaints = false;
@@ -30,25 +31,45 @@ var AppComponent = (function () {
         this.searchText = '';
         this.showNotifications = false;
         this.needsToggle = false;
-        this.showNotificationCount = true;
-        this.isUserLoggedIn = true;
+        this.showNotificationCount = false;
+        this.isUserLoggedIn = false;
         this.showWidget = false;
         this.showAddButtons = false;
         this.showPlus = true;
         this.showPromotion = false;
         this.showComplaint = false;
-        this.isUserLoggedIn = _cacheService.isUserLoggedIn();
+        var fbParams = {
+            appId: '1720733194853739',
+            xfbml: true,
+            version: 'v2.7'
+        };
+        this.fb.init(fbParams);
     }
     AppComponent.prototype.ngOnInit = function () {
-        this.isUserLoggedIn = this._cacheService.isUserLoggedIn();
-        console.log(this._cacheService.isUserLoggedIn());
+        if (null != this._cacheService.get('accessTokenRooster')) {
+            this.isUserLoggedIn = true;
+        }
     };
     AppComponent.prototype.handleLogin = function () {
-        // this.isUserLoggedIn = !this.isUserLoggedIn;
-        this.setActiveFlagsFalse();
-        this._login.login();
-        this.isUserLoggedIn = this._login.isUserLoggedIn();
-        this.isHome = true;
+        var _this = this;
+        this.fb.login().then(function (response) {
+            _this._cacheService.set('userIdFB', response.authResponse.userID);
+            _this._cacheService.set('accessTokenFB', response.authResponse.accessToken);
+            // console.log(response),
+            // console.log( this._cacheService.get('userId') +  this._cacheService.get('accessTokenFB'));
+            _this.handleAppLogin();
+            (function (error) { return console.error(error); });
+        });
+    };
+    AppComponent.prototype.handleAppLogin = function () {
+        var _this = this;
+        this._sessionService.loginUser(this._cacheService.get('userIdFB'), this._cacheService.get('accessTokenFB'))
+            .subscribe(function (response) {
+            _this.isUserLoggedIn = true;
+            console.log(JSON.stringify(response));
+            _this._cacheService.set('accessTokenRooster', response.token);
+            _this._cacheService.set('userIdRooster', response.user.id);
+        });
     };
     AppComponent.prototype.triggerSearch = function (searchTxt) {
         console.log(searchTxt);
@@ -122,11 +143,12 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass],
-            providers: [cache_1.Cache, login_component_1.LoginComponent, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
+            providers: [session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService]
         }), 
-        __metadata('design:paramtypes', [router_1.Router, cache_1.Cache, login_component_1.LoginComponent])
+        __metadata('design:paramtypes', [router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_services_service_1.SessionServices])
     ], AppComponent);
     return AppComponent;
+    var _a;
 }());
 exports.AppComponent = AppComponent;
 //# sourceMappingURL=app.component.js.map

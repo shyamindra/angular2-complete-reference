@@ -13,8 +13,6 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var roost_services_service_1 = require('../services/roost-services.service');
-var http_client_1 = require('../shared/http.client');
-var cache_1 = require('../shared/cache');
 var ng2_pagination_1 = require('ng2-pagination');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
@@ -23,7 +21,6 @@ var HomeComponent = (function () {
         this._feedsService = _feedsService;
         this.header = "Home Page";
         this.isLoading = true;
-        this._page = 1;
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.getPage(1);
@@ -31,11 +28,10 @@ var HomeComponent = (function () {
     HomeComponent.prototype.getPage = function (page) {
         var _this = this;
         this._feedsService.getFeeds()
-            .then(function (feeds) {
+            .subscribe(function (feeds) {
             _this.isLoading = false;
-            _this.feeds = feeds;
+            _this.feeds = feeds.results;
         });
-        console.log("feeds -- " + JSON.stringify(this.feeds));
     };
     HomeComponent.prototype.playVideo = function (id) {
         console.log(id);
@@ -59,17 +55,17 @@ var HomeComponent = (function () {
             return Math.round(this.diff / 86400) + " days ago";
     };
     HomeComponent.prototype.toggleShout = function (index) {
-        // this.feeds[index].isShout = !this.feeds[index].isShout;
+        this.feeds[index].isShout = !this.feeds[index].isShout;
     };
     HomeComponent.prototype.toggleListen = function (index) {
-        // this.feeds[index].isListened = !this.feeds[index].isListened;
+        this.feeds[index].isListened = !this.feeds[index].isListened;
     };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'home',
             templateUrl: 'app/home/home.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
-            providers: [roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS, http_client_1.HttpClient, cache_1.Cache, ng2_pagination_1.PaginationService],
+            providers: [roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 
         __metadata('design:paramtypes', [roost_services_service_1.RoostService])

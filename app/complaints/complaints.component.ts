@@ -5,14 +5,11 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {ComplaintsService} from '../services/complaint.service';
 import {Complaint} from './complaint';
 
-import {HttpClient} from '../shared/http.client';
-import {Cache} from '../shared/cache';
-
 @Component({
     selector: 'complaints',
     templateUrl: 'app/complaints/complaints.component.html',
     directives: [RouterLink,CORE_DIRECTIVES],
-    providers: [Complaint, ComplaintsService, HTTP_PROVIDERS, HttpClient, Cache]
+    providers: [Complaint, ComplaintsService, HTTP_PROVIDERS]
 })
 export class ComplaintsComponent {
     header = "Complaints page";

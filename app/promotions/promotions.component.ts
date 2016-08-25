@@ -5,29 +5,26 @@ import {HTTP_PROVIDERS} from '@angular/http';
 import {PromotionsService} from '../services/promotions.service';
 import {Promotion} from './promotion';
 
-import {HttpClient} from '../shared/http.client';
-import {Cache} from '../shared/cache';
 
 @Component({
     selector: 'promotions',
     templateUrl: 'app/promotions/promotions.component.html',
     directives: [RouterLink,CORE_DIRECTIVES],
-    providers: [Promotion, PromotionsService, HTTP_PROVIDERS,  HttpClient, Cache]
+    providers: [Promotion, PromotionsService, HTTP_PROVIDERS]
 })
 export class PromotionsComponent {
     header = "Promotions Page";
     isLoading = true;
     promotions: Promotion[];
 
-    constructor(private _promotionsService: PromotionsService, private _router: Router){
-        console.log(this.promotions);
+    constructor(private _promotionsService: PromotionsService){
     }
     
     ngOnInit(){
-        this._promotionsService.getPromotions("all")
-            .subscribe(promotions => {
+        this._promotionsService.getAllPromotions()
+            .map(promotions => {
                 this.isLoading = false;
-                this.promotions = promotions;
+                this.promotions = promotions.results as Promotion[];
             });
     }
 

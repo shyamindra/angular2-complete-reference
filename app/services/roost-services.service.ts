@@ -4,9 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
 import {Feed} from '../shared/feed';
-
 import {User} from '../shared/user';
-import {HttpClient} from '../shared/http.client';
 
 @Injectable()
 export class RoostService {
@@ -15,11 +13,9 @@ export class RoostService {
     constructor(private _http: Http){
     }
     
-    getFeeds() {
-        console.log(this._url + "feeds/");
+    getFeeds(): Observable<any>  {
         return this._http.get(this._url + "feeds/")
-            .toPromise()
-            .then((res: Response) => res.json().results as Feed[]);
+            .map((res: Response) => res.json());
     }
     
 }

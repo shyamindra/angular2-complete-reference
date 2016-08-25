@@ -10,16 +10,28 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
+var http_1 = require('@angular/http');
+var user_services_service_1 = require('../services/user-services.service');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ProfileComponent = (function () {
-    function ProfileComponent() {
+    function ProfileComponent(_userService, _cache) {
+        this._userService = _userService;
+        this._cache = _cache;
         this.header = "Profile page";
     }
+    ProfileComponent.prototype.ngOnInit = function () {
+        this.getUserInfo();
+    };
+    ProfileComponent.prototype.getUserInfo = function () {
+        console.log(this._userService.getUserInfo(this._cache.get("userIdRooster")));
+    };
     ProfileComponent = __decorate([
         core_1.Component({
             templateUrl: 'app/profile/profile.html',
-            directives: [router_1.RouterLink]
+            directives: [router_1.ROUTER_DIRECTIVES],
+            providers: [user_services_service_1.UserServices, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [])
+        __metadata('design:paramtypes', [user_services_service_1.UserServices, ng2_cache_1.CacheService])
     ], ProfileComponent);
     return ProfileComponent;
 }());

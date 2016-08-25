@@ -10,8 +10,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 require('rxjs/add/operator/map');
-var http_client_1 = require('../shared/http.client');
 var complaint_1 = require('../complaints/complaint');
+var http_1 = require('@angular/http');
 var ComplaintsService = (function () {
     function ComplaintsService(_http, _complaint) {
         this._http = _http;
@@ -28,7 +28,7 @@ var ComplaintsService = (function () {
     };
     ComplaintsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_client_1.HttpClient, complaint_1.Complaint])
+        __metadata('design:paramtypes', [http_1.Http, complaint_1.Complaint])
     ], ComplaintsService);
     return ComplaintsService;
 }());

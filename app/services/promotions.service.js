@@ -10,25 +10,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 require('rxjs/add/operator/map');
-var http_client_1 = require('../shared/http.client');
+var http_1 = require('@angular/http');
 var promotion_1 = require('../promotions/promotion');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var PromotionsService = (function () {
-    function PromotionsService(_http, _promotion) {
+    function PromotionsService(_http, _promotion, _cacheService) {
         this._http = _http;
         this._promotion = _promotion;
-        this._url = "http://52.37.61.173:8000/api/v1/promotions/promotion";
+        this._cacheService = _cacheService;
+        this._url = "http://52.43.46.127:80/api/roost/promotions/";
     }
-    PromotionsService.prototype.getPromotions = function (id) {
-        return this._http.get(this._url + "/" + id)
-            .map(function (res) { return res.json(); });
+    PromotionsService.prototype.createAuthorizationHeader = function (headers) {
+        headers.append('Authorization', 'Token ' +
+            this._cacheService.get('accessTokenRooster'));
+    };
+    PromotionsService.prototype.getAllPromotions = function () {
+        var headers = new http_1.Headers();
+        this.createAuthorizationHeader(headers);
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this._http.get(this._url, options)
+            .map(function (res) {
+            res = res.json();
+            console.log("Got in");
+            (function (error) { return console.log(error); });
+        });
     };
     PromotionsService.prototype.postPromotion = function () {
-        return this._http.post(this._url, JSON.stringify(this._promotion))
+        var headers = new http_1.Headers();
+        this.createAuthorizationHeader(headers);
+        var options = new http_1.RequestOptions({ headers: headers });
+        return this._http.post(this._url, JSON.stringify(this._promotion), options)
             .map(function (res) { return res.json(); });
     };
     PromotionsService = __decorate([
         core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_client_1.HttpClient, promotion_1.Promotion])
+        __metadata('design:paramtypes', [http_1.Http, promotion_1.Promotion, ng2_cache_1.CacheService])
     ], PromotionsService);
     return PromotionsService;
 }());

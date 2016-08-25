@@ -7,11 +7,11 @@ import { InMemoryBackendService, SEED_DATA } from 'angular2-in-memory-web-api';
 import { AppComponent }   from './app.component';
 import {HomeComponent}    from './home/home.component';
 import {SignUpComponent} from './signUp/signUp.component';
-import {Cache}            from './shared/cache';
 import { routing }        from './app.routing';
 import {RoostService}     from './services/roost-services.service';
 import {SessionServices} from './services/session-services.service';
 import { MdRadioModule } from '@angular2-material/radio';
+import {CacheService} from 'ng2-cache/ng2-cache';
 
 @NgModule({
   imports: [
@@ -29,8 +29,9 @@ import { MdRadioModule } from '@angular2-material/radio';
   providers: [
     RoostService,
     SessionServices,
-    { provide: XHRBackend, useClass: InMemoryBackendService },
-    Cache
+    CacheService,
+    { provide: XHRBackend, useClass: InMemoryBackendService }
+    
   ],
   bootstrap: [ AppComponent ]
 })

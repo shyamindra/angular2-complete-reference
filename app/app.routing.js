@@ -7,7 +7,6 @@ var complaints_component_1 = require('./complaints/complaints.component');
 var payment_component_1 = require('./payment/payment.component');
 var profile_component_1 = require('./profile/profile.component');
 var search_component_1 = require('./search/search.component');
-var login_component_1 = require('./login/login.component');
 var signUp_component_1 = require('./signUp/signUp.component');
 var appRoutes = [
     { path: 'rooster', component: landing_component_1.LandingComponent },
@@ -17,7 +16,6 @@ var appRoutes = [
     { path: 'payment', component: payment_component_1.PaymentComponent },
     { path: 'profile', component: profile_component_1.ProfileComponent },
     { path: 'search', component: search_component_1.SearchComponent },
-    { path: 'login', component: login_component_1.LoginComponent },
     { path: 'signUp', component: signUp_component_1.SignUpComponent },
     { path: '', component: landing_component_1.LandingComponent }
 ];

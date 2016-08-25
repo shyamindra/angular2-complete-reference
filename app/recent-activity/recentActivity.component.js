@@ -13,8 +13,6 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var roost_services_service_1 = require('../services/roost-services.service');
-var http_client_1 = require('../shared/http.client');
-var cache_1 = require('../shared/cache');
 var sort_pipe_1 = require('../shared/sort.pipe');
 var RecentActivityComponent = (function () {
     function RecentActivityComponent(_feedsService, _router) {
@@ -62,7 +60,7 @@ var RecentActivityComponent = (function () {
             selector: 'recent-activity',
             templateUrl: 'app/recent-activity/recent-activity.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
-            providers: [roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS, http_client_1.HttpClient, cache_1.Cache],
+            providers: [roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS],
             pipes: [sort_pipe_1.SortDatePipe]
         }), 
         __metadata('design:paramtypes', [roost_services_service_1.RoostService, router_1.Router])

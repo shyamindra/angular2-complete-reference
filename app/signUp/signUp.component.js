@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var forms_1 = require('@angular/forms');
-var forms_2 = require('@angular/forms');
 var input_1 = require('@angular2-material/input');
 var toolbar_1 = require('@angular2-material/toolbar');
 var user_1 = require('../shared/user');
@@ -19,13 +18,12 @@ var session_services_service_1 = require('../services/session-services.service')
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
-var http_client_1 = require('../shared/http.client');
 var SignUpComponent = (function () {
     function SignUpComponent(fb, sessionService, user) {
         this.sessionService = sessionService;
         this.user = user;
         this.form = fb.group({
-            email: ["", forms_2.Validators.required]
+            email: ["", forms_1.Validators.required]
         });
         FB.init({
             appId: '1720733194853739',
@@ -67,9 +65,9 @@ var SignUpComponent = (function () {
             selector: 'facebook-login',
             templateUrl: 'app/signUp/facebook-register.html',
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
-            providers: [forms_2.FormBuilder, user_1.User, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS, http_client_1.HttpClient]
+            providers: [forms_1.FormBuilder, user_1.User, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [forms_2.FormBuilder, session_services_service_1.SessionServices, user_1.User])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, session_services_service_1.SessionServices, user_1.User])
     ], SignUpComponent);
     return SignUpComponent;
 }());

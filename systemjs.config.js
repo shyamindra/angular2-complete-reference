@@ -9,13 +9,17 @@
     '@angular':                   'node_modules/@angular',
     'angular2-in-memory-web-api': 'node_modules/angular2-in-memory-web-api',
     'rxjs':                       'node_modules/rxjs',
-    '@angular2-material':         'node_modules/@angular2-material'
+    '@angular2-material':         'node_modules/@angular2-material',
+    'ng2-cache':                  'node_modules/ng2-cache',
+    'ng2-facebook-sdk':           'node_modules/ng2-facebook-sdk/dist'
   };
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                        { main: 'main.js',  defaultExtension: 'js' },
     'rxjs':                       { defaultExtension: 'js' },
-    'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' }
+    'angular2-in-memory-web-api': { main: 'index.js', defaultExtension: 'js' },
+    'ng2-cache':                  { defaultExtension: 'js' },
+    'ng2-facebook-sdk':           { main: 'index.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

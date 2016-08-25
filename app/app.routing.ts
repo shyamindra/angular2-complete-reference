@@ -8,7 +8,6 @@ import {ComplaintsComponent} from './complaints/complaints.component';
 import {PaymentComponent} from './payment/payment.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SearchComponent} from './search/search.component';
-import {LoginComponent} from './login/login.component';
 import {SignUpComponent} from './signUp/signUp.component';
 
 const appRoutes: Routes = [
@@ -19,7 +18,6 @@ const appRoutes: Routes = [
     { path: 'payment', component: PaymentComponent },
     { path: 'profile', component: ProfileComponent },
     { path: 'search', component: SearchComponent },
-    { path: 'login', component: LoginComponent },
     { path: 'signUp', component: SignUpComponent },
     { path:	'', component: LandingComponent } 
 ];
