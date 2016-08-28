@@ -11,27 +11,27 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
-var SessionServices = (function () {
-    function SessionServices(_http) {
+var SessionService = (function () {
+    function SessionService(_http) {
         this._http = _http;
-        this._url = "http://192.168.1.6:8000/api/session/";
+        this._url = "http://52.43.46.127:80/api/session/";
     }
-    SessionServices.prototype.getRequestOptions = function (params) {
+    SessionService.prototype.getRequestOptions = function (params) {
         var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
         if (null == params) {
             return new http_1.RequestOptions({ headers: headers });
         }
         return new http_1.RequestOptions({ headers: headers, search: params });
     };
-    SessionServices.prototype.requestPin = function (mobileNumber) {
+    SessionService.prototype.requestPin = function (mobileNumber) {
         return this._http.post(this._url + "request_pin", JSON.stringify({ mobile_number: mobileNumber }))
             .map(function (res) { return res; });
     };
-    SessionServices.prototype.verifyPin = function (mobileNumber, otp) {
+    SessionService.prototype.verifyPin = function (mobileNumber, otp) {
         return this._http.post(this._url + "verify_pin", JSON.stringify({ mobile_number: mobileNumber, auth_token: otp }))
             .map(function (res) { return res; });
     };
-    SessionServices.prototype.registerUser = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, profile_image, mobile) {
+    SessionService.prototype.registerUser = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, profile_image, mobile) {
         return this._http.post(this._url + "register", JSON.stringify({ facebook_id: facebook_id,
             facebook_token: facebook_token,
             name: first_name, surname: last_name,
@@ -41,20 +41,20 @@ var SessionServices = (function () {
             mobile_number: mobile }), this.getRequestOptions())
             .map(function (res) { return res.json(); });
     };
-    SessionServices.prototype.loginUser = function (facebook_id, facebook_token) {
+    SessionService.prototype.loginUser = function (facebook_id, facebook_token) {
         return this._http.post(this._url + "register", JSON.stringify({ facebook_id: facebook_id,
             facebook_token: facebook_token }), this.getRequestOptions())
             .map(function (res) { return res.json(); });
     };
-    SessionServices.prototype.logOutUser = function (auth) {
+    SessionService.prototype.logOutUser = function (auth) {
         return this._http.delete(this._url + "logout")
             .map(function (res) { return res.json(); });
     };
-    SessionServices = __decorate([
+    SessionService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http])
-    ], SessionServices);
-    return SessionServices;
+    ], SessionService);
+    return SessionService;
 }());
-exports.SessionServices = SessionServices;
-//# sourceMappingURL=session-services.service.js.map
+exports.SessionService = SessionService;
+//# sourceMappingURL=session.service.js.map

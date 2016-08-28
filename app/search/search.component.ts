@@ -3,15 +3,15 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {Router, Routes, ActivatedRoute } from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 
-import {UserServices} from '../services/user-services.service';
-import {RoostService} from '../services/roost-services.service';
+import {UserService} from '../services/user.service';
+import {RoostService} from '../services/roost.service';
 import {Feed} from '../shared/feed';
 import {SearchFilterPipe} from '../shared/search.pipe';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/search/search.component.html',
-    providers: [UserServices, RoostService, HTTP_PROVIDERS],
+    providers: [UserService, RoostService, HTTP_PROVIDERS],
     directives: [CORE_DIRECTIVES],
     pipes: [SearchFilterPipe]
 })

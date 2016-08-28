@@ -1,21 +1,25 @@
 import { NgModule }       from '@angular/core';
 import { BrowserModule }  from '@angular/platform-browser';
 import { FormsModule }    from '@angular/forms';
-// Imports for loading & configuring the in-memory web api
+
+import { MdRadioModule } from '@angular2-material/radio';
 import { HttpModule, XHRBackend} from '@angular/http';
 import { InMemoryBackendService, SEED_DATA } from 'angular2-in-memory-web-api';
+
+import { routing }        from './app.routing';
 import { AppComponent }   from './app.component';
 import {HomeComponent}    from './home/home.component';
 import {SignUpComponent} from './signUp/signUp.component';
-import {ProfileComponent} from './profile/profile.component';
-import { routing }        from './app.routing';
-import {RoostService}     from './services/roost-services.service';
-import {SessionServices} from './services/session-services.service';
-import { MdRadioModule } from '@angular2-material/radio';
+import {ProfileComponent} from './profile/profile.component'
+
+import {RoostService}     from './services/roost.service';
+import {SessionService} from './services/session.service';
 import {CacheService} from 'ng2-cache/ng2-cache';
-import {PromotionsService} from './services/promotions.service';
+import {PromotionsService} from './services/promotion.service';
 import {ComplaintsService} from './services/complaint.service';
-import {UserServices} from './services/user-services.service';
+import {UserService} from './services/user.service';
+import {ConfigService} from './services/config.service';
+
 
 @NgModule({
   imports: [
@@ -32,12 +36,13 @@ import {UserServices} from './services/user-services.service';
     ProfileComponent
   ],
   providers: [
+    ConfigService,
     CacheService,
     RoostService,
-    SessionServices,
+    SessionService,
     PromotionsService,
     ComplaintsService,
-    UserServices,
+    UserService,
     { provide: XHRBackend, useClass: InMemoryBackendService }
     
   ],

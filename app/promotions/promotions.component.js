@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
-var promotions_service_1 = require('../services/promotions.service');
+var promotion_service_1 = require('../services/promotion.service');
 var promotion_1 = require('./promotion');
 var PromotionsComponent = (function () {
     function PromotionsComponent(_promotionsService) {
@@ -58,9 +58,9 @@ var PromotionsComponent = (function () {
             selector: 'promotions',
             templateUrl: 'app/promotions/promotions.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
-            providers: [promotion_1.Promotion, promotions_service_1.PromotionsService, http_1.HTTP_PROVIDERS]
+            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [promotions_service_1.PromotionsService])
+        __metadata('design:paramtypes', [promotion_service_1.PromotionsService])
     ], PromotionsComponent);
     return PromotionsComponent;
 }());

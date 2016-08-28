@@ -12,7 +12,7 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
-var roost_services_service_1 = require('../services/roost-services.service');
+var roost_service_1 = require('../services/roost.service');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
 var ng2_pagination_1 = require('ng2-pagination');
@@ -24,16 +24,21 @@ var HomeComponent = (function () {
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.padeSize = 50;
-        this.getPage(1);
+        this.getPage();
     };
     HomeComponent.prototype.getPage = function (page) {
         var _this = this;
-        this._feedsService.getFeeds()
+        this._feedsService.getFeeds(page)
             .subscribe(function (feeds) {
             _this.isLoading = false;
             _this.total = feeds.count;
             _this.feeds = feeds.results;
+            _this.page = null != page ? page : _this.page;
         });
+    };
+    HomeComponent.prototype.onPageChange = function (page) {
+        console.log(page);
+        this.getPage(page);
     };
     HomeComponent.prototype.playVideo = function (id) {
         console.log(id);
@@ -67,10 +72,10 @@ var HomeComponent = (function () {
             selector: 'home',
             templateUrl: 'app/home/home.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
-            providers: [roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+            providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 
-        __metadata('design:paramtypes', [roost_services_service_1.RoostService])
+        __metadata('design:paramtypes', [roost_service_1.RoostService])
     ], HomeComponent);
     return HomeComponent;
 }());

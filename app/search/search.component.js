@@ -12,8 +12,8 @@ var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
-var user_services_service_1 = require('../services/user-services.service');
-var roost_services_service_1 = require('../services/roost-services.service');
+var user_service_1 = require('../services/user.service');
+var roost_service_1 = require('../services/roost.service');
 var search_pipe_1 = require('../shared/search.pipe');
 var SearchComponent = (function () {
     function SearchComponent(route, _userService) {
@@ -44,11 +44,11 @@ var SearchComponent = (function () {
         core_1.Component({
             selector: 'search',
             templateUrl: 'app/search/search.component.html',
-            providers: [user_services_service_1.UserServices, roost_services_service_1.RoostService, http_1.HTTP_PROVIDERS],
+            providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS],
             directives: [common_1.CORE_DIRECTIVES],
             pipes: [search_pipe_1.SearchFilterPipe]
         }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_services_service_1.RoostService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService])
     ], SearchComponent);
     return SearchComponent;
 }());

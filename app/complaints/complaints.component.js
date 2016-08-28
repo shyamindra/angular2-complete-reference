@@ -13,6 +13,7 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var complaint_service_1 = require('../services/complaint.service');
+var config_service_1 = require('../services/config.service');
 var complaint_1 = require('./complaint');
 var ComplaintsComponent = (function () {
     function ComplaintsComponent(_complaintsService, _router) {
@@ -44,7 +45,7 @@ var ComplaintsComponent = (function () {
             selector: 'complaints',
             templateUrl: 'app/complaints/complaints.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
-            providers: [complaint_1.Complaint, complaint_service_1.ComplaintsService, http_1.HTTP_PROVIDERS]
+            providers: [complaint_1.Complaint, complaint_service_1.ComplaintsService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS]
         }), 
         __metadata('design:paramtypes', [complaint_service_1.ComplaintsService, router_1.Router])
     ], ComplaintsComponent);

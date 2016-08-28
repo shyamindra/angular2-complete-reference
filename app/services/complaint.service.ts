@@ -9,7 +9,7 @@ import {CacheService} from 'ng2-cache/ng2-cache';
 
 @Injectable()
 export class ComplaintsService {
-    private _url = "http://192.168.1.6:8000/api/roost/promotions/";
+    url: string = "http://52.43.46.127:80/api/roost/promotions/";
     accessToken: string;
     
      constructor(private _http: Http,
@@ -19,16 +19,17 @@ export class ComplaintsService {
 
     createAuthorizationHeader(headers:Headers) {
         headers.append('Authorization', this.accessToken); 
+        headers.append('Content-Type', 'text/plain'); 
     }
     
     getAllComplaints(): Observable<any> {
         var myHeader = new Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url, { headers : myHeader})
+        return this._http.get(this.url, { headers : myHeader})
             .map((res: Response) => res.json());
     }
     postComplaints() {
-        return this._http.post(this._url, null)
+        return this._http.post(this.url, null)
             .map(res => res.json());
     }
     

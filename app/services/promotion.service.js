@@ -16,11 +16,12 @@ var PromotionsService = (function () {
     function PromotionsService(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this._url = "http://192.168.1.6:8000/api/roost/promotions/";
+        this._url = "http://52.43.46.127:80/api/roost/promotions/";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     PromotionsService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
+        headers.append('Content-Type', 'text/plain');
     };
     PromotionsService.prototype.getAllPromotions = function () {
         var myHeader = new http_1.Headers();
@@ -42,4 +43,4 @@ var PromotionsService = (function () {
     return PromotionsService;
 }());
 exports.PromotionsService = PromotionsService;
-//# sourceMappingURL=promotions.service.js.map
+//# sourceMappingURL=promotion.service.js.map

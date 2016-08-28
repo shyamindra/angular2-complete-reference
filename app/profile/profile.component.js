@@ -9,14 +9,14 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 var core_1 = require('@angular/core');
+var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
-var user_services_service_1 = require('../services/user-services.service');
-var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var user_1 = require('../shared/user');
 var forms_1 = require('@angular/forms');
 var input_1 = require('@angular2-material/input');
 var toolbar_1 = require('@angular2-material/toolbar');
-var common_1 = require('@angular/common');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
+var user_service_1 = require('../services/user.service');
+var user_1 = require('../shared/user');
 var ProfileComponent = (function () {
     function ProfileComponent(_userService, _cache, user) {
         this._userService = _userService;
@@ -65,9 +65,9 @@ var ProfileComponent = (function () {
         core_1.Component({
             templateUrl: 'app/profile/profile.html',
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
-            providers: [forms_1.FormBuilder, user_1.User, user_services_service_1.UserServices, http_1.HTTP_PROVIDERS]
+            providers: [forms_1.FormBuilder, user_1.User, user_service_1.UserService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [user_services_service_1.UserServices, ng2_cache_1.CacheService, user_1.User])
+        __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, user_1.User])
     ], ProfileComponent);
     return ProfileComponent;
 }());

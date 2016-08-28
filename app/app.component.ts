@@ -5,46 +5,38 @@ import {HTTP_PROVIDERS} from '@angular/http';
 
 import {PostPromotionComponent} from './post/post-promotion.component';
 import {PostComplaintComponent} from './post/post-complaint.component';
-import {SessionServices} from './services/session-services.service';
+import {SessionService} from './services/session.service';
 import {FacebookService, FacebookLoginResponse, FacebookInitParams} from 'ng2-facebook-sdk';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {User} from './shared/user';
+import {SideNavDisplay} from './shared/sideNav.component';
+import {Widget} from './shared/widget.component';
 
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
     directives: [ROUTER_DIRECTIVES, NgClass],
-    providers: [SessionServices, HTTP_PROVIDERS, FacebookService]
+    providers: [SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget]
 })
 export class AppComponent implements OnInit{
-    isHome: boolean = false;
-    isProfile: boolean = false;
-    isComplaints: boolean = false;
-    isPromotions: boolean = false;
-    isSettings: boolean = false;
-    isPayment: boolean = false;
-    isRecentActivity: boolean = false;
     searchText: string = '';
     showNotifications: boolean = false;
     needsToggle: boolean = false;
     showNotificationCount: boolean = false;
     isUserLoggedIn: boolean = false;
-    showWidget: boolean = false;
-    showAddButtons: boolean = false;
-    showPlus: boolean = true;
-    showPromotion: boolean = false;
-    showComplaint: boolean = false;
     response: any;
     user: User;
 
     postComplaint: PostComplaintComponent;
     postPromotion: PostPromotionComponent;
 
-    constructor(private _router: Router, 
+    constructor(private sideNav: SideNavDisplay,
+            private widget: Widget,
+            private _router: Router, 
             private _cacheService: CacheService, 
             private fb: FacebookService,
-            private _sessionService: SessionServices){
+            private _sessionService: SessionService){
         let fbParams: FacebookInitParams = {
                         appId: '1720733194853739',
                         xfbml: true,
@@ -58,7 +50,7 @@ export class AppComponent implements OnInit{
             this.isUserLoggedIn = true;
         }
     }
-    
+
 
     handleLogin(): void {
         this.fb.login().then(
@@ -90,61 +82,32 @@ export class AppComponent implements OnInit{
     }
     
     makeActive(path: string){
-        this.setActiveFlagsFalse();
-        switch(path){
-            case 'Home': 
-                this.isHome = true;
-                break; 
-            case 'Profile': 
-                this.isProfile = true;
-                break;
-            case 'Complaints': 
-                this.isComplaints = true;
-                break;
-            case 'Promotions': 
-                this.isPromotions = true;
-                break;
-            case 'Payment': 
-                this.isPayment = true;
-                break;
-            case 'RecentActivity': 
-                this.isRecentActivity = true;
-                break;
-        }
+        this.sideNav.makeActive(path);
     }
 
     togglePlus(){
-        this.showPlus = !this.showPlus;
-        this.toggleAddButtons();
+        this.widget.togglePlus();
     }
 
     
     toggleAddButtons(){
-        this.showAddButtons = !this.showAddButtons;
+        this.widget.toggleAddButtons();
     }
 
     showPromotionDiv(){
-        this.showPromotion = true;
-        this.togglePlus();
+        this.widget.showPromotionDiv();
     }
 
     showComplaintDiv(){
-        this.showComplaint = true;
-        this.togglePlus();
-    }
-
-    setActiveFlagsFalse(){
-        this.isHome = false;
-        this.isProfile = false;
-        this.isComplaints = false;
-        this.isPromotions = false;
-        this.isSettings = false;
-        this.isRecentActivity = false;
-        this.isPayment = false;
+        this.widget.showComplaintDiv();
     }
 
     showWidgetDiv(){
-        this.showWidget = true;
+        this.widget.showWidgetDiv();
+    }
+
+    setActiveFlagsFalse(){
+        this.sideNav.setActiveFlagsFalse();
     }
 
     toggleNotifications(){

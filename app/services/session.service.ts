@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 import {User} from '../shared/user';
 
 @Injectable()
-export class SessionServices {
-    private _url = "http://192.168.1.6:8000/api/session/";
+export class SessionService {
+    private _url = "http://52.43.46.127:80/api/session/";
     
     constructor(private _http: Http){
     }

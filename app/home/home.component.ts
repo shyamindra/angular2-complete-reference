@@ -2,23 +2,13 @@ import {OnInit, Component} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
-import {RoostService} from '../services/roost-services.service';
+import {RoostService} from '../services/roost.service';
 import {Feed} from '../shared/feed';
 
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
-
-export interface PagedResponse<T> {
-    total: number;
-    data: T[];
-}
-
-export interface DataModel {
-    id: number;
-    data: string;
-}
 
 @Component({
     selector: 'home',
@@ -33,6 +23,7 @@ export class HomeComponent implements OnInit{
     feeds: Feed[];
     diff: number;
     padeSize: number;
+    page: number;
     total: number;
 
     constructor(private _feedsService: RoostService){
@@ -40,16 +31,22 @@ export class HomeComponent implements OnInit{
     
    ngOnInit() {
         this.padeSize = 50;
-        this.getPage(1);    
+        this.getPage();    
     }
 
-    getPage(page: number) {
-        this._feedsService.getFeeds()
+    getPage(page?: number) {
+        this._feedsService.getFeeds(page)
            .subscribe(feeds => {
             this.isLoading = false;
             this.total = feeds.count;
             this.feeds = feeds.results as Feed[];
+            this.page = null != page? page: this.page;
             });
+    }
+
+    onPageChange(page: number) {
+        console.log(page);
+        this.getPage(page);
     }
 
     playVideo(id: number){

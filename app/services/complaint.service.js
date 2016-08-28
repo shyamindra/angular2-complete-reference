@@ -16,20 +16,21 @@ var ComplaintsService = (function () {
     function ComplaintsService(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this._url = "http://192.168.1.6:8000/api/roost/promotions/";
+        this.url = "http://52.43.46.127:80/api/roost/promotions/";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     ComplaintsService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
+        headers.append('Content-Type', 'text/plain');
     };
     ComplaintsService.prototype.getAllComplaints = function () {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url, { headers: myHeader })
+        return this._http.get(this.url, { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
     ComplaintsService.prototype.postComplaints = function () {
-        return this._http.post(this._url, null)
+        return this._http.post(this.url, null)
             .map(function (res) { return res.json(); });
     };
     ComplaintsService = __decorate([

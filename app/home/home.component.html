@@ -4,7 +4,7 @@
 </div>
 <div style="float:left; width:100%">
     <div *ngFor="let feed of feeds| paginate: {    itemsPerPage: 50,
-                                                   currentPage: p,
+                                                   currentPage: page,
                                                    totalItems: total }; let i = index">
             <div class="profile-feed">
                 <div>
@@ -73,5 +73,5 @@
                 </div>
             </div>
 	</div>
-    <pagination-controls (pageChange)="p = $event"></pagination-controls>
 </div>
+<pagination-controls (pageChange)="getPage($event)"></pagination-controls>

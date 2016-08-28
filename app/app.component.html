@@ -51,19 +51,19 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
-                <li [ngClass] = "{active:isHome}">
+                <li [ngClass] = "{active:sideNav.isHome}">
                     <a (click)="makeActive('Home')" [routerLink]="['home']"><img src="/assets/icon_home_active.png" class="side-nav-icon">   Home</a>
                 </li>
-                <li [ngClass] = "{active:isPromotions}">
+                <li [ngClass] = "{active:sideNav.isPromotions}">
                     <a (click)="makeActive('Promotions')" [routerLink]="['promotions']"><img src="/assets/icon_promotions_active.png" class="side-nav-icon">   Promotions</a>
                 </li>
-                <li [ngClass] = "{active:isComplaints}">
+                <li [ngClass] = "{active:sideNav.isComplaints}">
                     <a (click)="makeActive('Complaints')" [routerLink]="['complaints']"><img src="/assets/icon_complaints_active.png" class="side-nav-icon">   Complaints</a>
                 </li>
-                <li [ngClass] = "{active:isProfile}">
+                <li [ngClass] = "{active:sideNav.isProfile}">
                     <a (click)="makeActive('Profile')" [routerLink]="['profile']"><img src="/assets/icon_profile_active.png" class="side-nav-icon">   Profile</a>
                 </li>
-                <li [ngClass] = "{active:isPayment}">
+                <li [ngClass] = "{active:sideNav.isPayment}">
                     <a (click)="makeActive('Payment')" [routerLink]="['payment']"><img src="/assets/icon_settings_active.png" class="side-nav-icon">   Payment</a>
                 </li>
             </ul>
@@ -81,37 +81,35 @@
             </div>
             <div id="nav">
                 <div id="widget_div">
-                    <div *ngIf="showComplaint==true" id="widgetContainerComplaint">
+                    <div *ngIf="widget.showComplaint==true" id="widgetContainerComplaint">
                         <iframe id="iFrameWidget" src="app/post/post-complaint.html" class="createWidget"></iframe>
                     </div>
-                    <div *ngIf="showPromotion==true" id="widgetContainerPromotion">
+                    <div *ngIf="widget.showPromotion==true" id="widgetContainerPromotion">
                         <iframe id="iFrameWidget" src="app/post/post-promotion.html" class="createWidget"></iframe>
                     </div>
                 </div>
-                <div *ngIf="showAddButtons==true" id="widgetButtonPromotion">
+                <div *ngIf="widget.showAddButtons==true" id="widgetButtonPromotion">
                      <button type="button" 
-                         (click)="showPromotionDiv()"
-                         onclick="showIFrame();" 
+                         (click)="showPromotionDiv()" 
                         class="btn btn-default btn-noBorder">
                              Create a Promotion     <img src="assets/icon_promotions_active.png" width="20" />
                      </button>
                 </div>
-                <div *ngIf="showAddButtons==true" id="widgetButtonComplaint">
+                <div *ngIf="widget.showAddButtons==true" id="widgetButtonComplaint">
                      <button type="button" 
                          (click)="showComplaintDiv()"
-                         onclick="showIFrame();" 
                         class="btn btn-default btn-noBorder">
                              Create a Complaint      <img src="assets/icon_complaints_active.png" width="20" />
                      </button>
                 </div>
-                <div *ngIf="showPlus==true" id="widgetButtonPlus">
+                <div *ngIf="widget.showPlus==true" id="widgetButtonPlus">
                     <button type="button" 
                          (click)="togglePlus()"
                         class="btn btn-info btn-circle btn-xl">
                         <i class="glyphicon glyphicon-plus"></i>
                     </button>
                 </div>
-                <div *ngIf="showPlus==false" id="widgetButtonCross">
+                <div *ngIf="widget.showPlus==false" id="widgetButtonCross">
                     <button type="button" 
                          (click)="togglePlus()"
                         class="btn btn-info btn-circle btn-xl">

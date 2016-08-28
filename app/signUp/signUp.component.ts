@@ -7,7 +7,7 @@ import {MdToolbar} from '@angular2-material/toolbar';
 import {MATERIAL_DIRECTIVES} from 'ng2-material';
 import { MdRadioModule } from '@angular2-material/radio';
 import {User} from '../shared/user';
-import {SessionServices} from '../services/session-services.service';
+import {SessionService} from '../services/session.service';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
@@ -22,7 +22,7 @@ declare const FB:any;
     selector: 'facebook-login',
     templateUrl: 'app/signUp/facebook-register.html',
     directives: [MdToolbar, MD_INPUT_DIRECTIVES, CORE_DIRECTIVES, FORM_DIRECTIVES, REACTIVE_FORM_DIRECTIVES],
-    providers: [FormBuilder, User, SessionServices, HTTP_PROVIDERS]
+    providers: [FormBuilder, User, SessionService, HTTP_PROVIDERS]
 })
 
 export class SignUpComponent implements OnInit {
@@ -35,7 +35,7 @@ export class SignUpComponent implements OnInit {
     signUp: boolean;
   
     constructor(formBuilder: FormBuilder, 
-        private sessionService: SessionServices, 
+        private sessionService: SessionService, 
         private _cacheService: CacheService,
         private user: User,
         private fb: FacebookService) {

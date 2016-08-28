@@ -4,7 +4,7 @@
     position:fixed;
 }
 
-#widgetContainer 
+#widgetContainerPromotion 
 {
     background-color: #fff;
     overflow: visible;
@@ -16,8 +16,28 @@
     z-index: 10;
 }
 
-#widgetContainer:before {
-    display: block;
+#widgetContainerPromotion:before {
+    position: fixed;
+    width: 0;
+    height: 0;
+    color: transparent;
+    border-color: transparent transparent white;
+    margin-top: -20px;
+}
+
+#widgetContainerComplaint 
+{
+    background-color: #fff;
+    overflow: visible;
+    position: fixed;
+    bottom:1px;
+    right: 100px;
+    height: 600px;
+    width: 400px;
+    z-index: 10;
+}
+
+#widgetContainerComplaint:before {
     position: fixed;
     width: 0;
     height: 0;

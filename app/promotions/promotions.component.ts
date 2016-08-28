@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
-import {PromotionsService} from '../services/promotions.service';
+import {PromotionsService} from '../services/promotion.service';
 import {Promotion} from './promotion';
 
 

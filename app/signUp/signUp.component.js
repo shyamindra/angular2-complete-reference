@@ -14,7 +14,7 @@ var forms_1 = require('@angular/forms');
 var input_1 = require('@angular2-material/input');
 var toolbar_1 = require('@angular2-material/toolbar');
 var user_1 = require('../shared/user');
-var session_services_service_1 = require('../services/session-services.service');
+var session_service_1 = require('../services/session.service');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
@@ -68,9 +68,9 @@ var SignUpComponent = (function () {
             selector: 'facebook-login',
             templateUrl: 'app/signUp/facebook-register.html',
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
-            providers: [forms_1.FormBuilder, user_1.User, session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS]
+            providers: [forms_1.FormBuilder, user_1.User, session_service_1.SessionService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [forms_1.FormBuilder, session_services_service_1.SessionServices, ng2_cache_1.CacheService, user_1.User, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object])
+        __metadata('design:paramtypes', [forms_1.FormBuilder, session_service_1.SessionService, ng2_cache_1.CacheService, user_1.User, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object])
     ], SignUpComponent);
     return SignUpComponent;
     var _a;

@@ -12,32 +12,24 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
-var session_services_service_1 = require('./services/session-services.service');
+var session_service_1 = require('./services/session.service');
 var ng2_facebook_sdk_1 = require('ng2-facebook-sdk');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
+var sideNav_component_1 = require('./shared/sideNav.component');
+var widget_component_1 = require('./shared/widget.component');
 var AppComponent = (function () {
-    function AppComponent(_router, _cacheService, fb, _sessionService) {
+    function AppComponent(sideNav, widget, _router, _cacheService, fb, _sessionService) {
+        this.sideNav = sideNav;
+        this.widget = widget;
         this._router = _router;
         this._cacheService = _cacheService;
         this.fb = fb;
         this._sessionService = _sessionService;
-        this.isHome = false;
-        this.isProfile = false;
-        this.isComplaints = false;
-        this.isPromotions = false;
-        this.isSettings = false;
-        this.isPayment = false;
-        this.isRecentActivity = false;
         this.searchText = '';
         this.showNotifications = false;
         this.needsToggle = false;
         this.showNotificationCount = false;
         this.isUserLoggedIn = false;
-        this.showWidget = false;
-        this.showAddButtons = false;
-        this.showPlus = true;
-        this.showPromotion = false;
-        this.showComplaint = false;
         var fbParams = {
             appId: '1720733194853739',
             xfbml: true,
@@ -75,54 +67,25 @@ var AppComponent = (function () {
         this._router.navigate(['search', searchTxt]);
     };
     AppComponent.prototype.makeActive = function (path) {
-        this.setActiveFlagsFalse();
-        switch (path) {
-            case 'Home':
-                this.isHome = true;
-                break;
-            case 'Profile':
-                this.isProfile = true;
-                break;
-            case 'Complaints':
-                this.isComplaints = true;
-                break;
-            case 'Promotions':
-                this.isPromotions = true;
-                break;
-            case 'Payment':
-                this.isPayment = true;
-                break;
-            case 'RecentActivity':
-                this.isRecentActivity = true;
-                break;
-        }
+        this.sideNav.makeActive(path);
     };
     AppComponent.prototype.togglePlus = function () {
-        this.showPlus = !this.showPlus;
-        this.toggleAddButtons();
+        this.widget.togglePlus();
     };
     AppComponent.prototype.toggleAddButtons = function () {
-        this.showAddButtons = !this.showAddButtons;
+        this.widget.toggleAddButtons();
     };
     AppComponent.prototype.showPromotionDiv = function () {
-        this.showPromotion = true;
-        this.togglePlus();
+        this.widget.showPromotionDiv();
     };
     AppComponent.prototype.showComplaintDiv = function () {
-        this.showComplaint = true;
-        this.togglePlus();
-    };
-    AppComponent.prototype.setActiveFlagsFalse = function () {
-        this.isHome = false;
-        this.isProfile = false;
-        this.isComplaints = false;
-        this.isPromotions = false;
-        this.isSettings = false;
-        this.isRecentActivity = false;
-        this.isPayment = false;
+        this.widget.showComplaintDiv();
     };
     AppComponent.prototype.showWidgetDiv = function () {
-        this.showWidget = true;
+        this.widget.showWidgetDiv();
+    };
+    AppComponent.prototype.setActiveFlagsFalse = function () {
+        this.sideNav.setActiveFlagsFalse();
     };
     AppComponent.prototype.toggleNotifications = function () {
         this.needsToggle = !this.needsToggle;
@@ -141,9 +104,9 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass],
-            providers: [session_services_service_1.SessionServices, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService]
+            providers: [session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget]
         }), 
-        __metadata('design:paramtypes', [router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_services_service_1.SessionServices])
+        __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService])
     ], AppComponent);
     return AppComponent;
     var _a;

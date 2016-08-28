@@ -11,21 +11,21 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require('@angular/core');
 var platform_browser_1 = require('@angular/platform-browser');
 var forms_1 = require('@angular/forms');
-// Imports for loading & configuring the in-memory web api
+var radio_1 = require('@angular2-material/radio');
 var http_1 = require('@angular/http');
 var angular2_in_memory_web_api_1 = require('angular2-in-memory-web-api');
+var app_routing_1 = require('./app.routing');
 var app_component_1 = require('./app.component');
 var home_component_1 = require('./home/home.component');
 var signUp_component_1 = require('./signUp/signUp.component');
 var profile_component_1 = require('./profile/profile.component');
-var app_routing_1 = require('./app.routing');
-var roost_services_service_1 = require('./services/roost-services.service');
-var session_services_service_1 = require('./services/session-services.service');
-var radio_1 = require('@angular2-material/radio');
+var roost_service_1 = require('./services/roost.service');
+var session_service_1 = require('./services/session.service');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var promotions_service_1 = require('./services/promotions.service');
+var promotion_service_1 = require('./services/promotion.service');
 var complaint_service_1 = require('./services/complaint.service');
-var user_services_service_1 = require('./services/user-services.service');
+var user_service_1 = require('./services/user.service');
+var config_service_1 = require('./services/config.service');
 var AppModule = (function () {
     function AppModule() {
     }
@@ -45,12 +45,13 @@ var AppModule = (function () {
                 profile_component_1.ProfileComponent
             ],
             providers: [
+                config_service_1.ConfigService,
                 ng2_cache_1.CacheService,
-                roost_services_service_1.RoostService,
-                session_services_service_1.SessionServices,
-                promotions_service_1.PromotionsService,
+                roost_service_1.RoostService,
+                session_service_1.SessionService,
+                promotion_service_1.PromotionsService,
                 complaint_service_1.ComplaintsService,
-                user_services_service_1.UserServices,
+                user_service_1.UserService,
                 { provide: http_1.XHRBackend, useClass: angular2_in_memory_web_api_1.InMemoryBackendService }
             ],
             bootstrap: [app_component_1.AppComponent]

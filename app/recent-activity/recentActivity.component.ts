@@ -2,7 +2,7 @@ import {Component,Pipe} from '@angular/core';
 import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
-import {RoostService} from '../services/roost-services.service';
+import {RoostService} from '../services/roost.service';
 import {Feed} from '../shared/feed';
 
 import {SortDatePipe} from '../shared/sort.pipe';

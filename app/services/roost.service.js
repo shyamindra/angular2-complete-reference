@@ -12,40 +12,34 @@ var core_1 = require('@angular/core');
 var http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var UserServices = (function () {
-    function UserServices(_http, _cacheService) {
+var RoostService = (function () {
+    function RoostService(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this._url = "http://192.168.1.6:8000/api/user/";
+        this._url = "http://52.43.46.127:80/api/roost/";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
-    UserServices.prototype.createAuthorizationHeader = function (headers) {
+    RoostService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
     };
-    UserServices.prototype.updateProfile = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, mobile, profile_image) {
-        var myHeader = new http_1.Headers();
-        myHeader.append('Authorization', this.accessToken);
-        return this._http.patch(this._url + "profile", JSON.stringify({ facebook_id: facebook_id,
-            facebook_token: facebook_token,
-            name: first_name,
-            surname: last_name,
-            email: email,
-            dob: dob,
-            gender: gender,
-            mobile_number: mobile }), { headers: myHeader })
+    RoostService.prototype.getFeeds = function (page) {
+        var url = this._url + "feeds/";
+        if (null != page)
+            url += "?page=" + page;
+        return this._http.get(url)
             .map(function (res) { return res.json(); });
     };
-    UserServices.prototype.getUserInfo = function (id) {
+    RoostService.prototype.search = function (key) {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url + "info/" + id, { headers: myHeader })
+        return this._http.get(this._url + "search/" + key + "/", { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
-    UserServices = __decorate([
+    RoostService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
-    ], UserServices);
-    return UserServices;
+    ], RoostService);
+    return RoostService;
 }());
-exports.UserServices = UserServices;
-//# sourceMappingURL=user-services.service.js.map
+exports.RoostService = RoostService;
+//# sourceMappingURL=roost.service.js.map

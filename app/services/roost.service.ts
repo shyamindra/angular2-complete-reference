@@ -9,7 +9,7 @@ import {User} from '../shared/user';
 
 @Injectable()
 export class RoostService {
-    private _url = "http://192.168.1.6:8000/api/roost/";
+    private _url = "http://52.43.46.127:80/api/roost/";
     accessToken: string;
     
     constructor(private _http: Http,
@@ -21,8 +21,11 @@ export class RoostService {
         headers.append('Authorization', this.accessToken); 
     }
     
-    getFeeds(): Observable<any>  {
-        return this._http.get(this._url + "feeds/")
+    getFeeds(page?: number): Observable<any>  {
+        var url = this._url + "feeds/";
+        if(null != page)
+            url += "?page=" + page;
+        return this._http.get(url)
             .map((res: Response) => res.json());
     }
 
