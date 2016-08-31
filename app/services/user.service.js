@@ -21,11 +21,11 @@ var UserService = (function () {
     }
     UserService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
-        headers.append('Content-Type', 'text/plain');
     };
     UserService.prototype.updateProfile = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, mobile, profile_image) {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
         return this._http.patch(this._url + "profile", JSON.stringify({ facebook_id: facebook_id,
             facebook_token: facebook_token,
             name: first_name,

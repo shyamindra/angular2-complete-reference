@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 var core_1 = require('@angular/core');
 var common_1 = require('@angular/common');
+var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var forms_1 = require('@angular/forms');
 var input_1 = require('@angular2-material/input');
@@ -18,11 +19,15 @@ var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var user_service_1 = require('../services/user.service');
 var user_1 = require('../shared/user');
 var ProfileComponent = (function () {
-    function ProfileComponent(_userService, _cache, user) {
+    function ProfileComponent(_userService, _cache, _router, user) {
         this._userService = _userService;
         this._cache = _cache;
+        this._router = _router;
         this.user = user;
         this.header = "Profile page";
+        if (null == this._cache.get('accessTokenRooster')) {
+            this._router.navigate(['home']);
+        }
     }
     ProfileComponent.prototype.ngOnInit = function () {
         this.getUserInfo();
@@ -44,6 +49,15 @@ var ProfileComponent = (function () {
     };
     ProfileComponent.prototype.saveProfile = function () {
         console.log(this.user.gender);
+        console.log(this._cache.get("userIdFB"));
+        console.log(this._cache.get("accessTokenFB"));
+        console.log(this.user.first_name);
+        console.log(this.user.last_name);
+        console.log(this.user.gender);
+        console.log(this.user.email);
+        console.log(this.parseDate(this.user.dob));
+        console.log(this.user.mobile_number);
+        console.log(this._cache.get("accessTokenRooster"));
         this._userService.updateProfile(this._cache.get("userIdFB"), this._cache.get("accessTokenFB"), this.user.first_name, this.user.last_name, this.user.gender, this.user.email, this.parseDate(this.user.dob), this.user.mobile_number)
             .subscribe(function (profile) {
             console.log(profile);
@@ -67,7 +81,7 @@ var ProfileComponent = (function () {
             directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
             providers: [forms_1.FormBuilder, user_1.User, user_service_1.UserService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, user_1.User])
+        __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, router_1.Router, user_1.User])
     ], ProfileComponent);
     return ProfileComponent;
 }());

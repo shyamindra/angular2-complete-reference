@@ -17,8 +17,7 @@ export class UserService {
     }
     
     createAuthorizationHeader(headers:Headers) {
-        headers.append('Authorization', this.accessToken); 
-        headers.append('Content-Type', 'text/plain');
+        headers.append('Authorization', this.accessToken);
     }
 
     updateProfile(facebook_id: string, 
@@ -32,6 +31,7 @@ export class UserService {
             profile_image?: string): Observable<any>{
                 var myHeader = new Headers();
                 myHeader.append('Authorization', this.accessToken);
+                myHeader.append('Content-Type', 'application/json');
         return this._http.patch(this._url + "profile", 
                 JSON.stringify({facebook_id: facebook_id, 
                     facebook_token: facebook_token, 

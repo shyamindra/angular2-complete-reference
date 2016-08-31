@@ -16,14 +16,17 @@ var ComplaintsService = (function () {
     function ComplaintsService(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this.url = "http://52.43.46.127:80/api/roost/promotions/";
+        this.url = "http://52.43.46.127:80/api/roost/complaints/";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     ComplaintsService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
         headers.append('Content-Type', 'text/plain');
     };
-    ComplaintsService.prototype.getAllComplaints = function () {
+    ComplaintsService.prototype.getAllComplaints = function (page) {
+        var url = this.url;
+        if (null != page)
+            url += "?page=" + page;
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this.url, { headers: myHeader })

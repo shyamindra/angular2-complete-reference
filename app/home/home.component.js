@@ -23,7 +23,7 @@ var HomeComponent = (function () {
         this.isLoading = true;
     }
     HomeComponent.prototype.ngOnInit = function () {
-        this.padeSize = 50;
+        this.pageSize = 50;
         this.getPage();
     };
     HomeComponent.prototype.getPage = function (page) {

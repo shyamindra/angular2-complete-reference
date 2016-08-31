@@ -22,7 +22,7 @@ export class HomeComponent implements OnInit{
     isLoading = true;
     feeds: Feed[];
     diff: number;
-    padeSize: number;
+    pageSize: number;
     page: number;
     total: number;
 
@@ -30,7 +30,7 @@ export class HomeComponent implements OnInit{
     }
     
    ngOnInit() {
-        this.padeSize = 50;
+        this.pageSize = 50;
         this.getPage();    
     }
 

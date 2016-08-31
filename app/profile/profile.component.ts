@@ -23,8 +23,11 @@ export class ProfileComponent {
 
     constructor(private _userService: UserService, 
         private _cache: CacheService,
+        private _router: Router,
         private user: User){
-
+            if(null == this._cache.get('accessTokenRooster')){
+                this._router.navigate(['home']);
+            }
     }
 
 
@@ -49,6 +52,15 @@ export class ProfileComponent {
 
     saveProfile(){
         console.log(this.user.gender);
+         console.log(this._cache.get("userIdFB")); 
+                     console.log(this._cache.get("accessTokenFB")); 
+                     console.log(this.user.first_name); 
+                     console.log(this.user.last_name); 
+                     console.log(this.user.gender); 
+                     console.log(this.user.email); 
+                     console.log(this.parseDate(this.user.dob));
+                     console.log(this.user.mobile_number);
+                     console.log(this._cache.get("accessTokenRooster"))
         this._userService.updateProfile(this._cache.get("userIdFB"), 
                     this._cache.get("accessTokenFB"), 
                     this.user.first_name, 

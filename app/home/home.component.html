@@ -3,7 +3,7 @@
     <i class="fa fa-spinner fa-spin fa-3x fa-fw spinner-custom"></i>
 </div>
 <div style="float:left; width:100%">
-    <div *ngFor="let feed of feeds| paginate: {    itemsPerPage: 50,
+    <div *ngFor="let feed of feeds| paginate: {    itemsPerPage: pageSize,
                                                    currentPage: page,
                                                    totalItems: total }; let i = index">
             <div class="profile-feed">

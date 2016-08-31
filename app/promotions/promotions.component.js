@@ -14,22 +14,36 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var promotion_service_1 = require('../services/promotion.service');
 var promotion_1 = require('./promotion');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
+var ng2_pagination_1 = require('ng2-pagination');
 var PromotionsComponent = (function () {
-    function PromotionsComponent(_promotionsService) {
+    function PromotionsComponent(_promotionsService, router, _cacheService) {
         this._promotionsService = _promotionsService;
+        this.router = router;
+        this._cacheService = _cacheService;
         this.header = "Promotions Page";
         this.isLoading = true;
+        if (null == this._cacheService.get('accessTokenRooster')) {
+            this.router.navigate(['home']);
+        }
     }
     PromotionsComponent.prototype.ngOnInit = function () {
-        this.getFeeds(1);
+        this.pageSize = 50;
+        this.getPage();
     };
-    PromotionsComponent.prototype.getFeeds = function (page) {
+    PromotionsComponent.prototype.getPage = function (page) {
         var _this = this;
-        this._promotionsService.getAllPromotions()
-            .subscribe(function (promotions) {
+        this._promotionsService.getAllPromotions(page)
+            .subscribe(function (feeds) {
             _this.isLoading = false;
-            _this.promotions = promotions.results;
+            _this.total = feeds.count;
+            _this.promotions = feeds.results;
+            _this.page = null != page ? page : _this.page;
         });
+    };
+    PromotionsComponent.prototype.onPageChange = function (page) {
+        console.log(page);
+        this.getPage(page);
     };
     PromotionsComponent.prototype.extractDate = function (date) {
         this.diff = (new Date().getTime() - new Date(date).getTime()) / 1000;
@@ -46,6 +60,9 @@ var PromotionsComponent = (function () {
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
     };
+    PromotionsComponent.prototype.redirectToGMaps = function (latitude, longitude) {
+        window.open('http://maps.google.com/maps?q=' + latitude + ',' + longitude);
+    };
     PromotionsComponent.prototype.toggleShout = function (index) {
         console.log(index);
         this.promotions[index].isShout = !this.promotions[index].isShout;
@@ -57,10 +74,11 @@ var PromotionsComponent = (function () {
         core_1.Component({
             selector: 'promotions',
             templateUrl: 'app/promotions/promotions.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
-            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS]
+            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+            pipes: [ng2_pagination_1.PaginatePipe]
         }), 
-        __metadata('design:paramtypes', [promotion_service_1.PromotionsService])
+        __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService])
     ], PromotionsComponent);
     return PromotionsComponent;
 }());

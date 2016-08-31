@@ -23,10 +23,13 @@ var PromotionsService = (function () {
         headers.append('Authorization', this.accessToken);
         headers.append('Content-Type', 'text/plain');
     };
-    PromotionsService.prototype.getAllPromotions = function () {
+    PromotionsService.prototype.getAllPromotions = function (page) {
+        var url = this._url;
+        if (null != page)
+            url += "?page=" + page;
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url, { headers: myHeader })
+        return this._http.get(url, { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
     PromotionsService.prototype.postPromotion = function () {

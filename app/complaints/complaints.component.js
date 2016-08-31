@@ -15,23 +15,53 @@ var http_1 = require('@angular/http');
 var complaint_service_1 = require('../services/complaint.service');
 var config_service_1 = require('../services/config.service');
 var complaint_1 = require('./complaint');
+var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ComplaintsComponent = (function () {
-    function ComplaintsComponent(_complaintsService, _router) {
+    function ComplaintsComponent(_complaintsService, _router, _cacheService) {
         this._complaintsService = _complaintsService;
         this._router = _router;
+        this._cacheService = _cacheService;
         this.header = "Complaints page";
         this.isLoading = true;
+        if (null == this._cacheService.get('accessTokenRooster')) {
+            this._router.navigate(['home']);
+        }
     }
     ComplaintsComponent.prototype.ngOnInit = function () {
-        this.getFeeds(1);
+        this.pageSize = 50;
+        this.getPage();
     };
-    ComplaintsComponent.prototype.getFeeds = function (page) {
+    ComplaintsComponent.prototype.getPage = function (page) {
         var _this = this;
-        this._complaintsService.getAllComplaints()
-            .subscribe(function (complaints) {
+        this._complaintsService.getAllComplaints(page)
+            .subscribe(function (feeds) {
             _this.isLoading = false;
-            _this.complaints = complaints.results;
+            _this.total = feeds.count;
+            _this.complaints = feeds.results;
+            _this.page = null != page ? page : _this.page;
         });
+    };
+    ComplaintsComponent.prototype.onPageChange = function (page) {
+        console.log(page);
+        this.getPage(page);
+    };
+    ComplaintsComponent.prototype.extractDate = function (date) {
+        this.diff = (new Date().getTime() - new Date(date).getTime()) / 1000;
+        if (this.diff <= 60)
+            return "Just Now";
+        else if (this.diff < 3600)
+            return Math.round(this.diff / 60) + " minutes ago";
+        else if (this.diff < 7200)
+            return "1 hour ago";
+        else if (this.diff <= 86400)
+            return Math.round(this.diff / 3600) + " hours ago";
+        else if (this.diff == 172800)
+            return "1 day ago";
+        else if (this.diff > 172800)
+            return Math.round(this.diff / 86400) + " days ago";
+    };
+    ComplaintsComponent.prototype.redirectToGMaps = function (latitude, longitude) {
+        window.open('http://maps.google.com/maps?q=' + latitude + ',' + longitude);
     };
     ComplaintsComponent.prototype.toggleShout = function (index) {
         console.log(index);
@@ -47,7 +77,7 @@ var ComplaintsComponent = (function () {
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
             providers: [complaint_1.Complaint, complaint_service_1.ComplaintsService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS]
         }), 
-        __metadata('design:paramtypes', [complaint_service_1.ComplaintsService, router_1.Router])
+        __metadata('design:paramtypes', [complaint_service_1.ComplaintsService, router_1.Router, ng2_cache_1.CacheService])
     ], ComplaintsComponent);
     return ComplaintsComponent;
 }());

@@ -21,10 +21,13 @@ export class PromotionsService {
         headers.append('Content-Type', 'text/plain');
     }
 
-    getAllPromotions(): Observable<any> {
+    getAllPromotions(page?: number): Observable<any> {
+        var url = this._url;
+        if(null != page)
+            url += "?page=" + page;
         var myHeader = new Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url, { headers : myHeader})
+        return this._http.get(url, { headers : myHeader})
             .map((res: Response) => res.json());
     }
 
