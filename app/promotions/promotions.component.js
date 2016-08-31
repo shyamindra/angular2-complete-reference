@@ -13,14 +13,16 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var promotion_service_1 = require('../services/promotion.service');
+var roost_service_1 = require('../services/roost.service');
 var promotion_1 = require('./promotion');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ng2_pagination_1 = require('ng2-pagination');
 var PromotionsComponent = (function () {
-    function PromotionsComponent(_promotionsService, router, _cacheService) {
+    function PromotionsComponent(_promotionsService, router, _cacheService, roostService) {
         this._promotionsService = _promotionsService;
         this.router = router;
         this._cacheService = _cacheService;
+        this.roostService = roostService;
         this.header = "Promotions Page";
         this.isLoading = true;
         if (null == this._cacheService.get('accessTokenRooster')) {
@@ -64,21 +66,41 @@ var PromotionsComponent = (function () {
         window.open('http://maps.google.com/maps?q=' + latitude + ',' + longitude);
     };
     PromotionsComponent.prototype.toggleShout = function (index) {
+        var _this = this;
         console.log(index);
-        this.promotions[index].isShout = !this.promotions[index].isShout;
+        this.roostService.shout(this.promotions[index].id)
+            .subscribe(function (feeds) {
+            _this.promotions[index].isShout = true;
+            _this.promotions[index].shouts = _this.promotions[index].shouts + 1;
+            if (_this.promotions[index].isListened == true) {
+                _this.promotions[index].isListened = false;
+                _this.promotions[index].listeners = _this.promotions[index].listeners - 1;
+            }
+        });
+        ;
     };
     PromotionsComponent.prototype.toggleListen = function (index) {
-        this.promotions[index].isListened = !this.promotions[index].isListened;
+        var _this = this;
+        console.log(index);
+        this.roostService.listen(this.promotions[index].id)
+            .subscribe(function (feeds) {
+            _this.promotions[index].isListened = true;
+            _this.promotions[index].listeners = _this.promotions[index].listeners + 1;
+            if (_this.promotions[index].isShout == true) {
+                _this.promotions[index].isShout = false;
+                _this.promotions[index].shouts = _this.promotions[index].shouts - 1;
+            }
+        });
     };
     PromotionsComponent = __decorate([
         core_1.Component({
             selector: 'promotions',
             templateUrl: 'app/promotions/promotions.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
-            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 
-        __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService])
+        __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService])
     ], PromotionsComponent);
     return PromotionsComponent;
 }());

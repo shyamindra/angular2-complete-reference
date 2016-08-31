@@ -5,7 +5,9 @@
 <div class="searchResults">Fetching results for {{searchQry}}</div>
 <hr/>
 <div style="float:left; width:100%">
-    <div *ngFor="let feed of feeds |search:searchQry; let i = index">
+    <div *ngFor="let feed of feeds | paginate: {   itemsPerPage: pageSize,
+                                                   currentPage: page,
+                                                   totalItems: total }; let i = index">
             <div style="float:left;" class="profile-feed">
                 <div>
                     <h4>{{ feed.title }}</h4>
@@ -23,6 +25,10 @@
                         </div>
                     </div>
                 </a>    
+                <div id="date">
+                    <img src="assets/time_icon.png">
+                    {{ extractDate(feed.created_at) }}
+                </div>  
                  <div *ngIf="feed.media_type=='IMG'" id="img-div">
                     <img src= "{{ feed.image + 'roosterbucket/roost/' + feed.id + '.jpeg'}}"  />
                 </div>
@@ -68,3 +74,4 @@
 	</div>
     
 </div>
+<pagination-controls (pageChange)="getPage($event)"></pagination-controls>

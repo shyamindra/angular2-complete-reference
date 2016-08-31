@@ -29,10 +29,30 @@ var RoostService = (function () {
         return this._http.get(url)
             .map(function (res) { return res.json(); });
     };
-    RoostService.prototype.search = function (key) {
+    RoostService.prototype.search = function (key, page) {
+        var url = this._url + "search/" + key + "/";
+        if (null != page)
+            url += "?page=" + page;
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url + "search/" + key + "/", { headers: myHeader })
+        console.log(url + "---" + key);
+        return this._http.get(url, { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.shout = function (id) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "shout/", JSON.stringify({ roost: id }), { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.listen = function (id) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "listen/", JSON.stringify({ roost: id }), { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
     RoostService = __decorate([

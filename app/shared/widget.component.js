@@ -4,8 +4,6 @@ var Widget = (function () {
         this.showWidget = false;
         this.showAddButtons = false;
         this.showPlus = true;
-        this.showPromotion = false;
-        this.showComplaint = false;
     }
     Widget.prototype.togglePlus = function () {
         this.showPlus = !this.showPlus;
@@ -15,15 +13,30 @@ var Widget = (function () {
         this.showAddButtons = !this.showAddButtons;
     };
     Widget.prototype.showPromotionDiv = function () {
-        this.showPromotion = true;
+        this.showPromotion();
         this.togglePlus();
+        this.showWidgetDiv();
+    };
+    Widget.prototype.showPromotion = function () {
+        this.navHeader = "Post Promotion";
+        this.titleDescription = "Enter your Promotion title here";
+        this.description = "Describe your Promotion in detail";
     };
     Widget.prototype.showComplaintDiv = function () {
-        this.showComplaint = true;
+        this.showComplaint();
         this.togglePlus();
+        this.showWidgetDiv();
+    };
+    Widget.prototype.showComplaint = function () {
+        this.navHeader = "Post Complaint";
+        this.titleDescription = "Enter your Complaint title here";
+        this.description = "Describe your Complaint in detail";
     };
     Widget.prototype.showWidgetDiv = function () {
         this.showWidget = true;
+    };
+    Widget.prototype.closeWidget = function () {
+        this.showWidget = false;
     };
     return Widget;
 }());

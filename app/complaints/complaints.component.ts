@@ -3,15 +3,18 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS, Headers} from '@angular/http';
 import {ComplaintsService} from '../services/complaint.service';
+import {RoostService} from '../services/roost.service';
 import {ConfigService} from '../services/config.service';
 import {Complaint} from './complaint';
 import {CacheService} from 'ng2-cache/ng2-cache';
+import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
 
 @Component({
     selector: 'complaints',
     templateUrl: 'app/complaints/complaints.component.html',
-    directives: [RouterLink,CORE_DIRECTIVES],
-    providers: [Complaint, ComplaintsService, ConfigService, HTTP_PROVIDERS]
+    directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp],
+    providers: [Complaint, ComplaintsService, ConfigService, HTTP_PROVIDERS, PaginationService, RoostService],
+    pipes: [PaginatePipe]
 })
 export class ComplaintsComponent {
     header = "Complaints page";
@@ -24,7 +27,8 @@ export class ComplaintsComponent {
 
     constructor(private _complaintsService: ComplaintsService, 
                 private _router: Router,
-                private _cacheService: CacheService){
+                private _cacheService: CacheService,
+                private roostService: RoostService){
         if(null == this._cacheService.get('accessTokenRooster')){
             this._router.navigate(['home']);
         }
@@ -41,6 +45,7 @@ export class ComplaintsComponent {
             this.isLoading = false;
             this.total = feeds.count;
             this.complaints = feeds.results as Complaint[];
+            console.log(JSON.stringify(this.complaints));
             this.page = null != page? page: this.page;
             });
     }
@@ -73,11 +78,30 @@ export class ComplaintsComponent {
 
     toggleShout(index: number){
         console.log(index);
-        this.complaints[index].isShout = !this.complaints[index].isShout;
+        this.roostService.shout(this.complaints[index].id)
+            .subscribe(feeds => {
+                console.log(feeds);
+                this.complaints[index].isShout = true;
+                this.complaints[index].shouts = this.complaints[index].shouts + 1;
+                if(this.complaints[index].isListened == true){
+                    this.complaints[index].isListened = false;
+                    this.complaints[index].listeners = this.complaints[index].listeners - 1;
+                }
+                });;
     }
 
     toggleListen(index: number){
-        this.complaints[index].isListened = !this.complaints[index].isListened;
+        console.log(index);
+        this.roostService.listen(this.complaints[index].id)
+            .subscribe(feeds => {
+                console.log(feeds);
+                this.complaints[index].isListened = true;
+                this.complaints[index].listeners = this.complaints[index].listeners + 1;
+                if(this.complaints[index].isShout == true){
+                    this.complaints[index].isShout = false;
+                    this.complaints[index].shouts = this.complaints[index].shouts - 1;
+                }
+                });
     }
 
 }

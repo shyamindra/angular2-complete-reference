@@ -3,6 +3,8 @@
  * Adjust as necessary for your application needs.
  */
 (function(global) {
+  var angular2ModalVer = '@2.0.0-beta.11';
+  global.angular2ModalVer = angular2ModalVer;
   // map tells the System loader where to look for things
   var map = {
     'app':                            'app', // 'dist',
@@ -12,8 +14,11 @@
     '@angular2-material':             'node_modules/@angular2-material',
     'ng2-cache':                      'node_modules/ng2-cache',
     'ng2-facebook-sdk':               'node_modules/ng2-facebook-sdk/dist',
-    'angular2-bootstrap-pagination':  'node_modules/angular2-bootstrap-pagination'
+    'angular2-bootstrap-pagination':  'node_modules/angular2-bootstrap-pagination',
+    'ng2-bs3-modal':                  'node_modules/ng2-bs3-modal'
   };
+
+
   // packages tells the System loader how to load when no filename and/or no extension
   var packages = {
     'app':                            { main: 'main.js',  defaultExtension: 'js' },
@@ -21,7 +26,8 @@
     'angular2-in-memory-web-api':     { main: 'index.js', defaultExtension: 'js' },
     'ng2-cache':                      { defaultExtension: 'js' },
     'ng2-facebook-sdk':               { main: 'index.js', defaultExtension: 'js' },
-    'angular2-bootstrap-pagination':  { defaultExtension: 'js' }
+    'angular2-bootstrap-pagination':  { defaultExtension: 'js' },
+    'ng2-bs3-modal':                  { defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

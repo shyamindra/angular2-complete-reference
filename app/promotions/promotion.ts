@@ -4,9 +4,9 @@ import {Tag} from '../shared/tag';
 
 export class Promotion{
     id: number;
-    shouts: string;
-    listeners: string;
-    comments: string;
+    shouts: number;
+    listeners: number;
+    comments: number;
     user: User;
     tags: Tag[];
     isShout: boolean;

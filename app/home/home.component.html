@@ -1,6 +1,6 @@
 
 <div *ngIf="isLoading">
-    <i class="fa fa-spinner fa-spin fa-3x fa-fw spinner-custom"></i>
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw spinner-custom"></i>
 </div>
 <div style="float:left; width:100%">
     <div *ngFor="let feed of feeds| paginate: {    itemsPerPage: pageSize,
@@ -31,7 +31,7 @@
                         <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + 87 + '.mp4'}}" type="video/mp4">
                 </video>-->
                 <div *ngIf="feed.media_type=='IMG'" id="img-div">
-                    <img src= "{{ feed.image + 'roosterbucket/roost/' + feed.id + '.jpeg'}}"  />
+                    <img src= "{{ feed.video + 'roosterbucket/roost/' + feed.id + '.jpeg'}}"  />
                 </div>
                 <div *ngIf="feed.media_type=='VID'" id="vid-div">
                     <video controls>
@@ -40,7 +40,7 @@
                 </div>
                 <div *ngIf="feed.media_type=='AUD'" id="aud-div">
                     <audio controls>
-                        <source src= "{{ feed.audio + 'roosterbucket/roost/' + feed.id + '.mp3'}}" type="audio/mpeg">
+                        <source src= "{{ feed.video + 'roosterbucket/roost/' + feed.id + '.mp3'}}" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
                 </div>
@@ -48,7 +48,7 @@
                     <p> {{ feed.text }}
                 </div>
                 <div id="Comments">
-                    <a href="#">{{ feed.shouts }} Shouts</a>  &#8226;  <a href="#">{{ feed.listeners }} Listeners</a>  &#8226;  <a href="#">{{ feed.comments }} Comments</a>   
+                    <a>{{ feed.shouts }} Shouts</a>  &#8226;  <a>{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
                 </div>
                 <hr/>
                 <div id="icons">

@@ -42,6 +42,12 @@ var UserService = (function () {
         return this._http.get(this._url + "info/" + id, { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
+    UserService.prototype.getUserNotifications = function () {
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "notifications", { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
     UserService = __decorate([
         core_1.Injectable(), 
         __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])

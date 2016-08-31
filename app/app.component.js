@@ -12,23 +12,24 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
+var user_service_1 = require('./services/user.service');
 var session_service_1 = require('./services/session.service');
 var ng2_facebook_sdk_1 = require('ng2-facebook-sdk');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var sideNav_component_1 = require('./shared/sideNav.component');
 var widget_component_1 = require('./shared/widget.component');
 var AppComponent = (function () {
-    function AppComponent(sideNav, widget, _router, _cacheService, fb, _sessionService) {
+    function AppComponent(sideNav, widget, _router, _cacheService, fb, _sessionService, userService) {
         this.sideNav = sideNav;
         this.widget = widget;
         this._router = _router;
         this._cacheService = _cacheService;
         this.fb = fb;
         this._sessionService = _sessionService;
+        this.userService = userService;
         this.searchText = '';
         this.showNotifications = false;
         this.needsToggle = false;
-        this.showNotificationCount = false;
         this.isUserLoggedIn = false;
         var fbParams = {
             appId: '1720733194853739',
@@ -38,8 +39,17 @@ var AppComponent = (function () {
         this.fb.init(fbParams);
     }
     AppComponent.prototype.ngOnInit = function () {
+        var _this = this;
         if (null != this._cacheService.get('accessTokenRooster')) {
             this.isUserLoggedIn = true;
+            console.log(this._cacheService.get('accessTokenRooster'));
+            this.userService.getUserNotifications()
+                .subscribe(function (notifications) {
+                console.log(notifications);
+                _this.notificationCount = notifications.count;
+                _this.notifications = notifications.results;
+            });
+            ;
         }
     };
     AppComponent.prototype.handleLogin = function () {
@@ -81,15 +91,14 @@ var AppComponent = (function () {
     AppComponent.prototype.showComplaintDiv = function () {
         this.widget.showComplaintDiv();
     };
-    AppComponent.prototype.showWidgetDiv = function () {
-        this.widget.showWidgetDiv();
+    AppComponent.prototype.closeWidget = function () {
+        this.widget.closeWidget();
     };
     AppComponent.prototype.setActiveFlagsFalse = function () {
         this.sideNav.setActiveFlagsFalse();
     };
     AppComponent.prototype.toggleNotifications = function () {
         this.needsToggle = !this.needsToggle;
-        this.showNotificationCount = false;
     };
     AppComponent.prototype.handleOffClick = function () {
         if (this.needsToggle == true) {
@@ -104,9 +113,9 @@ var AppComponent = (function () {
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
             directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass],
-            providers: [session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget]
+            providers: [user_service_1.UserService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget]
         }), 
-        __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService])
+        __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService, user_service_1.UserService])
     ], AppComponent);
     return AppComponent;
     var _a;

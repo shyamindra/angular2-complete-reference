@@ -51,5 +51,12 @@ export class UserService {
         return this._http.get(this._url + "info/" + id, { headers : myHeader})
             .map((res: Response) => res.json());
     }
+
+    getUserNotifications(){
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "notifications" , { headers : myHeader})
+            .map((res: Response) => res.json());
+    }
     
 }

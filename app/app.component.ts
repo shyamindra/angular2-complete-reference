@@ -3,8 +3,7 @@ import {Routes, Router, RouterModule, ROUTER_DIRECTIVES} from '@angular/router';
 import {NgClass} from '@angular/common';
 import {HTTP_PROVIDERS} from '@angular/http';
 
-import {PostPromotionComponent} from './post/post-promotion.component';
-import {PostComplaintComponent} from './post/post-complaint.component';
+import {UserService} from './services/user.service';
 import {SessionService} from './services/session.service';
 import {FacebookService, FacebookLoginResponse, FacebookInitParams} from 'ng2-facebook-sdk';
 import {CacheService} from 'ng2-cache/ng2-cache';
@@ -17,26 +16,25 @@ import {Widget} from './shared/widget.component';
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
     directives: [ROUTER_DIRECTIVES, NgClass],
-    providers: [SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget]
+    providers: [UserService, SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget]
 })
 export class AppComponent implements OnInit{
     searchText: string = '';
     showNotifications: boolean = false;
     needsToggle: boolean = false;
-    showNotificationCount: boolean = false;
+    notificationCount: number;
+    notifications: string[];
     isUserLoggedIn: boolean = false;
     response: any;
     user: User;
-
-    postComplaint: PostComplaintComponent;
-    postPromotion: PostPromotionComponent;
 
     constructor(private sideNav: SideNavDisplay,
             private widget: Widget,
             private _router: Router, 
             private _cacheService: CacheService, 
             private fb: FacebookService,
-            private _sessionService: SessionService){
+            private _sessionService: SessionService,
+            private userService: UserService){
         let fbParams: FacebookInitParams = {
                         appId: '1720733194853739',
                         xfbml: true,
@@ -48,6 +46,13 @@ export class AppComponent implements OnInit{
     ngOnInit(){
         if(null != this._cacheService.get('accessTokenRooster')){
             this.isUserLoggedIn = true;
+            console.log(this._cacheService.get('accessTokenRooster'));
+            this.userService.getUserNotifications()
+                .subscribe(notifications => {
+                    console.log(notifications)
+                    this.notificationCount = notifications.count;
+                    this.notifications = notifications.results as string[];
+            });;
         }
     }
 
@@ -102,8 +107,8 @@ export class AppComponent implements OnInit{
         this.widget.showComplaintDiv();
     }
 
-    showWidgetDiv(){
-        this.widget.showWidgetDiv();
+    closeWidget(){
+        this.widget.closeWidget();
     }
 
     setActiveFlagsFalse(){
@@ -112,7 +117,6 @@ export class AppComponent implements OnInit{
 
     toggleNotifications(){
         this.needsToggle = !this.needsToggle;
-        this.showNotificationCount = false;
     }
 
     handleOffClick(){

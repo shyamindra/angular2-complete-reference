@@ -29,10 +29,32 @@ export class RoostService {
             .map((res: Response) => res.json());
     }
 
-    search(key: string): Observable<any>{
+    search(key: string, page?: string): Observable<any>{
+        var url = this._url + "search/" + key + "/";
+        if(null != page)
+            url += "?page=" + page; 
         var myHeader = new Headers();
-                myHeader.append('Authorization', this.accessToken);
-        return this._http.get(this._url + "search/" + key + "/", {headers: myHeader})
+        myHeader.append('Authorization', this.accessToken);
+        console.log(url + "---" + key);
+        return this._http.get(url, {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    shout(id: number): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "shout/", JSON.stringify({roost: id}), {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    listen(id: number): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "listen/", JSON.stringify({roost: id}), {headers: myHeader})
             .map((res: Response) => res.json());
     }
     

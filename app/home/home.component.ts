@@ -31,12 +31,13 @@ export class HomeComponent implements OnInit{
     
    ngOnInit() {
         this.pageSize = 50;
-        this.getPage();    
+        this.getPage();   
     }
 
     getPage(page?: number) {
         this._feedsService.getFeeds(page)
            .subscribe(feeds => {
+               console.log(feeds);
             this.isLoading = false;
             this.total = feeds.count;
             this.feeds = feeds.results as Feed[];
@@ -74,11 +75,27 @@ export class HomeComponent implements OnInit{
     }
 
     toggleShout(index: number){
-        this.feeds[index].isShout = !this.feeds[index].isShout;
+        this._feedsService.shout(this.feeds[index].id)
+            .subscribe(feeds => {
+                this.feeds[index].isShout = true;
+                this.feeds[index].shouts = this.feeds[index].shouts + 1;
+                if(this.feeds[index].isListened == true){
+                    this.feeds[index].isListened = false;
+                    this.feeds[index].listeners = this.feeds[index].listeners - 1;
+                }
+                });;
     }
 
     toggleListen(index: number){
-        this.feeds[index].isListened = !this.feeds[index].isListened;
+        this._feedsService.listen(this.feeds[index].id)
+            .subscribe(feeds => {
+                this.feeds[index].isListened = true;
+                this.feeds[index].listeners = this.feeds[index].listeners + 1;
+                if(this.feeds[index].isShout == true){
+                    this.feeds[index].isShout = false;
+                    this.feeds[index].shouts = this.feeds[index].shouts - 1;
+                }
+                });
     }
     
 }

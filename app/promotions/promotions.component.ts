@@ -3,6 +3,7 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {PromotionsService} from '../services/promotion.service';
+import {RoostService} from '../services/roost.service';
 import {Promotion} from './promotion';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
@@ -12,7 +13,7 @@ import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagina
     selector: 'promotions',
     templateUrl: 'app/promotions/promotions.component.html',
     directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp],
-    providers: [Promotion, PromotionsService, HTTP_PROVIDERS, PaginationService],
+    providers: [Promotion, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService],
     pipes: [PaginatePipe]
 })
 export class PromotionsComponent {
@@ -26,7 +27,8 @@ export class PromotionsComponent {
 
     constructor(private _promotionsService: PromotionsService, 
             private router:Router,
-            private _cacheService: CacheService){
+            private _cacheService: CacheService,
+            private roostService: RoostService){
         if(null == this._cacheService.get('accessTokenRooster')){
             this.router.navigate(['home']);
         }
@@ -75,10 +77,27 @@ export class PromotionsComponent {
 
     toggleShout(index: number){
         console.log(index);
-        this.promotions[index].isShout = !this.promotions[index].isShout;
+        this.roostService.shout(this.promotions[index].id)
+            .subscribe(feeds => {
+                this.promotions[index].isShout = true;
+                this.promotions[index].shouts = this.promotions[index].shouts + 1;
+                if(this.promotions[index].isListened == true){
+                    this.promotions[index].isListened = false;
+                    this.promotions[index].listeners = this.promotions[index].listeners - 1;
+                }
+                });;
     }
 
     toggleListen(index: number){
-        this.promotions[index].isListened = !this.promotions[index].isListened;
+        console.log(index);
+        this.roostService.listen(this.promotions[index].id)
+            .subscribe(feeds => {
+                this.promotions[index].isListened = true;
+                this.promotions[index].listeners = this.promotions[index].listeners + 1;
+                if(this.promotions[index].isShout == true){
+                    this.promotions[index].isShout = false;
+                    this.promotions[index].shouts = this.promotions[index].shouts - 1;
+                }
+                });
     }
 }

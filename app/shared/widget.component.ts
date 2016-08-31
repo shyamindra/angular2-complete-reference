@@ -4,8 +4,9 @@ export class Widget{
     showWidget: boolean = false;
     showAddButtons: boolean = false;
     showPlus: boolean = true;
-    showPromotion: boolean = false;
-    showComplaint: boolean = false;
+    navHeader: string;
+    titleDescription: string;
+    description: string;
 
 
     togglePlus(){
@@ -19,16 +20,34 @@ export class Widget{
     }
 
     showPromotionDiv(){
-        this.showPromotion = true;
+        this.showPromotion();
         this.togglePlus();
+        this.showWidgetDiv();
+    }
+
+    showPromotion(){
+        this.navHeader = "Post Promotion";
+        this.titleDescription = "Enter your Promotion title here";
+        this.description = "Describe your Promotion in detail";
     }
 
     showComplaintDiv(){
-        this.showComplaint = true;
+        this.showComplaint();
         this.togglePlus();
+        this.showWidgetDiv();
+    }
+
+    showComplaint(){
+        this.navHeader = "Post Complaint";
+        this.titleDescription = "Enter your Complaint title here";
+        this.description = "Describe your Complaint in detail";
     }
 
     showWidgetDiv(){
         this.showWidget = true;
+    }
+
+    closeWidget(){
+        this.showWidget = false;
     }
 }

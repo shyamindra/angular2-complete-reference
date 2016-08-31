@@ -30,6 +30,7 @@ var HomeComponent = (function () {
         var _this = this;
         this._feedsService.getFeeds(page)
             .subscribe(function (feeds) {
+            console.log(feeds);
             _this.isLoading = false;
             _this.total = feeds.count;
             _this.feeds = feeds.results;
@@ -62,10 +63,29 @@ var HomeComponent = (function () {
             return Math.round(this.diff / 86400) + " days ago";
     };
     HomeComponent.prototype.toggleShout = function (index) {
-        this.feeds[index].isShout = !this.feeds[index].isShout;
+        var _this = this;
+        this._feedsService.shout(this.feeds[index].id)
+            .subscribe(function (feeds) {
+            _this.feeds[index].isShout = true;
+            _this.feeds[index].shouts = _this.feeds[index].shouts + 1;
+            if (_this.feeds[index].isListened == true) {
+                _this.feeds[index].isListened = false;
+                _this.feeds[index].listeners = _this.feeds[index].listeners - 1;
+            }
+        });
+        ;
     };
     HomeComponent.prototype.toggleListen = function (index) {
-        this.feeds[index].isListened = !this.feeds[index].isListened;
+        var _this = this;
+        this._feedsService.listen(this.feeds[index].id)
+            .subscribe(function (feeds) {
+            _this.feeds[index].isListened = true;
+            _this.feeds[index].listeners = _this.feeds[index].listeners + 1;
+            if (_this.feeds[index].isShout == true) {
+                _this.feeds[index].isShout = false;
+                _this.feeds[index].shouts = _this.feeds[index].shouts - 1;
+            }
+        });
     };
     HomeComponent = __decorate([
         core_1.Component({

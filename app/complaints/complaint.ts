@@ -3,9 +3,9 @@ import {Tag} from '../shared/tag';
 
 export class Complaint{
     id: number;
-    shouts: string;
-    listeners: string;
-    comments: string;
+    shouts: number;
+    listeners: number;
+    comments: number;
     user: User;
     tags: Tag[];
     isShout: boolean;

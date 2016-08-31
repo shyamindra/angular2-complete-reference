@@ -2,10 +2,10 @@ import {User} from './user.ts';
 import {Tag} from './tag.ts';
 
 export class Feed{
-    id : Number;
-    shouts: Number;
-    listeners: Number;
-    comments: Number;
+    id : number;
+    shouts: number;
+    listeners: number;
+    comments: number;
     user: User;
     tags:  Tag[];
     isShout: boolean;
