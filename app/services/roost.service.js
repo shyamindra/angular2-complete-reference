@@ -67,7 +67,6 @@ var RoostService = (function () {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
-        myHeader.append('Content-Type', 'application/json');
         return this._http.get(this._url + "/list_listeners/" + id, { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
@@ -86,6 +85,7 @@ var RoostService = (function () {
             .map(function (res) { return res.json(); });
     };
     RoostService.prototype.roost = function (feed) {
+        console.log(JSON.stringify(feed.roost_media));
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');

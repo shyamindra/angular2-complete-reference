@@ -71,7 +71,6 @@ export class RoostService {
         console.log(id);
         var myHeader = new Headers();
         myHeader.append('Authorization', this.accessToken);
-        myHeader.append('Content-Type', 'application/json');
         return this._http.get(this._url + "/list_listeners/" + id, {headers: myHeader})
             .map((res: Response) => res.json());
     }
@@ -93,6 +92,7 @@ export class RoostService {
     }
 
     roost(feed: Roost): Observable<any>{
+        console.log(JSON.stringify(feed.roost_media));
         var myHeader = new Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');

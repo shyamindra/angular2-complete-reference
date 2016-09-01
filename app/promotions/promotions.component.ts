@@ -7,12 +7,13 @@ import {RoostService} from '../services/roost.service';
 import {Roost} from '../shared/roost';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
+import {MODAL_DIRECTIVES} from 'ng2-modal';
 
 
 @Component({
     selector: 'promotions',
     templateUrl: 'app/shared/rooster.component.html',
-    directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp],
+    directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
     providers: [Roost, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService],
     pipes: [PaginatePipe]
 })
@@ -24,6 +25,9 @@ export class PromotionsComponent {
     pageSize: number;
     total: number;
     page: number;
+    lists: string[];
+    displayList: boolean = false;
+    displayListTitle: string;
 
     constructor(private _promotionsService: PromotionsService, 
             private router:Router,
@@ -97,5 +101,25 @@ export class PromotionsComponent {
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
                 });
+    }
+
+    displayShoutsList(id: number){      
+       this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(lists);
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Shouts by";
+            });
+    }
+
+    displayListenersList(id: number){
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(JSON.stringify(lists));
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Listened by";
+            });
     }
 }

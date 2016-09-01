@@ -9,11 +9,12 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
+import {MODAL_DIRECTIVES} from 'ng2-modal';
 
 @Component({
     selector: 'home',
     templateUrl: 'app/shared/rooster.component.html',
-    directives: [RouterLink, CORE_DIRECTIVES, PaginationControlsCmp],
+    directives: [RouterLink, CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
     providers: [RoostService, HTTP_PROVIDERS, PaginationService],
     pipes: [PaginatePipe]
 })
@@ -101,7 +102,7 @@ export class HomeComponent implements OnInit{
             });
     }
 
-    displayShoutsList(id: number){
+    displayShoutsList(id: number){      
        this._roostService.listShouts(this.roosts[id].id)
             .subscribe(lists => {
                console.log(lists);

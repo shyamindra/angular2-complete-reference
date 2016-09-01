@@ -13,6 +13,7 @@ var common_1 = require('@angular/common');
 var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var roost_service_1 = require('../services/roost.service');
+var ng2_modal_1 = require('ng2-modal');
 var sort_pipe_1 = require('../shared/sort.pipe');
 var RecentActivityComponent = (function () {
     function RecentActivityComponent(_roostService, _router) {
@@ -20,6 +21,7 @@ var RecentActivityComponent = (function () {
         this._router = _router;
         this.header = "Recent Activity Page";
         this.isLoading = true;
+        this.displayList = false;
         console.log(this.roosts);
     }
     RecentActivityComponent.prototype.ngOnInit = function () {
@@ -73,11 +75,31 @@ var RecentActivityComponent = (function () {
             }
         });
     };
+    RecentActivityComponent.prototype.displayShoutsList = function (id) {
+        var _this = this;
+        this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(lists);
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Shouts by";
+        });
+    };
+    RecentActivityComponent.prototype.displayListenersList = function (id) {
+        var _this = this;
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(JSON.stringify(lists));
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Listened by";
+        });
+    };
     RecentActivityComponent = __decorate([
         core_1.Component({
             selector: 'recent-activity',
             templateUrl: 'app/shared/rooster.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
+            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_modal_1.MODAL_DIRECTIVES],
             providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS],
             pipes: [sort_pipe_1.SortDatePipe]
         }), 

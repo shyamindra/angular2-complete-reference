@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Routes, Router, RouterModule, ROUTER_DIRECTIVES} from '@angular/router';
-import {CORE_DIRECTIVES, FORM_DIRECTIVES, NgClass, NgStyle} from '@angular/common';
+import {NgClass, NgStyle} from '@angular/common';
 import {HTTP_PROVIDERS} from '@angular/http';
 
 import {UserService} from './services/user.service';
@@ -18,7 +18,7 @@ import {Tag} from './shared/tag';
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    directives: [ROUTER_DIRECTIVES, NgClass, NgStyle, CORE_DIRECTIVES, FORM_DIRECTIVES],
+    directives: [ROUTER_DIRECTIVES, NgClass, NgStyle],
     providers: [UserService, RoostService, SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget, Roost]
 })
 export class AppComponent implements OnInit{
@@ -34,9 +34,9 @@ export class AppComponent implements OnInit{
     complaintLocation: string;
     tags: string;
     complaintDesc: string;
-    img: any;
-    audio: any;
-    video: any;
+    img: File;
+    video: File;
+    audio: File;
 
    
     constructor(private sideNav: SideNavDisplay,
@@ -67,6 +67,18 @@ export class AppComponent implements OnInit{
                     this.notifications = notifications.results as string[];
             });;
         }
+    }
+
+    onImgUpload($event){
+        this.filesToUpload = <Array<File>> img.target.files;
+    }
+
+    onVideoUpload($event){
+        this.filesToUpload = <Array<File>> fileInput.target.files;
+    }
+
+    onAudioUpload($event){
+        this.filesToUpload = <Array<File>> fileInput.target.files;
     }
 
 
@@ -147,10 +159,11 @@ export class AppComponent implements OnInit{
         this.roost.text = this.complaintDesc; 
         this.roost.tags = this.getTags();
         this.roost.type = this.getRoostType();
+        console.log(this.roost.roost_media);
         this.roostService.roost(this.roost)
             .subscribe(response => {
                 console.log(JSON.stringify(response));
-            });;
+            });
         this.widget.closeWidget();
     }
 

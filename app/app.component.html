@@ -91,26 +91,41 @@
                         
                             <div class="formDiv">
                                 <input type="file" 
-                                    [(ngModel)] = "img" 
+                                    #img 
                                     name="img" 
                                     style="opacity: 0" 
                                     accept="image/*" 
-                                    id="imgUploadField"/>
+                                    id="imgUploadField"
+                                    (change)="onImgUpload($event)"/>
                                 <input type="file" 
-                                    [(ngModel)] = "video" 
+                                    #video 
                                     name="video" 
                                     style="opacity: 0" 
                                     accept="video/*" 
-                                    id="videoUploadField"/>
+                                    id="videoUploadField"
+                                    (change)="onVideoUpload($event)"/>
                                 <input type="file" 
-                                    [(ngModel)] = "audio" 
+                                    #audio 
                                     name="audio" 
                                     style="opacity: 0" 
                                     accept="audio/*" 
-                                    id="audioUploadField"/>
-                                <div class="formImg"><a><img src = "/assets/icon_camera_active.png" class="widget-icon"></a></div>
-                                <div class="formImg"><a><img src = "/assets/icon_video_active.png" class="widget-icon"></a></div>
-                                <div class="formImg"><a><img src = "/assets/icon_audio_active.png" class="widget-icon"></a></div>
+                                    id="audioUploadField"
+                                    (change)="onAudioUpload($event)"/>
+                                <div class="formImg"><a>
+                                    <img src = "/assets/icon_camera_active.png" 
+                                        (click)="img.click();"
+                                        class="widget-icon">
+                                    </a></div>
+                                <div class="formImg"><a>
+                                    <img src = "/assets/icon_video_active.png" 
+                                         (click)="video.click();"
+                                        class="widget-icon">
+                                    </a></div>
+                                <div class="formImg"><a>
+                                    <img src = "/assets/icon_audio_active.png" 
+                                         (click)="audio.click();"
+                                        class="widget-icon">
+                                    </a></div>
 
                                 <div class="formImgText">Add a file of your choice</div>
                                 <input 

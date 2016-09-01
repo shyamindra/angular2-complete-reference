@@ -18,6 +18,7 @@ var config_service_1 = require('../services/config.service');
 var roost_1 = require('../shared/roost');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ng2_pagination_1 = require('ng2-pagination');
+var ng2_modal_1 = require('ng2-modal');
 var ComplaintsComponent = (function () {
     function ComplaintsComponent(_complaintsService, _router, _cacheService, _roostService) {
         this._complaintsService = _complaintsService;
@@ -26,6 +27,7 @@ var ComplaintsComponent = (function () {
         this._roostService = _roostService;
         this.header = "Complaints page";
         this.isLoading = true;
+        this.displayList = false;
         if (null == this._cacheService.get('accessTokenRooster')) {
             this._router.navigate(['home']);
         }
@@ -92,11 +94,31 @@ var ComplaintsComponent = (function () {
             }
         });
     };
+    ComplaintsComponent.prototype.displayShoutsList = function (id) {
+        var _this = this;
+        this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(lists);
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Shouts by";
+        });
+    };
+    ComplaintsComponent.prototype.displayListenersList = function (id) {
+        var _this = this;
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(JSON.stringify(lists));
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Listened by";
+        });
+    };
     ComplaintsComponent = __decorate([
         core_1.Component({
             selector: 'complaints',
             templateUrl: 'app/shared/rooster.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
             providers: [roost_1.Roost, complaint_service_1.ComplaintsService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 

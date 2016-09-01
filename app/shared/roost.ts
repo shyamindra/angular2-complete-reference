@@ -23,5 +23,5 @@ export class Roost{
     media_type: string;
     type: string;
     real_type: number;
-    roost_media: any;
+    roost_media: File;
 }

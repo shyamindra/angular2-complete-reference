@@ -4,13 +4,14 @@ import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {RoostService} from '../services/roost.service';
 import {Roost} from '../shared/roost';
+import {MODAL_DIRECTIVES} from 'ng2-modal';
 
 import {SortDatePipe} from '../shared/sort.pipe';
 
 @Component({
     selector: 'recent-activity',
     templateUrl: 'app/shared/rooster.component.html',
-    directives: [RouterLink,CORE_DIRECTIVES],
+    directives: [RouterLink,CORE_DIRECTIVES, MODAL_DIRECTIVES],
     providers: [RoostService, HTTP_PROVIDERS],
     pipes: [SortDatePipe]
 })
@@ -19,6 +20,9 @@ export class RecentActivityComponent {
     isLoading = true;
     roosts: Roost[];
     diff: number;
+    lists: string[];
+    displayList: boolean = false;
+    displayListTitle: string;
 
     constructor(private _roostService: RoostService, private _router: Router){
         console.log(this.roosts);
@@ -73,7 +77,27 @@ export class RecentActivityComponent {
                     this.roosts[index].isShout = false;
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
-                });
+            });
+    }
+
+    displayShoutsList(id: number){      
+       this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(lists);
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Shouts by";
+            });
+    }
+
+    displayListenersList(id: number){
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(JSON.stringify(lists));
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Listened by";
+        });
     }
     
 }

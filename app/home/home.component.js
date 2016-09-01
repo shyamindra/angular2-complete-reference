@@ -16,6 +16,7 @@ var roost_service_1 = require('../services/roost.service');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
 var ng2_pagination_1 = require('ng2-pagination');
+var ng2_modal_1 = require('ng2-modal');
 var HomeComponent = (function () {
     function HomeComponent(_roostService) {
         this._roostService = _roostService;
@@ -111,7 +112,7 @@ var HomeComponent = (function () {
         core_1.Component({
             selector: 'home',
             templateUrl: 'app/shared/rooster.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
             providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 

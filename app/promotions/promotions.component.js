@@ -17,6 +17,7 @@ var roost_service_1 = require('../services/roost.service');
 var roost_1 = require('../shared/roost');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ng2_pagination_1 = require('ng2-pagination');
+var ng2_modal_1 = require('ng2-modal');
 var PromotionsComponent = (function () {
     function PromotionsComponent(_promotionsService, router, _cacheService, _roostService) {
         this._promotionsService = _promotionsService;
@@ -25,6 +26,7 @@ var PromotionsComponent = (function () {
         this._roostService = _roostService;
         this.header = "Promotions Page";
         this.isLoading = true;
+        this.displayList = false;
         if (null == this._cacheService.get('accessTokenRooster')) {
             this.router.navigate(['home']);
         }
@@ -90,11 +92,31 @@ var PromotionsComponent = (function () {
             }
         });
     };
+    PromotionsComponent.prototype.displayShoutsList = function (id) {
+        var _this = this;
+        this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(lists);
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Shouts by";
+        });
+    };
+    PromotionsComponent.prototype.displayListenersList = function (id) {
+        var _this = this;
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(JSON.stringify(lists));
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Listened by";
+        });
+    };
     PromotionsComponent = __decorate([
         core_1.Component({
             selector: 'promotions',
             templateUrl: 'app/shared/rooster.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
             providers: [roost_1.Roost, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 

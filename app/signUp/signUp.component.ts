@@ -39,9 +39,6 @@ export class SignUpComponent implements OnInit {
         private _cacheService: CacheService,
         private user: User,
         private fb: FacebookService) {
-        this.form = fb.group({
-            email: ["", Validators.required]
-        });
         let fbParams: FacebookInitParams = {
                         appId: '1720733194853739',
                         xfbml: true,

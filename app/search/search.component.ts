@@ -7,11 +7,12 @@ import {UserService} from '../services/user.service';
 import {RoostService} from '../services/roost.service';
 import {Roost} from '../shared/roost';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
+import {MODAL_DIRECTIVES} from 'ng2-modal';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/shared/rooster.component.html',
-    directives: [CORE_DIRECTIVES, PaginationControlsCmp],
+    directives: [CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
     providers: [UserService, RoostService, HTTP_PROVIDERS, PaginationService],
     pipes: [PaginatePipe]
 })
@@ -25,6 +26,9 @@ export class SearchComponent implements OnInit{
     pageSize: number;
     page: number;
     total: number;
+    lists: string[];
+    displayList: boolean = false;
+    displayListTitle: string;
 
 constructor(private route: ActivatedRoute, 
     private _roostService: RoostService,
@@ -96,6 +100,26 @@ redirectToGMaps(latitude: number, longitude: number){
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
                 });
+    }
+
+    displayShoutsList(id: number){      
+       this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(lists);
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Shouts by";
+            });
+    }
+
+    displayListenersList(id: number){
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(lists => {
+               console.log(JSON.stringify(lists));
+               this.displayList = true;
+               this.lists = lists.results;
+               this.displayListTitle = "Listened by";
+            });
     }
 
 }

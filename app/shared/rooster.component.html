@@ -52,7 +52,7 @@
                     <p> {{ feed.text }}
                 </div>
                 <div id="Comments">
-                    <a (click)="displayShoutsList(i);">{{ feed.shouts }} Shouts</a>  &#8226;  <a (click)="displayListenersList(i);">{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
+                    <a (click)="displayShoutsList(i);myModal.open();">{{ feed.shouts }} Shouts</a>  &#8226;  <a (click)="displayListenersList(i);myModal.open();">{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
                 </div>
                 <hr/>
                 <div id="icons">
@@ -79,11 +79,17 @@
 	</div>
 </div>
 <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
-<div *ngIf="displayList==true" id="outPopUp">
-    <div class="navbar-list"> 
-            <div class = "list-header"> 
-               {{ displayListTitle }}
-            </div>
-                 <div *ngFor="let list of lists">{{list.shout_by.get_full_name}}</div>
-    </div>
-</div>
+<modal #myModal>
+    <modal-header>
+        <h3>{{ displayListTitle }}</h3>
+    </modal-header>
+    <modal-content>
+        <div *ngFor="let list of lists"> 
+            <div *ngIf="list.shout_by != null"> <h4>{{ list.shout_by.get_full_name }}</h4> </div>
+            <div *ngIf="list.listened_by != null"> <h4>{{ list.listened_by.get_full_name }}</h4> </div>
+        </div>
+    </modal-content>
+    <modal-footer>
+        <button class="btn btn-primary" (click)="myModal.close()">close</button>
+    </modal-footer>
+</modal>

@@ -57,6 +57,15 @@ var AppComponent = (function () {
             ;
         }
     };
+    AppComponent.prototype.onImgUpload = function ($event) {
+        this.filesToUpload = img.target.files;
+    };
+    AppComponent.prototype.onVideoUpload = function ($event) {
+        this.filesToUpload = fileInput.target.files;
+    };
+    AppComponent.prototype.onAudioUpload = function ($event) {
+        this.filesToUpload = fileInput.target.files;
+    };
     AppComponent.prototype.handleLogin = function () {
         var _this = this;
         this.fb.login().then(function (response) {
@@ -119,11 +128,11 @@ var AppComponent = (function () {
         this.roost.text = this.complaintDesc;
         this.roost.tags = this.getTags();
         this.roost.type = this.getRoostType();
+        console.log(this.roost.roost_media);
         this.roostService.roost(this.roost)
             .subscribe(function (response) {
             console.log(JSON.stringify(response));
         });
-        ;
         this.widget.closeWidget();
     };
     AppComponent.prototype.getRoostType = function () {
@@ -145,7 +154,7 @@ var AppComponent = (function () {
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass, common_1.NgStyle, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
+            directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass, common_1.NgStyle],
             providers: [user_service_1.UserService, roost_service_1.RoostService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget, roost_1.Roost]
         }), 
         __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, roost_service_1.RoostService, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService, user_service_1.UserService, roost_1.Roost])

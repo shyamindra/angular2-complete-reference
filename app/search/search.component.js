@@ -15,6 +15,7 @@ var http_1 = require('@angular/http');
 var user_service_1 = require('../services/user.service');
 var roost_service_1 = require('../services/roost.service');
 var ng2_pagination_1 = require('ng2-pagination');
+var ng2_modal_1 = require('ng2-modal');
 var SearchComponent = (function () {
     function SearchComponent(route, _roostService, _router) {
         var _this = this;
@@ -22,6 +23,7 @@ var SearchComponent = (function () {
         this._roostService = _roostService;
         this._router = _router;
         this.isLoading = true;
+        this.displayList = false;
         this.sub = this.route.params
             .subscribe(function (params) {
             _this.searchQry = params['searchKey'];
@@ -87,11 +89,31 @@ var SearchComponent = (function () {
             }
         });
     };
+    SearchComponent.prototype.displayShoutsList = function (id) {
+        var _this = this;
+        this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(lists);
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Shouts by";
+        });
+    };
+    SearchComponent.prototype.displayListenersList = function (id) {
+        var _this = this;
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(JSON.stringify(lists));
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Listened by";
+        });
+    };
     SearchComponent = __decorate([
         core_1.Component({
             selector: 'search',
             templateUrl: 'app/shared/rooster.component.html',
-            directives: [common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
+            directives: [common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
             providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 

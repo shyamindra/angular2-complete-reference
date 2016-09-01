@@ -26,9 +26,6 @@ var SignUpComponent = (function () {
         this._cacheService = _cacheService;
         this.user = user;
         this.fb = fb;
-        this.form = fb.group({
-            email: ["", forms_1.Validators.required]
-        });
         var fbParams = {
             appId: '1720733194853739',
             xfbml: true,
