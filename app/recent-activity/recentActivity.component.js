@@ -15,19 +15,19 @@ var http_1 = require('@angular/http');
 var roost_service_1 = require('../services/roost.service');
 var sort_pipe_1 = require('../shared/sort.pipe');
 var RecentActivityComponent = (function () {
-    function RecentActivityComponent(_feedsService, _router) {
-        this._feedsService = _feedsService;
+    function RecentActivityComponent(_roostService, _router) {
+        this._roostService = _roostService;
         this._router = _router;
         this.header = "Recent Activity Page";
         this.isLoading = true;
-        console.log(this.feeds);
+        console.log(this.roosts);
     }
     RecentActivityComponent.prototype.ngOnInit = function () {
         var _this = this;
-        this._feedsService.getFeeds()
+        this._roostService.getFeeds()
             .subscribe(function (feeds) {
             _this.isLoading = false;
-            _this.feeds = feeds;
+            _this.roosts = feeds;
         });
     };
     RecentActivityComponent.prototype.redirectToGMaps = function (latitude, longitude) {
@@ -43,22 +43,40 @@ var RecentActivityComponent = (function () {
             return "1 hour ago";
         else if (this.diff <= 86400)
             return Math.round(this.diff / 3600) + " hours ago";
-        else if (this.diff == 172800)
+        else if (this.diff <= 172800)
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
     };
     RecentActivityComponent.prototype.toggleShout = function (index) {
-        console.log(index);
-        this.feeds[index].isShout = !this.feeds[index].isShout;
+        var _this = this;
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isShout = true;
+            _this.roosts[index].shouts = _this.roosts[index].shouts + 1;
+            if (_this.roosts[index].isListened == true) {
+                _this.roosts[index].isListened = false;
+                _this.roosts[index].listeners = _this.roosts[index].listeners - 1;
+            }
+        });
+        ;
     };
     RecentActivityComponent.prototype.toggleListen = function (index) {
-        this.feeds[index].isListened = !this.feeds[index].isListened;
+        var _this = this;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isListened = true;
+            _this.roosts[index].listeners = _this.roosts[index].listeners + 1;
+            if (_this.roosts[index].isShout == true) {
+                _this.roosts[index].isShout = false;
+                _this.roosts[index].shouts = _this.roosts[index].shouts - 1;
+            }
+        });
     };
     RecentActivityComponent = __decorate([
         core_1.Component({
             selector: 'recent-activity',
-            templateUrl: 'app/recent-activity/recent-activity.component.html',
+            templateUrl: 'app/shared/rooster.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES],
             providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS],
             pipes: [sort_pipe_1.SortDatePipe]

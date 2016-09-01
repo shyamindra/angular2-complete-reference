@@ -172,3 +172,26 @@
     font: 25px;
     font-weight: bold;
 }
+
+#outPopUp {
+  position: absolute;
+  width: 300px;
+  height: 200px;
+  z-index: 15;
+  top: 300px;
+  left: 500px;
+  margin: -100px 0 0 -150px;
+  background: white;
+  border-style: solid;
+  border-color: lightgray;
+}
+
+.navbar-list{
+    height: 30px;
+    background-color: lightgray;
+    color: grey;
+}
+
+.list-header{
+    color: grey;
+}

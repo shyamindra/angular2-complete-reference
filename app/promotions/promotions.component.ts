@@ -4,22 +4,22 @@ import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {PromotionsService} from '../services/promotion.service';
 import {RoostService} from '../services/roost.service';
-import {Promotion} from './promotion';
+import {Roost} from '../shared/roost';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
 
 
 @Component({
     selector: 'promotions',
-    templateUrl: 'app/promotions/promotions.component.html',
+    templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp],
-    providers: [Promotion, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService],
+    providers: [Roost, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService],
     pipes: [PaginatePipe]
 })
 export class PromotionsComponent {
     header = "Promotions Page";
     isLoading = true;
-    promotions: Promotion[];
+    roosts: Roost[];
     diff: number;
     pageSize: number;
     total: number;
@@ -28,7 +28,7 @@ export class PromotionsComponent {
     constructor(private _promotionsService: PromotionsService, 
             private router:Router,
             private _cacheService: CacheService,
-            private roostService: RoostService){
+            private _roostService: RoostService){
         if(null == this._cacheService.get('accessTokenRooster')){
             this.router.navigate(['home']);
         }
@@ -44,7 +44,7 @@ export class PromotionsComponent {
            .subscribe(feeds => {
             this.isLoading = false;
             this.total = feeds.count;
-            this.promotions = feeds.results as Promotion[];
+            this.roosts = feeds.results as Roost[];
             this.page = null != page? page: this.page;
             });
     }
@@ -65,7 +65,7 @@ export class PromotionsComponent {
             return "1 hour ago";
         else if(this.diff < 86400)
             return Math.round(this.diff/3600) + " hours ago";
-        else if(this.diff < 172800)
+        else if(this.diff <= 172800)
             return "1 day ago";
         else if(this.diff > 172800)
             return Math.round(this.diff/86400) + " days ago";
@@ -75,28 +75,26 @@ export class PromotionsComponent {
         window.open('http://maps.google.com/maps?q=' + latitude+',' + longitude);
     }
 
-    toggleShout(index: number){
-        console.log(index);
-        this.roostService.shout(this.promotions[index].id)
-            .subscribe(feeds => {
-                this.promotions[index].isShout = true;
-                this.promotions[index].shouts = this.promotions[index].shouts + 1;
-                if(this.promotions[index].isListened == true){
-                    this.promotions[index].isListened = false;
-                    this.promotions[index].listeners = this.promotions[index].listeners - 1;
+     toggleShout(index: number){
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isShout = true;
+                this.roosts[index].shouts = this.roosts[index].shouts + 1;
+                if(this.roosts[index].isListened == true){
+                    this.roosts[index].isListened = false;
+                    this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
                 });;
     }
 
     toggleListen(index: number){
-        console.log(index);
-        this.roostService.listen(this.promotions[index].id)
-            .subscribe(feeds => {
-                this.promotions[index].isListened = true;
-                this.promotions[index].listeners = this.promotions[index].listeners + 1;
-                if(this.promotions[index].isShout == true){
-                    this.promotions[index].isShout = false;
-                    this.promotions[index].shouts = this.promotions[index].shouts - 1;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isListened = true;
+                this.roosts[index].listeners = this.roosts[index].listeners + 1;
+                if(this.roosts[index].isShout == true){
+                    this.roosts[index].isShout = false;
+                    this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
                 });
     }

@@ -14,15 +14,15 @@ var router_1 = require('@angular/router');
 var http_1 = require('@angular/http');
 var promotion_service_1 = require('../services/promotion.service');
 var roost_service_1 = require('../services/roost.service');
-var promotion_1 = require('./promotion');
+var roost_1 = require('../shared/roost');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var ng2_pagination_1 = require('ng2-pagination');
 var PromotionsComponent = (function () {
-    function PromotionsComponent(_promotionsService, router, _cacheService, roostService) {
+    function PromotionsComponent(_promotionsService, router, _cacheService, _roostService) {
         this._promotionsService = _promotionsService;
         this.router = router;
         this._cacheService = _cacheService;
-        this.roostService = roostService;
+        this._roostService = _roostService;
         this.header = "Promotions Page";
         this.isLoading = true;
         if (null == this._cacheService.get('accessTokenRooster')) {
@@ -39,7 +39,7 @@ var PromotionsComponent = (function () {
             .subscribe(function (feeds) {
             _this.isLoading = false;
             _this.total = feeds.count;
-            _this.promotions = feeds.results;
+            _this.roosts = feeds.results;
             _this.page = null != page ? page : _this.page;
         });
     };
@@ -57,7 +57,7 @@ var PromotionsComponent = (function () {
             return "1 hour ago";
         else if (this.diff < 86400)
             return Math.round(this.diff / 3600) + " hours ago";
-        else if (this.diff < 172800)
+        else if (this.diff <= 172800)
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
@@ -67,37 +67,35 @@ var PromotionsComponent = (function () {
     };
     PromotionsComponent.prototype.toggleShout = function (index) {
         var _this = this;
-        console.log(index);
-        this.roostService.shout(this.promotions[index].id)
-            .subscribe(function (feeds) {
-            _this.promotions[index].isShout = true;
-            _this.promotions[index].shouts = _this.promotions[index].shouts + 1;
-            if (_this.promotions[index].isListened == true) {
-                _this.promotions[index].isListened = false;
-                _this.promotions[index].listeners = _this.promotions[index].listeners - 1;
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isShout = true;
+            _this.roosts[index].shouts = _this.roosts[index].shouts + 1;
+            if (_this.roosts[index].isListened == true) {
+                _this.roosts[index].isListened = false;
+                _this.roosts[index].listeners = _this.roosts[index].listeners - 1;
             }
         });
         ;
     };
     PromotionsComponent.prototype.toggleListen = function (index) {
         var _this = this;
-        console.log(index);
-        this.roostService.listen(this.promotions[index].id)
-            .subscribe(function (feeds) {
-            _this.promotions[index].isListened = true;
-            _this.promotions[index].listeners = _this.promotions[index].listeners + 1;
-            if (_this.promotions[index].isShout == true) {
-                _this.promotions[index].isShout = false;
-                _this.promotions[index].shouts = _this.promotions[index].shouts - 1;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isListened = true;
+            _this.roosts[index].listeners = _this.roosts[index].listeners + 1;
+            if (_this.roosts[index].isShout == true) {
+                _this.roosts[index].isShout = false;
+                _this.roosts[index].shouts = _this.roosts[index].shouts - 1;
             }
         });
     };
     PromotionsComponent = __decorate([
         core_1.Component({
             selector: 'promotions',
-            templateUrl: 'app/promotions/promotions.component.html',
+            templateUrl: 'app/shared/rooster.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
-            providers: [promotion_1.Promotion, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
+            providers: [roost_1.Roost, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 
         __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService])

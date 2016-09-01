@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 import {CacheService} from 'ng2-cache/ng2-cache';
 
-import {Feed} from '../shared/feed';
+import {Roost} from '../shared/roost';
 import {User} from '../shared/user';
 
 @Injectable()
@@ -58,7 +58,41 @@ export class RoostService {
             .map((res: Response) => res.json());
     }
 
-    roost(feed: Feed): Observable<any>{
+    comment(id: number, comment: string): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "/comment/", JSON.stringify({roost: id, comment: comment}), {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    listListeners(id: number): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.get(this._url + "/list_listeners/" + id, {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    listShouts(id: number): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "/list_shouts/" + id + "/", {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    listComments(id: number): Observable<any>{
+        console.log(id);
+        var myHeader = new Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "/comments/" + id + "/", {headers: myHeader})
+            .map((res: Response) => res.json());
+    }
+
+    roost(feed: Roost): Observable<any>{
         var myHeader = new Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');

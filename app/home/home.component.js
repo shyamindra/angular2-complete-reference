@@ -17,10 +17,11 @@ require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
 var ng2_pagination_1 = require('ng2-pagination');
 var HomeComponent = (function () {
-    function HomeComponent(_feedsService) {
-        this._feedsService = _feedsService;
+    function HomeComponent(_roostService) {
+        this._roostService = _roostService;
         this.header = "Home Page";
         this.isLoading = true;
+        this.displayList = false;
     }
     HomeComponent.prototype.ngOnInit = function () {
         this.pageSize = 50;
@@ -28,12 +29,12 @@ var HomeComponent = (function () {
     };
     HomeComponent.prototype.getPage = function (page) {
         var _this = this;
-        this._feedsService.getFeeds(page)
+        this._roostService.getFeeds(page)
             .subscribe(function (feeds) {
             console.log(feeds);
             _this.isLoading = false;
             _this.total = feeds.count;
-            _this.feeds = feeds.results;
+            _this.roosts = feeds.results;
             _this.page = null != page ? page : _this.page;
         });
     };
@@ -57,40 +58,59 @@ var HomeComponent = (function () {
             return "1 hour ago";
         else if (this.diff < 86400)
             return Math.round(this.diff / 3600) + " hours ago";
-        else if (this.diff < 172800)
+        else if (this.diff <= 172800)
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
     };
     HomeComponent.prototype.toggleShout = function (index) {
         var _this = this;
-        this._feedsService.shout(this.feeds[index].id)
-            .subscribe(function (feeds) {
-            _this.feeds[index].isShout = true;
-            _this.feeds[index].shouts = _this.feeds[index].shouts + 1;
-            if (_this.feeds[index].isListened == true) {
-                _this.feeds[index].isListened = false;
-                _this.feeds[index].listeners = _this.feeds[index].listeners - 1;
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isShout = true;
+            _this.roosts[index].shouts = _this.roosts[index].shouts + 1;
+            if (_this.roosts[index].isListened == true) {
+                _this.roosts[index].isListened = false;
+                _this.roosts[index].listeners = _this.roosts[index].listeners - 1;
             }
         });
-        ;
     };
     HomeComponent.prototype.toggleListen = function (index) {
         var _this = this;
-        this._feedsService.listen(this.feeds[index].id)
-            .subscribe(function (feeds) {
-            _this.feeds[index].isListened = true;
-            _this.feeds[index].listeners = _this.feeds[index].listeners + 1;
-            if (_this.feeds[index].isShout == true) {
-                _this.feeds[index].isShout = false;
-                _this.feeds[index].shouts = _this.feeds[index].shouts - 1;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(function (roosts) {
+            _this.roosts[index].isListened = true;
+            _this.roosts[index].listeners = _this.roosts[index].listeners + 1;
+            if (_this.roosts[index].isShout == true) {
+                _this.roosts[index].isShout = false;
+                _this.roosts[index].shouts = _this.roosts[index].shouts - 1;
             }
+        });
+    };
+    HomeComponent.prototype.displayShoutsList = function (id) {
+        var _this = this;
+        this._roostService.listShouts(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(lists);
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Shouts by";
+        });
+    };
+    HomeComponent.prototype.displayListenersList = function (id) {
+        var _this = this;
+        this._roostService.listListeners(this.roosts[id].id)
+            .subscribe(function (lists) {
+            console.log(JSON.stringify(lists));
+            _this.displayList = true;
+            _this.lists = lists.results;
+            _this.displayListTitle = "Listened by";
         });
     };
     HomeComponent = __decorate([
         core_1.Component({
             selector: 'home',
-            templateUrl: 'app/home/home.component.html',
+            templateUrl: 'app/shared/rooster.component.html',
             directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp],
             providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]

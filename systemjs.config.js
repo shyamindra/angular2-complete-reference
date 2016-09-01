@@ -15,8 +15,7 @@
     'ng2-cache':                      'node_modules/ng2-cache',
     'ng2-facebook-sdk':               'node_modules/ng2-facebook-sdk/dist',
     'angular2-bootstrap-pagination':  'node_modules/angular2-bootstrap-pagination',
-    'ng2-bs3-modal':                  'node_modules/ng2-bs3-modal',
-    'ng2-file-upload':                'node_modules/ng2-file-upload/ng2-file-upload.js'  
+    'ng2-bs3-modal':                  'node_modules/ng2-bs3-modal'  
   };
 
 
@@ -28,8 +27,7 @@
     'ng2-cache':                      { defaultExtension: 'js' },
     'ng2-facebook-sdk':               { main: 'index.js', defaultExtension: 'js' },
     'angular2-bootstrap-pagination':  { defaultExtension: 'js' },
-    'ng2-bs3-modal':                  { defaultExtension: 'js' },
-    'ng2-file-upload':                { defaultExtension: 'js' }
+    'ng2-bs3-modal':                  { defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',

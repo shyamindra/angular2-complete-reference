@@ -55,6 +55,36 @@ var RoostService = (function () {
         return this._http.post(this._url + "/listen/", JSON.stringify({ roost: id }), { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
+    RoostService.prototype.comment = function (id, comment) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.post(this._url + "/comment/", JSON.stringify({ roost: id, comment: comment }), { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.listListeners = function (id) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        return this._http.get(this._url + "/list_listeners/" + id, { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.listShouts = function (id) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "/list_shouts/" + id + "/", { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.listComments = function (id) {
+        console.log(id);
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        return this._http.get(this._url + "/comments/" + id + "/", { headers: myHeader })
+            .map(function (res) { return res.json(); });
+    };
     RoostService.prototype.roost = function (feed) {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);

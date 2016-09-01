@@ -1,7 +1,7 @@
 import {User} from './user.ts';
 import {Tag} from './tag.ts';
 
-export class Feed{
+export class Roost{
     id : number;
     shouts: number;
     listeners: number;

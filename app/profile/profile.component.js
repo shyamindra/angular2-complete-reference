@@ -19,11 +19,11 @@ var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var user_service_1 = require('../services/user.service');
 var user_1 = require('../shared/user');
 var ProfileComponent = (function () {
-    function ProfileComponent(_userService, _cache, _router, user) {
+    function ProfileComponent(_userService, _cache, _router, userProfile) {
         this._userService = _userService;
         this._cache = _cache;
         this._router = _router;
-        this.user = user;
+        this.userProfile = userProfile;
         this.header = "Profile page";
         if (null == this._cache.get('accessTokenRooster')) {
             this._router.navigate(['home']);
@@ -37,18 +37,18 @@ var ProfileComponent = (function () {
         this._userService.getUserInfo(this._cache.get("userIdRooster"))
             .subscribe(function (profile) {
             console.log(profile);
-            _this.user.first_name = profile.name;
-            _this.user.last_name = profile.surname;
-            _this.user.email = profile.email;
-            _this.user.mobile_number = profile.mobile_number;
-            _this.user.facebook_id = profile.facebook_id;
-            _this.user.gender = profile.gender;
-            _this.user.profile_image = profile.profile_image;
-            _this.user.dob = _this.reverseDate(profile.dob);
+            _this.userProfile.first_name = profile.name;
+            _this.userProfile.last_name = profile.surname;
+            _this.userProfile.email = profile.email;
+            _this.userProfile.mobile_number = profile.mobile_number;
+            _this.userProfile.facebook_id = profile.facebook_id;
+            _this.userProfile.gender = profile.gender;
+            _this.userProfile.profile_image = profile.profile_image;
+            _this.userProfile.dob = _this.reverseDate(profile.dob);
         });
     };
     ProfileComponent.prototype.saveProfile = function () {
-        this._userService.updateProfile(this._cache.get("userIdFB"), this._cache.get("accessTokenFB"), this.user.first_name, this.user.last_name, this.user.gender, this.user.email, this.parseDate(this.user.dob), this.user.mobile_number)
+        this._userService.updateProfile(this._cache.get("userIdFB"), this._cache.get("accessTokenFB"), this.userProfile.first_name, this.userProfile.last_name, this.userProfile.gender, this.userProfile.email, this.parseDate(this.userProfile.dob), this.userProfile.mobile_number)
             .subscribe(function (profile) {
             console.log(profile);
         });
@@ -68,7 +68,8 @@ var ProfileComponent = (function () {
     ProfileComponent = __decorate([
         core_1.Component({
             templateUrl: 'app/profile/profile.html',
-            directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES, forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
+            directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES,
+                forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
             providers: [forms_1.FormBuilder, user_1.User, user_service_1.UserService, http_1.HTTP_PROVIDERS]
         }), 
         __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, router_1.Router, user_1.User])

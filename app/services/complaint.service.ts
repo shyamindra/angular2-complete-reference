@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import {Complaint} from '../complaints/complaint';
 import {Http, Headers, Response} from '@angular/http';
 
 import {CacheService} from 'ng2-cache/ng2-cache';

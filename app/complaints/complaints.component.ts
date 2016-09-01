@@ -5,21 +5,21 @@ import {HTTP_PROVIDERS, Headers} from '@angular/http';
 import {ComplaintsService} from '../services/complaint.service';
 import {RoostService} from '../services/roost.service';
 import {ConfigService} from '../services/config.service';
-import {Complaint} from './complaint';
+import {Roost} from '../shared/roost';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
 
 @Component({
     selector: 'complaints',
-    templateUrl: 'app/complaints/complaints.component.html',
+    templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp],
-    providers: [Complaint, ComplaintsService, ConfigService, HTTP_PROVIDERS, PaginationService, RoostService],
+    providers: [Roost, ComplaintsService, ConfigService, HTTP_PROVIDERS, PaginationService, RoostService],
     pipes: [PaginatePipe]
 })
 export class ComplaintsComponent {
     header = "Complaints page";
     isLoading = true;
-    complaints: Complaint[];
+    roosts: Roost[];
     diff: number;
     pageSize: number;
     page: number;
@@ -28,7 +28,7 @@ export class ComplaintsComponent {
     constructor(private _complaintsService: ComplaintsService, 
                 private _router: Router,
                 private _cacheService: CacheService,
-                private roostService: RoostService){
+                private _roostService: RoostService){
         if(null == this._cacheService.get('accessTokenRooster')){
             this._router.navigate(['home']);
         }
@@ -44,8 +44,8 @@ export class ComplaintsComponent {
            .subscribe(feeds => {
             this.isLoading = false;
             this.total = feeds.count;
-            this.complaints = feeds.results as Complaint[];
-            console.log(JSON.stringify(this.complaints));
+            this.roosts = feeds.results as Roost[];
+            console.log(JSON.stringify(this.roosts));
             this.page = null != page? page: this.page;
             });
     }
@@ -66,7 +66,7 @@ export class ComplaintsComponent {
             return "1 hour ago";
         else if(this.diff < 86400)
             return Math.round(this.diff/3600) + " hours ago";
-        else if(this.diff < 172800)
+        else if(this.diff <= 172800)
             return "1 day ago";
         else if(this.diff > 172800)
             return Math.round(this.diff/86400) + " days ago";
@@ -76,30 +76,26 @@ export class ComplaintsComponent {
         window.open('http://maps.google.com/maps?q=' + latitude+',' + longitude);
     }
 
-    toggleShout(index: number){
-        console.log(index);
-        this.roostService.shout(this.complaints[index].id)
-            .subscribe(feeds => {
-                console.log(feeds);
-                this.complaints[index].isShout = true;
-                this.complaints[index].shouts = this.complaints[index].shouts + 1;
-                if(this.complaints[index].isListened == true){
-                    this.complaints[index].isListened = false;
-                    this.complaints[index].listeners = this.complaints[index].listeners - 1;
+     toggleShout(index: number){
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isShout = true;
+                this.roosts[index].shouts = this.roosts[index].shouts + 1;
+                if(this.roosts[index].isListened == true){
+                    this.roosts[index].isListened = false;
+                    this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
                 });;
     }
 
     toggleListen(index: number){
-        console.log(index);
-        this.roostService.listen(this.complaints[index].id)
-            .subscribe(feeds => {
-                console.log(feeds);
-                this.complaints[index].isListened = true;
-                this.complaints[index].listeners = this.complaints[index].listeners + 1;
-                if(this.complaints[index].isShout == true){
-                    this.complaints[index].isShout = false;
-                    this.complaints[index].shouts = this.complaints[index].shouts - 1;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isListened = true;
+                this.roosts[index].listeners = this.roosts[index].listeners + 1;
+                if(this.roosts[index].isShout == true){
+                    this.roosts[index].isShout = false;
+                    this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
                 });
     }

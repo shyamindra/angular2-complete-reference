@@ -3,13 +3,13 @@ import {CORE_DIRECTIVES} from '@angular/common';
 import {RouterLink,Router} from '@angular/router';
 import {HTTP_PROVIDERS} from '@angular/http';
 import {RoostService} from '../services/roost.service';
-import {Feed} from '../shared/feed';
+import {Roost} from '../shared/roost';
 
 import {SortDatePipe} from '../shared/sort.pipe';
 
 @Component({
     selector: 'recent-activity',
-    templateUrl: 'app/recent-activity/recent-activity.component.html',
+    templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink,CORE_DIRECTIVES],
     providers: [RoostService, HTTP_PROVIDERS],
     pipes: [SortDatePipe]
@@ -17,18 +17,18 @@ import {SortDatePipe} from '../shared/sort.pipe';
 export class RecentActivityComponent {
     header = "Recent Activity Page";
     isLoading = true;
-    feeds: Feed[];
+    roosts: Roost[];
     diff: number;
 
-    constructor(private _feedsService: RoostService, private _router: Router){
-        console.log(this.feeds);
+    constructor(private _roostService: RoostService, private _router: Router){
+        console.log(this.roosts);
     }
     
     ngOnInit(){
-        this._feedsService.getFeeds()
+        this._roostService.getFeeds()
             .subscribe(feeds => {
                 this.isLoading = false;
-                this.feeds = feeds;
+                this.roosts = feeds;
             });
     }
 
@@ -46,19 +46,34 @@ export class RecentActivityComponent {
             return "1 hour ago";
         else if(this.diff <= 86400)
             return Math.round(this.diff/3600) + " hours ago";
-        else if(this.diff == 172800)
+        else if(this.diff <= 172800)
             return "1 day ago";
         else if(this.diff > 172800)
             return Math.round(this.diff/86400) + " days ago";
     }
 
     toggleShout(index: number){
-        console.log(index);
-        this.feeds[index].isShout = !this.feeds[index].isShout;
+        this._roostService.shout(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isShout = true;
+                this.roosts[index].shouts = this.roosts[index].shouts + 1;
+                if(this.roosts[index].isListened == true){
+                    this.roosts[index].isListened = false;
+                    this.roosts[index].listeners = this.roosts[index].listeners - 1;
+                }
+                });;
     }
 
     toggleListen(index: number){
-        this.feeds[index].isListened = !this.feeds[index].isListened;
+        this._roostService.listen(this.roosts[index].id)
+            .subscribe(roosts => {
+                this.roosts[index].isListened = true;
+                this.roosts[index].listeners = this.roosts[index].listeners + 1;
+                if(this.roosts[index].isShout == true){
+                    this.roosts[index].isShout = false;
+                    this.roosts[index].shouts = this.roosts[index].shouts - 1;
+                }
+                });
     }
     
 }

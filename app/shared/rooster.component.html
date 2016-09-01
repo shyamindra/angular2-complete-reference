@@ -2,8 +2,12 @@
 <div *ngIf="isLoading">
     <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw spinner-custom"></i>
 </div>
+<div *ngIf="searchQry != null">
+    <div class="searchResults">Results for {{searchQry}}</div>
+    <hr/>
+</div>
 <div style="float:left; width:100%">
-    <div *ngFor="let feed of promotions| paginate: {    itemsPerPage: pageSize,
+    <div *ngFor="let feed of roosts| paginate: {    itemsPerPage: pageSize,
                                                    currentPage: page,
                                                    totalItems: total }; let i = index">
             <div class="profile-feed">
@@ -27,17 +31,20 @@
                     <img src="assets/time_icon.png">
                     {{ extractDate(feed.created_at) }}
                 </div>  
+                 <!--<video controls>
+                        <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + 87 + '.mp4'}}" type="video/mp4">
+                </video>-->
                 <div *ngIf="feed.media_type=='IMG'" id="img-div">
-                    <img src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + feed.id + '.jpeg'}}"  />
+                    <img src= "{{ feed.roost_media}}"  />
                 </div>
                 <div *ngIf="feed.media_type=='VID'" id="vid-div">
                     <video controls>
-                        <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + feed.id + '.mp4'}}" type="video/mp4">
+                        <source src= "{{ feed.roost_media}}" type="video/mp4">
                     </video>
                 </div>
                 <div *ngIf="feed.media_type=='AUD'" id="aud-div">
                     <audio controls>
-                        <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + feed.id + '.mp3'}}" type="audio/mpeg">
+                        <source src= "{{ feed.roost_media}}" type="audio/mpeg">
                         Your browser does not support the audio element.
                     </audio>
                 </div>
@@ -45,7 +52,7 @@
                     <p> {{ feed.text }}
                 </div>
                 <div id="Comments">
-                    <a>{{ feed.shouts }} Shouts</a>  &#8226;  <a>{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
+                    <a (click)="displayShoutsList(i);">{{ feed.shouts }} Shouts</a>  &#8226;  <a (click)="displayListenersList(i);">{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
                 </div>
                 <hr/>
                 <div id="icons">
@@ -72,3 +79,11 @@
 	</div>
 </div>
 <pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+<div *ngIf="displayList==true" id="outPopUp">
+    <div class="navbar-list"> 
+            <div class = "list-header"> 
+               {{ displayListTitle }}
+            </div>
+                 <div *ngFor="let list of lists">{{list.shout_by.get_full_name}}</div>
+    </div>
+</div>

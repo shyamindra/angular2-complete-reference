@@ -2,7 +2,6 @@ import {Injectable} from '@angular/core';
 import 'rxjs/add/operator/map';
 import {Http,  Headers, RequestOptions, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
-import {Promotion} from '../promotions/promotion';
 import {CacheService} from 'ng2-cache/ng2-cache';
 
 
