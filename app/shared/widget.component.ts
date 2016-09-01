@@ -7,6 +7,7 @@ export class Widget{
     navHeader: string;
     titleDescription: string;
     description: string;
+    roostType: string;
 
 
     togglePlus(){
@@ -20,6 +21,7 @@ export class Widget{
     }
 
     showPromotionDiv(){
+        this.roostType = "PROMO";
         this.showPromotion();
         this.togglePlus();
         this.showWidgetDiv();
@@ -32,6 +34,7 @@ export class Widget{
     }
 
     showComplaintDiv(){
+        this.roostType = "COMPLAIN";
         this.showComplaint();
         this.togglePlus();
         this.showWidgetDiv();
@@ -50,4 +53,5 @@ export class Widget{
     closeWidget(){
         this.showWidget = false;
     }
+
 }

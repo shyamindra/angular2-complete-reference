@@ -26,10 +26,15 @@ export class SearchComponent implements OnInit{
     page: number;
     total: number;
 
-constructor(private route: ActivatedRoute, private _userService: RoostService){
+constructor(private route: ActivatedRoute, 
+    private _userService: RoostService,
+    private _router: Router){
     this.sub = this.route.params
         .subscribe(params => {
             this.searchQry = params['searchKey'];
+            if(null == this.searchQry || this.searchQry == ''){
+                this._router.navigate(['home']);
+            }
             this.triggerSearch();
     });
 }
@@ -61,9 +66,9 @@ redirectToGMaps(latitude: number, longitude: number){
             return Math.round(this.diff/60) + " minutes ago";
         else if(this.diff < 7200)
             return "1 hour ago";
-        else if(this.diff <= 86400)
+        else if(this.diff < 86400)
             return Math.round(this.diff/3600) + " hours ago";
-        else if(this.diff == 172800)
+        else if(this.diff < 172800)
             return "1 day ago";
         else if(this.diff > 172800)
             return Math.round(this.diff/86400) + " days ago";

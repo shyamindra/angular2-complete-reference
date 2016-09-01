@@ -13,7 +13,7 @@ export class Feed{
     created_at: string;
     updated_at: string;
     title: string;
-    text: Text;
+    text: string;
     location: string;
     lat: number;
     lng: number;
@@ -23,4 +23,5 @@ export class Feed{
     media_type: string;
     type: string;
     real_type: number;
+    roost_media: any;
 }

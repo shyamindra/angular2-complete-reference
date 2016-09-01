@@ -12,25 +12,34 @@ var core_1 = require('@angular/core');
 var router_1 = require('@angular/router');
 var common_1 = require('@angular/common');
 var http_1 = require('@angular/http');
+var ng2_file_upload_1 = require('ng2-file-upload');
 var user_service_1 = require('./services/user.service');
 var session_service_1 = require('./services/session.service');
+var roost_service_1 = require('./services/roost.service');
 var ng2_facebook_sdk_1 = require('ng2-facebook-sdk');
 var ng2_cache_1 = require('ng2-cache/ng2-cache');
 var sideNav_component_1 = require('./shared/sideNav.component');
 var widget_component_1 = require('./shared/widget.component');
+var feed_1 = require('./shared/feed');
+var tag_1 = require('./shared/tag');
 var AppComponent = (function () {
-    function AppComponent(sideNav, widget, _router, _cacheService, fb, _sessionService, userService) {
+    function AppComponent(sideNav, widget, _router, roostService, _cacheService, fb, _sessionService, userService, roost) {
         this.sideNav = sideNav;
         this.widget = widget;
         this._router = _router;
+        this.roostService = roostService;
         this._cacheService = _cacheService;
         this.fb = fb;
         this._sessionService = _sessionService;
         this.userService = userService;
+        this.roost = roost;
         this.searchText = '';
         this.showNotifications = false;
         this.needsToggle = false;
         this.isUserLoggedIn = false;
+        this.uploader = new ng2_file_upload_1.FileUploader({ url: URL });
+        this.hasBaseDropZoneOver = false;
+        this.hasAnotherDropZoneOver = false;
         var fbParams = {
             appId: '1720733194853739',
             xfbml: true,
@@ -51,6 +60,12 @@ var AppComponent = (function () {
             });
             ;
         }
+    };
+    AppComponent.prototype.fileOverBase = function (e) {
+        this.hasBaseDropZoneOver = e;
+    };
+    AppComponent.prototype.fileOverAnother = function (e) {
+        this.hasAnotherDropZoneOver = e;
     };
     AppComponent.prototype.handleLogin = function () {
         var _this = this;
@@ -108,14 +123,42 @@ var AppComponent = (function () {
         }
         this.showNotifications = false;
     };
+    AppComponent.prototype.submitRoost = function () {
+        this.roost.title = this.complaintTitle;
+        this.roost.location = this.complaintLocation;
+        this.roost.text = this.complaintDesc;
+        this.roost.tags = this.getTags();
+        this.roost.type = this.getRoostType();
+        this.roostService.roost(this.roost)
+            .subscribe(function (response) {
+            console.log(JSON.stringify(response));
+        });
+        ;
+        this.widget.closeWidget();
+    };
+    AppComponent.prototype.getRoostType = function () {
+        return this.widget.roostType;
+    };
+    AppComponent.prototype.getTags = function () {
+        var res = this.tags.split(" ");
+        console.log(res.length);
+        var tags = new Array();
+        for (var i = 0; i < res.length; i++) {
+            var t = new tag_1.Tag();
+            t.id = i;
+            t.tag = res[i];
+            tags.push(t);
+        }
+        return tags;
+    };
     AppComponent = __decorate([
         core_1.Component({
             selector: 'my-app',
             templateUrl: 'app/app.component.html',
-            directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass],
-            providers: [user_service_1.UserService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget]
+            directives: [router_1.ROUTER_DIRECTIVES, ng2_file_upload_1.FILE_UPLOAD_DIRECTIVES, common_1.NgClass, common_1.NgStyle, common_1.CORE_DIRECTIVES, common_1.FORM_DIRECTIVES],
+            providers: [user_service_1.UserService, roost_service_1.RoostService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget, feed_1.Feed]
         }), 
-        __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService, user_service_1.UserService])
+        __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, roost_service_1.RoostService, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService, user_service_1.UserService, feed_1.Feed])
     ], AppComponent);
     return AppComponent;
     var _a;

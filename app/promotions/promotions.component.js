@@ -55,9 +55,9 @@ var PromotionsComponent = (function () {
             return Math.round(this.diff / 60) + " minutes ago";
         else if (this.diff < 7200)
             return "1 hour ago";
-        else if (this.diff <= 86400)
+        else if (this.diff < 86400)
             return Math.round(this.diff / 3600) + " hours ago";
-        else if (this.diff == 172800)
+        else if (this.diff < 172800)
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";

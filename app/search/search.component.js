@@ -16,14 +16,18 @@ var user_service_1 = require('../services/user.service');
 var roost_service_1 = require('../services/roost.service');
 var ng2_pagination_1 = require('ng2-pagination');
 var SearchComponent = (function () {
-    function SearchComponent(route, _userService) {
+    function SearchComponent(route, _userService, _router) {
         var _this = this;
         this.route = route;
         this._userService = _userService;
+        this._router = _router;
         this.isLoading = true;
         this.sub = this.route.params
             .subscribe(function (params) {
             _this.searchQry = params['searchKey'];
+            if (null == _this.searchQry || _this.searchQry == '') {
+                _this._router.navigate(['home']);
+            }
             _this.triggerSearch();
         });
     }
@@ -51,9 +55,9 @@ var SearchComponent = (function () {
             return Math.round(this.diff / 60) + " minutes ago";
         else if (this.diff < 7200)
             return "1 hour ago";
-        else if (this.diff <= 86400)
+        else if (this.diff < 86400)
             return Math.round(this.diff / 3600) + " hours ago";
-        else if (this.diff == 172800)
+        else if (this.diff < 172800)
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
@@ -91,7 +95,7 @@ var SearchComponent = (function () {
             providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
             pipes: [ng2_pagination_1.PaginatePipe]
         }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService])
+        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService, router_1.Router])
     ], SearchComponent);
     return SearchComponent;
 }());

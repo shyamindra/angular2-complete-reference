@@ -13,6 +13,7 @@ var Widget = (function () {
         this.showAddButtons = !this.showAddButtons;
     };
     Widget.prototype.showPromotionDiv = function () {
+        this.roostType = "PROMO";
         this.showPromotion();
         this.togglePlus();
         this.showWidgetDiv();
@@ -23,6 +24,7 @@ var Widget = (function () {
         this.description = "Describe your Promotion in detail";
     };
     Widget.prototype.showComplaintDiv = function () {
+        this.roostType = "COMPLAIN";
         this.showComplaint();
         this.togglePlus();
         this.showWidgetDiv();

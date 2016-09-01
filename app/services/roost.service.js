@@ -16,21 +16,21 @@ var RoostService = (function () {
     function RoostService(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
-        this._url = "http://52.43.46.127:80/api/roost/";
+        this._url = "http://52.43.46.127:80/api/roost";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
     RoostService.prototype.createAuthorizationHeader = function (headers) {
         headers.append('Authorization', this.accessToken);
     };
     RoostService.prototype.getFeeds = function (page) {
-        var url = this._url + "feeds/";
+        var url = this._url + "/feeds/";
         if (null != page)
             url += "?page=" + page;
         return this._http.get(url)
             .map(function (res) { return res.json(); });
     };
     RoostService.prototype.search = function (key, page) {
-        var url = this._url + "search/" + key + "/";
+        var url = this._url + "/search/" + key + "/";
         if (null != page)
             url += "?page=" + page;
         var myHeader = new http_1.Headers();
@@ -44,7 +44,7 @@ var RoostService = (function () {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
-        return this._http.post(this._url + "shout/", JSON.stringify({ roost: id }), { headers: myHeader })
+        return this._http.post(this._url + "/shout/", JSON.stringify({ roost: id }), { headers: myHeader })
             .map(function (res) { return res.json(); });
     };
     RoostService.prototype.listen = function (id) {
@@ -52,8 +52,36 @@ var RoostService = (function () {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
-        return this._http.post(this._url + "listen/", JSON.stringify({ roost: id }), { headers: myHeader })
+        return this._http.post(this._url + "/listen/", JSON.stringify({ roost: id }), { headers: myHeader })
             .map(function (res) { return res.json(); });
+    };
+    RoostService.prototype.roost = function (feed) {
+        var myHeader = new http_1.Headers();
+        myHeader.append('Authorization', this.accessToken);
+        myHeader.append('Content-Type', 'application/json');
+        console.log(JSON.stringify({
+            title: feed.title,
+            text: feed.text,
+            location: feed.location,
+            lat: feed.lat,
+            lng: feed.lng,
+            roost_media: feed.roost_media,
+            media_type: feed.media_type,
+            type: feed.type,
+            tags: feed.tags
+        }));
+        return this._http.post(this._url, JSON.stringify({
+            title: feed.title,
+            text: feed.text,
+            location: feed.location,
+            lat: feed.lat,
+            lng: feed.lng,
+            roost_media: feed.roost_media,
+            media_type: feed.media_type,
+            type: feed.type,
+            tags: feed.tags
+        }), { headers: myHeader })
+            .map(function (res) { return res.json(); }, function (err) { return console.log(err); });
     };
     RoostService = __decorate([
         core_1.Injectable(), 
