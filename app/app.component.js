@@ -57,13 +57,7 @@ var AppComponent = (function () {
             ;
         }
     };
-    AppComponent.prototype.onImgUpload = function ($event) {
-        this.filesToUpload = img.target.files;
-    };
-    AppComponent.prototype.onVideoUpload = function ($event) {
-        this.filesToUpload = fileInput.target.files;
-    };
-    AppComponent.prototype.onAudioUpload = function ($event) {
+    AppComponent.prototype.onImgUpload = function (fileInput) {
         this.filesToUpload = fileInput.target.files;
     };
     AppComponent.prototype.handleLogin = function () {

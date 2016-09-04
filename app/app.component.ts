@@ -34,9 +34,7 @@ export class AppComponent implements OnInit{
     complaintLocation: string;
     tags: string;
     complaintDesc: string;
-    img: File;
-    video: File;
-    audio: File;
+    filesToUpload: Array<File>;
 
    
     constructor(private sideNav: SideNavDisplay,
@@ -69,17 +67,10 @@ export class AppComponent implements OnInit{
         }
     }
 
-    onImgUpload($event){
-        this.filesToUpload = <Array<File>> img.target.files;
-    }
-
-    onVideoUpload($event){
+    onImgUpload(fileInput: any){
         this.filesToUpload = <Array<File>> fileInput.target.files;
     }
 
-    onAudioUpload($event){
-        this.filesToUpload = <Array<File>> fileInput.target.files;
-    }
 
 
     handleLogin(): void {
