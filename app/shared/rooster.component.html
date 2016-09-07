@@ -7,15 +7,17 @@
     <hr/>
 </div>
 <div style="float:left; width:100%">
-    <div *ngFor="let feed of roosts| paginate: {    itemsPerPage: pageSize,
+    <div *ngFor="let feed of roosts| paginate: {   itemsPerPage: pageSize,
                                                    currentPage: page,
                                                    totalItems: total }; let i = index">
             <div class="profile-feed">
                 <div>
                     <h4>{{ feed.title }}</h4>
                 </div>
-                <div *ngFor="let tag of feed.tags" class="tags">
-                        #{{ tag.tag }}
+                <div class="tags-div">
+                    <div *ngFor="let tag of feed.tags" class="tags">
+                            #{{ tag.tag }}
+                    </div>
                 </div>
                 <a (click)="redirectToGMaps(feed.lat,feed.lng)">
                     <div id="location-div">
@@ -34,25 +36,31 @@
                  <!--<video controls>
                         <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + 87 + '.mp4'}}" type="video/mp4">
                 </video>-->
-                <div *ngIf="feed.media_type=='IMG'" id="img-div">
-                    <img src= "{{ feed.roost_media}}"  />
-                </div>
-                <div *ngIf="feed.media_type=='VID'" id="vid-div">
-                    <video controls>
-                        <source src= "{{ feed.roost_media}}" type="video/mp4">
-                    </video>
-                </div>
-                <div *ngIf="feed.media_type=='AUD'" id="aud-div">
-                    <audio controls>
-                        <source src= "{{ feed.roost_media}}" type="audio/mpeg">
-                        Your browser does not support the audio element.
-                    </audio>
+                <div id="media-div">
+                    <div *ngIf="feed.media_type=='IMG'">
+                        <img src= "{{ feed.roost_media}}"  />
+                    </div>
+                    <div *ngIf="feed.media_type=='VID'">
+                        <video controls>
+                            <source src= "{{ feed.roost_media}}" type="video/mp4">
+                        </video>
+                    </div>
+                    <div *ngIf="feed.media_type=='AUD'">
+                        <audio controls>
+                            <source src= "{{ feed.roost_media}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
                 </div>
                 <div id="profileText">
                     <p> {{ feed.text }}
                 </div>
                 <div id="Comments">
-                    <a (click)="displayShoutsList(i);myModal.open();">{{ feed.shouts }} Shouts</a>  &#8226;  <a (click)="displayListenersList(i);myModal.open();">{{ feed.listeners }} Listeners</a>  &#8226;  <a>{{ feed.comments }} Comments</a>   
+                    <a (click)="displayShoutsList(i);myModal.open();">
+                            {{ feed.shouts }} Shouts</a> &#8226;  
+                    <a (click)="displayListenersList(i);myModal.open();">
+                            {{ feed.listeners }} Listeners</a>  &#8226;  
+                    <a>{{ feed.comments }} Comments</a>   
                 </div>
                 <hr/>
                 <div id="icons">

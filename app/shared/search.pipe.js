@@ -8,25 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var SearchFilterPipe = (function () {
-    function SearchFilterPipe() {
-    }
-    SearchFilterPipe.prototype.transform = function (value, args) {
+const core_1 = require('@angular/core');
+let SearchFilterPipe = class SearchFilterPipe {
+    transform(value, args) {
         if (args[0] != null) {
-            var filter_1 = args[0].toLocaleLowerCase();
+            let filter = args[0].toLocaleLowerCase();
             if (value != null)
-                return filter_1 ? value.filter(function (feed) { return feed.title.toLocaleLowerCase().indexOf(filter_1) != -1
-                    || feed.text.toLocaleLowerCase().indexOf(filter_1) != -1; }) : value;
+                return filter ? value.filter(feed => feed.title.toLocaleLowerCase().indexOf(filter) != -1
+                    || feed.text.toLocaleLowerCase().indexOf(filter) != -1) : value;
         }
-    };
-    SearchFilterPipe = __decorate([
-        core_1.Pipe({
-            name: 'search'
-        }), 
-        __metadata('design:paramtypes', [])
-    ], SearchFilterPipe);
-    return SearchFilterPipe;
-}());
+    }
+};
+SearchFilterPipe = __decorate([
+    core_1.Pipe({
+        name: 'search'
+    }), 
+    __metadata('design:paramtypes', [])
+], SearchFilterPipe);
 exports.SearchFilterPipe = SearchFilterPipe;
 //# sourceMappingURL=search.pipe.js.map

@@ -8,48 +8,47 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
-var roost_service_1 = require('../services/roost.service');
+const core_1 = require('@angular/core');
+const common_1 = require('@angular/common');
+const router_1 = require('@angular/router');
+const http_1 = require('@angular/http');
+const roost_service_1 = require('../services/roost.service');
 require('rxjs/add/operator/map');
 require('rxjs/add/operator/do');
-var ng2_pagination_1 = require('ng2-pagination');
-var ng2_modal_1 = require('ng2-modal');
-var HomeComponent = (function () {
-    function HomeComponent(_roostService) {
+const ng2_pagination_1 = require('ng2-pagination');
+const ng2_modal_1 = require('ng2-modal');
+let HomeComponent = class HomeComponent {
+    constructor(_roostService) {
         this._roostService = _roostService;
         this.header = "Home Page";
         this.isLoading = true;
         this.displayList = false;
     }
-    HomeComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         this.pageSize = 50;
         this.getPage();
-    };
-    HomeComponent.prototype.getPage = function (page) {
-        var _this = this;
+    }
+    getPage(page) {
         this._roostService.getFeeds(page)
-            .subscribe(function (feeds) {
+            .subscribe(feeds => {
             console.log(feeds);
-            _this.isLoading = false;
-            _this.total = feeds.count;
-            _this.roosts = feeds.results;
-            _this.page = null != page ? page : _this.page;
+            this.isLoading = false;
+            this.total = feeds.count;
+            this.roosts = feeds.results;
+            this.page = null != page ? page : this.page;
         });
-    };
-    HomeComponent.prototype.onPageChange = function (page) {
+    }
+    onPageChange(page) {
         console.log(page);
         this.getPage(page);
-    };
-    HomeComponent.prototype.playVideo = function (id) {
+    }
+    playVideo(id) {
         console.log(id);
-    };
-    HomeComponent.prototype.redirectToGMaps = function (latitude, longitude) {
+    }
+    redirectToGMaps(latitude, longitude) {
         window.open('http://maps.google.com/maps?q=' + latitude + ',' + longitude);
-    };
-    HomeComponent.prototype.extractDate = function (date) {
+    }
+    extractDate(date) {
         this.diff = (new Date().getTime() - new Date(date).getTime()) / 1000;
         if (this.diff <= 60)
             return "Just Now";
@@ -63,62 +62,57 @@ var HomeComponent = (function () {
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
-    };
-    HomeComponent.prototype.toggleShout = function (index) {
-        var _this = this;
+    }
+    toggleShout(index) {
         this._roostService.shout(this.roosts[index].id)
-            .subscribe(function (roosts) {
-            _this.roosts[index].isShout = true;
-            _this.roosts[index].shouts = _this.roosts[index].shouts + 1;
-            if (_this.roosts[index].isListened == true) {
-                _this.roosts[index].isListened = false;
-                _this.roosts[index].listeners = _this.roosts[index].listeners - 1;
+            .subscribe(roosts => {
+            this.roosts[index].isShout = true;
+            this.roosts[index].shouts = this.roosts[index].shouts + 1;
+            if (this.roosts[index].isListened == true) {
+                this.roosts[index].isListened = false;
+                this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
         });
-    };
-    HomeComponent.prototype.toggleListen = function (index) {
-        var _this = this;
+    }
+    toggleListen(index) {
         this._roostService.listen(this.roosts[index].id)
-            .subscribe(function (roosts) {
-            _this.roosts[index].isListened = true;
-            _this.roosts[index].listeners = _this.roosts[index].listeners + 1;
-            if (_this.roosts[index].isShout == true) {
-                _this.roosts[index].isShout = false;
-                _this.roosts[index].shouts = _this.roosts[index].shouts - 1;
+            .subscribe(roosts => {
+            this.roosts[index].isListened = true;
+            this.roosts[index].listeners = this.roosts[index].listeners + 1;
+            if (this.roosts[index].isShout == true) {
+                this.roosts[index].isShout = false;
+                this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
         });
-    };
-    HomeComponent.prototype.displayShoutsList = function (id) {
-        var _this = this;
+    }
+    displayShoutsList(id) {
         this._roostService.listShouts(this.roosts[id].id)
-            .subscribe(function (lists) {
+            .subscribe(lists => {
             console.log(lists);
-            _this.displayList = true;
-            _this.lists = lists.results;
-            _this.displayListTitle = "Shouts by";
+            this.displayList = true;
+            this.lists = lists.results;
+            this.displayListTitle = "Shouts by";
         });
-    };
-    HomeComponent.prototype.displayListenersList = function (id) {
-        var _this = this;
+    }
+    displayListenersList(id) {
         this._roostService.listListeners(this.roosts[id].id)
-            .subscribe(function (lists) {
+            .subscribe(lists => {
             console.log(JSON.stringify(lists));
-            _this.displayList = true;
-            _this.lists = lists.results;
-            _this.displayListTitle = "Listened by";
+            this.displayList = true;
+            this.lists = lists.results;
+            this.displayListTitle = "Listened by";
         });
-    };
-    HomeComponent = __decorate([
-        core_1.Component({
-            selector: 'home',
-            templateUrl: 'app/shared/rooster.component.html',
-            directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-            providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
-            pipes: [ng2_pagination_1.PaginatePipe]
-        }), 
-        __metadata('design:paramtypes', [roost_service_1.RoostService])
-    ], HomeComponent);
-    return HomeComponent;
-}());
+    }
+};
+HomeComponent = __decorate([
+    core_1.Component({
+        selector: 'home',
+        templateUrl: 'app/shared/rooster.component.html',
+        directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
+        providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+        pipes: [ng2_pagination_1.PaginatePipe]
+    }), 
+    __metadata('design:paramtypes', [roost_service_1.RoostService])
+], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map

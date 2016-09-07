@@ -8,13 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require("@angular/core");
-var SortDatePipe = (function () {
-    function SortDatePipe() {
-    }
-    SortDatePipe.prototype.transform = function (feeds, args) {
+const core_1 = require("@angular/core");
+let SortDatePipe = class SortDatePipe {
+    transform(feeds, args) {
         if (feeds != null)
-            feeds.sort(function (a, b) {
+            feeds.sort((a, b) => {
                 if (new Date(a.created_at) < new Date(b.created_at)) {
                     return 1;
                 }
@@ -26,14 +24,13 @@ var SortDatePipe = (function () {
                 }
             });
         return feeds;
-    };
-    SortDatePipe = __decorate([
-        core_1.Pipe({
-            name: "dateSort"
-        }), 
-        __metadata('design:paramtypes', [])
-    ], SortDatePipe);
-    return SortDatePipe;
-}());
+    }
+};
+SortDatePipe = __decorate([
+    core_1.Pipe({
+        name: "dateSort"
+    }), 
+    __metadata('design:paramtypes', [])
+], SortDatePipe);
 exports.SortDatePipe = SortDatePipe;
 //# sourceMappingURL=sort.pipe.js.map

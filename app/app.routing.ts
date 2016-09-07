@@ -9,6 +9,7 @@ import {PaymentComponent} from './payment/payment.component';
 import {ProfileComponent} from './profile/profile.component';
 import {SearchComponent} from './search/search.component';
 import {SignUpComponent} from './signUp/signUp.component';
+import {InfoComponent} from './info/info.component';
 
 const appRoutes: Routes = [
     { path: 'rooster', component: LandingComponent },
@@ -19,6 +20,7 @@ const appRoutes: Routes = [
     { path: 'profile', component: ProfileComponent },
     { path: 'search/:searchKey', component: SearchComponent },
     { path: 'signUp', component: SignUpComponent },
+    { path: 'info', component: InfoComponent },
     { path:	'', component: LandingComponent } 
 ];
 

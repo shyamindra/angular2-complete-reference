@@ -8,22 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var LandingComponent = (function () {
-    function LandingComponent() {
+const core_1 = require('@angular/core');
+let LandingComponent = class LandingComponent {
+    constructor() {
         this.header = "Landing Page";
         this.isLanding = true;
     }
-    LandingComponent.prototype.ngOnInit = function () {
-    };
-    LandingComponent = __decorate([
-        core_1.Component({
-            selector: 'landing',
-            templateUrl: 'app/landing/landing.component.html',
-        }), 
-        __metadata('design:paramtypes', [])
-    ], LandingComponent);
-    return LandingComponent;
-}());
+    ngOnInit() {
+    }
+};
+LandingComponent = __decorate([
+    core_1.Component({
+        selector: 'landing',
+        templateUrl: 'app/landing/landing.component.html',
+    }), 
+    __metadata('design:paramtypes', [])
+], LandingComponent);
 exports.LandingComponent = LandingComponent;
 //# sourceMappingURL=landing.component.js.map

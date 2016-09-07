@@ -8,18 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
-var forms_1 = require('@angular/forms');
-var input_1 = require('@angular2-material/input');
-var toolbar_1 = require('@angular2-material/toolbar');
-var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var user_service_1 = require('../services/user.service');
-var user_1 = require('../shared/user');
-var ProfileComponent = (function () {
-    function ProfileComponent(_userService, _cache, _router, userProfile) {
+const core_1 = require('@angular/core');
+const common_1 = require('@angular/common');
+const router_1 = require('@angular/router');
+const http_1 = require('@angular/http');
+const forms_1 = require('@angular/forms');
+const input_1 = require('@angular2-material/input');
+const toolbar_1 = require('@angular2-material/toolbar');
+const ng2_cache_1 = require('ng2-cache/ng2-cache');
+const user_service_1 = require('../services/user.service');
+const user_1 = require('../shared/user');
+let ProfileComponent = class ProfileComponent {
+    constructor(_userService, _cache, _router, userProfile) {
         this._userService = _userService;
         this._cache = _cache;
         this._router = _router;
@@ -29,52 +29,50 @@ var ProfileComponent = (function () {
             this._router.navigate(['home']);
         }
     }
-    ProfileComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         this.getUserInfo();
-    };
-    ProfileComponent.prototype.getUserInfo = function () {
-        var _this = this;
+    }
+    getUserInfo() {
         this._userService.getUserInfo(this._cache.get("userIdRooster"))
-            .subscribe(function (profile) {
+            .subscribe(profile => {
             console.log(profile);
-            _this.userProfile.first_name = profile.name;
-            _this.userProfile.last_name = profile.surname;
-            _this.userProfile.email = profile.email;
-            _this.userProfile.mobile_number = profile.mobile_number;
-            _this.userProfile.facebook_id = profile.facebook_id;
-            _this.userProfile.gender = profile.gender;
-            _this.userProfile.profile_image = profile.profile_image;
-            _this.userProfile.dob = _this.reverseDate(profile.dob);
+            this.userProfile.first_name = profile.name;
+            this.userProfile.last_name = profile.surname;
+            this.userProfile.email = profile.email;
+            this.userProfile.mobile_number = profile.mobile_number;
+            this.userProfile.facebook_id = profile.facebook_id;
+            this.userProfile.gender = profile.gender;
+            this.userProfile.profile_image = profile.profile_image;
+            this.userProfile.dob = this.reverseDate(profile.dob);
         });
-    };
-    ProfileComponent.prototype.saveProfile = function () {
+    }
+    saveProfile() {
         this._userService.updateProfile(this._cache.get("userIdFB"), this._cache.get("accessTokenFB"), this.userProfile.first_name, this.userProfile.last_name, this.userProfile.gender, this.userProfile.email, this.parseDate(this.userProfile.dob), this.userProfile.mobile_number)
-            .subscribe(function (profile) {
+            .subscribe(profile => {
             console.log(profile);
         });
-    };
-    ProfileComponent.prototype.parseDate = function (date) {
+    }
+    parseDate(date) {
         if (null != date) {
             var res = date.split("/");
             return res[2] + "-" + res[1] + "-" + res[0];
         }
-    };
-    ProfileComponent.prototype.reverseDate = function (date) {
+    }
+    reverseDate(date) {
         if (null != date) {
             var res = date.split("-");
             return res[2] + "/" + res[1] + "/" + res[0];
         }
-    };
-    ProfileComponent = __decorate([
-        core_1.Component({
-            templateUrl: 'app/profile/profile.html',
-            directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES,
-                forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
-            providers: [forms_1.FormBuilder, user_1.User, user_service_1.UserService, http_1.HTTP_PROVIDERS]
-        }), 
-        __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, router_1.Router, user_1.User])
-    ], ProfileComponent);
-    return ProfileComponent;
-}());
+    }
+};
+ProfileComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/profile/profile.html',
+        directives: [toolbar_1.MdToolbar, input_1.MD_INPUT_DIRECTIVES, common_1.CORE_DIRECTIVES,
+            forms_1.FORM_DIRECTIVES, forms_1.REACTIVE_FORM_DIRECTIVES],
+        providers: [forms_1.FormBuilder, user_1.User, user_service_1.UserService, http_1.HTTP_PROVIDERS]
+    }), 
+    __metadata('design:paramtypes', [user_service_1.UserService, ng2_cache_1.CacheService, router_1.Router, user_1.User])
+], ProfileComponent);
 exports.ProfileComponent = ProfileComponent;
 //# sourceMappingURL=profile.component.js.map

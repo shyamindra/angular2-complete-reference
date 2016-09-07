@@ -8,20 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var PaymentComponent = (function () {
-    function PaymentComponent() {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+let PaymentComponent = class PaymentComponent {
+    constructor() {
         this.header = "Payment page";
     }
-    PaymentComponent = __decorate([
-        core_1.Component({
-            templateUrl: 'app/payment/payment.html',
-            directives: [router_1.RouterLink]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], PaymentComponent);
-    return PaymentComponent;
-}());
+};
+PaymentComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/payment/payment.html',
+        directives: [router_1.RouterLink]
+    }), 
+    __metadata('design:paramtypes', [])
+], PaymentComponent);
 exports.PaymentComponent = PaymentComponent;
 //# sourceMappingURL=payment.component.js.map

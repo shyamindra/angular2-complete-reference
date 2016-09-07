@@ -8,28 +8,28 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
+const core_1 = require('@angular/core');
+const http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
-var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var RoostService = (function () {
-    function RoostService(_http, _cacheService) {
+const ng2_cache_1 = require('ng2-cache/ng2-cache');
+let RoostService = class RoostService {
+    constructor(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
         this._url = "http://52.43.46.127:80/api/roost";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
-    RoostService.prototype.createAuthorizationHeader = function (headers) {
+    createAuthorizationHeader(headers) {
         headers.append('Authorization', this.accessToken);
-    };
-    RoostService.prototype.getFeeds = function (page) {
+    }
+    getFeeds(page) {
         var url = this._url + "/feeds/";
         if (null != page)
             url += "?page=" + page;
         return this._http.get(url)
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.search = function (key, page) {
+            .map((res) => res.json());
+    }
+    search(key, page) {
         var url = this._url + "/search/" + key + "/";
         if (null != page)
             url += "?page=" + page;
@@ -37,54 +37,54 @@ var RoostService = (function () {
         myHeader.append('Authorization', this.accessToken);
         console.log(url + "---" + key);
         return this._http.get(url, { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.shout = function (id) {
+            .map((res) => res.json());
+    }
+    shout(id) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
         return this._http.post(this._url + "/shout/", JSON.stringify({ roost: id }), { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.listen = function (id) {
+            .map((res) => res.json());
+    }
+    listen(id) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
         return this._http.post(this._url + "/listen/", JSON.stringify({ roost: id }), { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.comment = function (id, comment) {
+            .map((res) => res.json());
+    }
+    comment(id, comment) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
         return this._http.post(this._url + "/comment/", JSON.stringify({ roost: id, comment: comment }), { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.listListeners = function (id) {
+            .map((res) => res.json());
+    }
+    listListeners(id) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this._url + "/list_listeners/" + id, { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.listShouts = function (id) {
+            .map((res) => res.json());
+    }
+    listShouts(id) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this._url + "/list_shouts/" + id + "/", { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.listComments = function (id) {
+            .map((res) => res.json());
+    }
+    listComments(id) {
         console.log(id);
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this._url + "/comments/" + id + "/", { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    RoostService.prototype.roost = function (feed) {
+            .map((res) => res.json());
+    }
+    roost(feed) {
         console.log(JSON.stringify(feed.roost_media));
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
@@ -111,13 +111,12 @@ var RoostService = (function () {
             type: feed.type,
             tags: feed.tags
         }), { headers: myHeader })
-            .map(function (res) { return res.json(); }, function (err) { return console.log(err); });
-    };
-    RoostService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
-    ], RoostService);
-    return RoostService;
-}());
+            .map((res) => res.json(), (err) => console.log(err));
+    }
+};
+RoostService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
+], RoostService);
 exports.RoostService = RoostService;
 //# sourceMappingURL=roost.service.js.map

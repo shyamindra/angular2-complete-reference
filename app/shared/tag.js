@@ -1,8 +1,5 @@
 "use strict";
-var Tag = (function () {
-    function Tag() {
-    }
-    return Tag;
-}());
+class Tag {
+}
 exports.Tag = Tag;
 //# sourceMappingURL=tag.js.map

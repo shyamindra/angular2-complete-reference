@@ -47,7 +47,7 @@ export class AppComponent implements OnInit{
             private userService: UserService,
             private roost: Roost){
         let fbParams: FacebookInitParams = {
-                        appId: '1720733194853739',
+                        appId: '1730242673902791',
                         xfbml: true,
                         version: 'v2.7'
                         };
@@ -60,11 +60,13 @@ export class AppComponent implements OnInit{
             console.log(this._cacheService.get('accessTokenRooster'));
             this.userService.getUserNotifications()
                 .subscribe(notifications => {
-                    console.log(notifications)
+                    console.log(notifications);
                     this.notificationCount = notifications.count;
                     this.notifications = notifications.results as string[];
             });;
         }
+        this._router.navigate(['home']);
+        this.sideNav.makeActive('Home');
     }
 
     onImgUpload(fileInput: any){
@@ -133,6 +135,10 @@ export class AppComponent implements OnInit{
 
     toggleNotifications(){
         this.needsToggle = !this.needsToggle;
+        this.userService.getUserNotifications()
+            .subscribe(response => {
+                console.log(JSON.stringify(response));
+            });
     }
 
     handleOffClick(){

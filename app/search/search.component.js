@@ -8,48 +8,46 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var common_1 = require('@angular/common');
-var router_1 = require('@angular/router');
-var http_1 = require('@angular/http');
-var user_service_1 = require('../services/user.service');
-var roost_service_1 = require('../services/roost.service');
-var ng2_pagination_1 = require('ng2-pagination');
-var ng2_modal_1 = require('ng2-modal');
-var SearchComponent = (function () {
-    function SearchComponent(route, _roostService, _router) {
-        var _this = this;
+const core_1 = require('@angular/core');
+const common_1 = require('@angular/common');
+const router_1 = require('@angular/router');
+const http_1 = require('@angular/http');
+const user_service_1 = require('../services/user.service');
+const roost_service_1 = require('../services/roost.service');
+const ng2_pagination_1 = require('ng2-pagination');
+const ng2_modal_1 = require('ng2-modal');
+let SearchComponent = class SearchComponent {
+    constructor(route, _roostService, _router) {
         this.route = route;
         this._roostService = _roostService;
         this._router = _router;
         this.isLoading = true;
         this.displayList = false;
         this.sub = this.route.params
-            .subscribe(function (params) {
-            _this.searchQry = params['searchKey'];
-            if (null == _this.searchQry || _this.searchQry == '') {
-                _this._router.navigate(['home']);
+            .subscribe(params => {
+            this.searchQry = params['searchKey'];
+            if (null == this.searchQry || this.searchQry == '') {
+                this._router.navigate(['home']);
             }
-            _this.triggerSearch();
+            this.triggerSearch();
         });
     }
-    SearchComponent.prototype.ngOnInit = function () {
+    ngOnInit() {
         this.pageSize = 50;
-    };
-    SearchComponent.prototype.triggerSearch = function () {
-        var _this = this;
+    }
+    triggerSearch() {
         this._roostService.search(this.searchQry)
-            .subscribe(function (feeds) {
-            _this.isLoading = false;
-            _this.total = feeds.count;
-            _this.roosts = feeds.results;
+            .subscribe(feeds => {
+            this.isLoading = false;
+            this.total = feeds.count;
+            this.roosts = feeds.results;
             console.log("feed" + JSON.stringify(feeds));
-        }, function (error) { return _this.errorMessage; });
-    };
-    SearchComponent.prototype.redirectToGMaps = function (latitude, longitude) {
+        }, error => this.errorMessage);
+    }
+    redirectToGMaps(latitude, longitude) {
         window.open('http://maps.google.com/maps?q=' + latitude + ',' + longitude);
-    };
-    SearchComponent.prototype.extractDate = function (date) {
+    }
+    extractDate(date) {
         this.diff = (new Date().getTime() - new Date(date).getTime()) / 1000;
         if (this.diff <= 60)
             return "Just Now";
@@ -63,63 +61,58 @@ var SearchComponent = (function () {
             return "1 day ago";
         else if (this.diff > 172800)
             return Math.round(this.diff / 86400) + " days ago";
-    };
-    SearchComponent.prototype.toggleShout = function (index) {
-        var _this = this;
+    }
+    toggleShout(index) {
         this._roostService.shout(this.roosts[index].id)
-            .subscribe(function (roosts) {
-            _this.roosts[index].isShout = true;
-            _this.roosts[index].shouts = _this.roosts[index].shouts + 1;
-            if (_this.roosts[index].isListened == true) {
-                _this.roosts[index].isListened = false;
-                _this.roosts[index].listeners = _this.roosts[index].listeners - 1;
+            .subscribe(roosts => {
+            this.roosts[index].isShout = true;
+            this.roosts[index].shouts = this.roosts[index].shouts + 1;
+            if (this.roosts[index].isListened == true) {
+                this.roosts[index].isListened = false;
+                this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
         });
         ;
-    };
-    SearchComponent.prototype.toggleListen = function (index) {
-        var _this = this;
+    }
+    toggleListen(index) {
         this._roostService.listen(this.roosts[index].id)
-            .subscribe(function (roosts) {
-            _this.roosts[index].isListened = true;
-            _this.roosts[index].listeners = _this.roosts[index].listeners + 1;
-            if (_this.roosts[index].isShout == true) {
-                _this.roosts[index].isShout = false;
-                _this.roosts[index].shouts = _this.roosts[index].shouts - 1;
+            .subscribe(roosts => {
+            this.roosts[index].isListened = true;
+            this.roosts[index].listeners = this.roosts[index].listeners + 1;
+            if (this.roosts[index].isShout == true) {
+                this.roosts[index].isShout = false;
+                this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
         });
-    };
-    SearchComponent.prototype.displayShoutsList = function (id) {
-        var _this = this;
+    }
+    displayShoutsList(id) {
         this._roostService.listShouts(this.roosts[id].id)
-            .subscribe(function (lists) {
+            .subscribe(lists => {
             console.log(lists);
-            _this.displayList = true;
-            _this.lists = lists.results;
-            _this.displayListTitle = "Shouts by";
+            this.displayList = true;
+            this.lists = lists.results;
+            this.displayListTitle = "Shouts by";
         });
-    };
-    SearchComponent.prototype.displayListenersList = function (id) {
-        var _this = this;
+    }
+    displayListenersList(id) {
         this._roostService.listListeners(this.roosts[id].id)
-            .subscribe(function (lists) {
+            .subscribe(lists => {
             console.log(JSON.stringify(lists));
-            _this.displayList = true;
-            _this.lists = lists.results;
-            _this.displayListTitle = "Listened by";
+            this.displayList = true;
+            this.lists = lists.results;
+            this.displayListTitle = "Listened by";
         });
-    };
-    SearchComponent = __decorate([
-        core_1.Component({
-            selector: 'search',
-            templateUrl: 'app/shared/rooster.component.html',
-            directives: [common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-            providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
-            pipes: [ng2_pagination_1.PaginatePipe]
-        }), 
-        __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService, router_1.Router])
-    ], SearchComponent);
-    return SearchComponent;
-}());
+    }
+};
+SearchComponent = __decorate([
+    core_1.Component({
+        selector: 'search',
+        templateUrl: 'app/shared/rooster.component.html',
+        directives: [common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
+        providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+        pipes: [ng2_pagination_1.PaginatePipe]
+    }), 
+    __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService, router_1.Router])
+], SearchComponent);
 exports.SearchComponent = SearchComponent;
 //# sourceMappingURL=search.component.js.map

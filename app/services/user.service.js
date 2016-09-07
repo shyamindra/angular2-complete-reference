@@ -8,21 +8,21 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var http_1 = require('@angular/http');
+const core_1 = require('@angular/core');
+const http_1 = require('@angular/http');
 require('rxjs/add/operator/map');
-var ng2_cache_1 = require('ng2-cache/ng2-cache');
-var UserService = (function () {
-    function UserService(_http, _cacheService) {
+const ng2_cache_1 = require('ng2-cache/ng2-cache');
+let UserService = class UserService {
+    constructor(_http, _cacheService) {
         this._http = _http;
         this._cacheService = _cacheService;
         this._url = "http://52.43.46.127:80/api/user/";
         this.accessToken = 'Token ' + this._cacheService.get('accessTokenRooster');
     }
-    UserService.prototype.createAuthorizationHeader = function (headers) {
+    createAuthorizationHeader(headers) {
         headers.append('Authorization', this.accessToken);
-    };
-    UserService.prototype.updateProfile = function (facebook_id, facebook_token, first_name, last_name, gender, email, dob, mobile, profile_image) {
+    }
+    updateProfile(facebook_id, facebook_token, first_name, last_name, gender, email, dob, mobile, profile_image) {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         myHeader.append('Content-Type', 'application/json');
@@ -34,25 +34,24 @@ var UserService = (function () {
             dob: dob,
             gender: gender,
             mobile_number: mobile }), { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    UserService.prototype.getUserInfo = function (id) {
+            .map(res => res.json());
+    }
+    getUserInfo(id) {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this._url + "info/" + id, { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    UserService.prototype.getUserNotifications = function () {
+            .map((res) => res.json());
+    }
+    getUserNotifications() {
         var myHeader = new http_1.Headers();
         myHeader.append('Authorization', this.accessToken);
         return this._http.get(this._url + "notifications", { headers: myHeader })
-            .map(function (res) { return res.json(); });
-    };
-    UserService = __decorate([
-        core_1.Injectable(), 
-        __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
-    ], UserService);
-    return UserService;
-}());
+            .map((res) => res.json());
+    }
+};
+UserService = __decorate([
+    core_1.Injectable(), 
+    __metadata('design:paramtypes', [http_1.Http, ng2_cache_1.CacheService])
+], UserService);
 exports.UserService = UserService;
 //# sourceMappingURL=user.service.js.map

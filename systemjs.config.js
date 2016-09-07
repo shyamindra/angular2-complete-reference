@@ -14,9 +14,8 @@
     '@angular2-material':             'node_modules/@angular2-material',
     'ng2-cache':                      'node_modules/ng2-cache',
     'ng2-facebook-sdk':               'node_modules/ng2-facebook-sdk/dist',
-    'angular2-bootstrap-pagination':  'node_modules/angular2-bootstrap-pagination',
-    'ng2-bs3-modal':                  'node_modules/ng2-bs3-modal',
-    'ng2-modal':                       'node_modules/ng2-modal'  
+    'ng2-modal':                      'node_modules/ng2-modal',
+    'ng2-pagination':                 'node_modules/ng2-pagination'    
   };
 
 
@@ -27,9 +26,8 @@
     'angular2-in-memory-web-api':     { main: 'index.js', defaultExtension: 'js' },
     'ng2-cache':                      { defaultExtension: 'js' },
     'ng2-facebook-sdk':               { main: 'index.js', defaultExtension: 'js' },
-    'angular2-bootstrap-pagination':  { defaultExtension: 'js' },
-    'ng2-bs3-modal':                  { defaultExtension: 'js' },
-    'ng2-modal':                      { main: 'index.js', defaultExtension: 'js' }
+    'ng2-modal':                      { main: 'index.js', defaultExtension: 'js' },
+    'ng2-pagination':                 { main: 'index.js', defaultExtension: 'js' }
   };
   var ngPackageNames = [
     'common',
@@ -40,7 +38,6 @@
     'platform-browser',
     'platform-browser-dynamic',
     'router',
-    'router-deprecated',
     'upgrade'
   ];
 

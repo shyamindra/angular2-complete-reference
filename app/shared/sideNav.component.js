@@ -1,6 +1,6 @@
 "use strict";
-var SideNavDisplay = (function () {
-    function SideNavDisplay() {
+class SideNavDisplay {
+    constructor() {
         this.isHome = false;
         this.isProfile = false;
         this.isComplaints = false;
@@ -8,8 +8,9 @@ var SideNavDisplay = (function () {
         this.isSettings = false;
         this.isPayment = false;
         this.isRecentActivity = false;
+        this.isInfo = false;
     }
-    SideNavDisplay.prototype.setActiveFlagsFalse = function () {
+    setActiveFlagsFalse() {
         this.isHome = false;
         this.isProfile = false;
         this.isComplaints = false;
@@ -17,8 +18,9 @@ var SideNavDisplay = (function () {
         this.isSettings = false;
         this.isRecentActivity = false;
         this.isPayment = false;
-    };
-    SideNavDisplay.prototype.makeActive = function (path) {
+        this.isInfo = false;
+    }
+    makeActive(path) {
         this.setActiveFlagsFalse();
         switch (path) {
             case 'Home':
@@ -39,9 +41,11 @@ var SideNavDisplay = (function () {
             case 'RecentActivity':
                 this.isRecentActivity = true;
                 break;
+            case 'Info':
+                this.isInfo = true;
+                break;
         }
-    };
-    return SideNavDisplay;
-}());
+    }
+}
 exports.SideNavDisplay = SideNavDisplay;
 //# sourceMappingURL=sideNav.component.js.map

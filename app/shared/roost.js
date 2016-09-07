@@ -1,8 +1,5 @@
 "use strict";
-var Roost = (function () {
-    function Roost() {
-    }
-    return Roost;
-}());
+class Roost {
+}
 exports.Roost = Roost;
 //# sourceMappingURL=roost.js.map

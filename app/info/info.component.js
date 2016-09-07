@@ -9,25 +9,18 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 const core_1 = require('@angular/core');
-require('rxjs/add/operator/map');
-const http_1 = require('@angular/http');
-let ConfigService = class ConfigService {
-    constructor(http) {
-        this.http = http;
-    }
-    getEnv(key) {
-        return this.http.get('/app/config/env.json')
-            .map(res => res.json());
-    }
-    get(key) {
-        return this.http.get('/app/config/config.json')
-            .map((res) => res.json());
+const router_1 = require('@angular/router');
+let InfoComponent = class InfoComponent {
+    constructor() {
+        this.header = "Info page";
     }
 };
-ConfigService = __decorate([
-    core_1.Injectable(), 
-    __metadata('design:paramtypes', [http_1.Http])
-], ConfigService);
-exports.ConfigService = ConfigService;
-;
-//# sourceMappingURL=config.service.js.map
+InfoComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/info/info.html',
+        directives: [router_1.RouterLink]
+    }), 
+    __metadata('design:paramtypes', [])
+], InfoComponent);
+exports.InfoComponent = InfoComponent;
+//# sourceMappingURL=info.component.js.map

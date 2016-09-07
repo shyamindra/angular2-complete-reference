@@ -8,20 +8,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var core_1 = require('@angular/core');
-var router_1 = require('@angular/router');
-var SettingsComponent = (function () {
-    function SettingsComponent() {
+const core_1 = require('@angular/core');
+const router_1 = require('@angular/router');
+let SettingsComponent = class SettingsComponent {
+    constructor() {
         this.header = "Settings page";
     }
-    SettingsComponent = __decorate([
-        core_1.Component({
-            templateUrl: 'app/settings/settings.html',
-            directives: [router_1.RouterLink]
-        }), 
-        __metadata('design:paramtypes', [])
-    ], SettingsComponent);
-    return SettingsComponent;
-}());
+};
+SettingsComponent = __decorate([
+    core_1.Component({
+        templateUrl: 'app/settings/settings.html',
+        directives: [router_1.RouterLink]
+    }), 
+    __metadata('design:paramtypes', [])
+], SettingsComponent);
 exports.SettingsComponent = SettingsComponent;
 //# sourceMappingURL=settings.component.js.map

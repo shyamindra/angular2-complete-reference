@@ -8,6 +8,7 @@ export class SideNavDisplay{
     isSettings: boolean = false;
     isPayment: boolean = false;
     isRecentActivity: boolean = false;
+    isInfo: boolean = false;
 
     setActiveFlagsFalse(){
         this.isHome = false;
@@ -17,6 +18,7 @@ export class SideNavDisplay{
         this.isSettings = false;
         this.isRecentActivity = false;
         this.isPayment = false;
+        this.isInfo = false;
     }
 
     makeActive(path: string){
@@ -39,6 +41,9 @@ export class SideNavDisplay{
                 break;
             case 'RecentActivity': 
                 this.isRecentActivity = true;
+                break;
+            case 'Info': 
+                this.isInfo = true;
                 break;
         }
     }

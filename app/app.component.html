@@ -30,7 +30,7 @@
             </div>
             <div style="float:right; width:5%; max-width: 40px">
                 <div id="nav">
-                    <div (click)="toggleNotifications()" id="notification_li" style="cursor:pointer">
+                    <div (click)="toggleNotifications();" id="notification_li" style="cursor:pointer">
                         <a id="notificationLink">
                             <span *ngIf="notificationCount>0" id="notification_count">{{ notificationCount }}</span>
                             <span class="glyphicon glyphicon-bell notification-custom">
@@ -52,19 +52,78 @@
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">
                 <li [ngClass] = "{active:sideNav.isHome}">
-                    <a (click)="makeActive('Home')" [routerLink]="['home']"><img src="/assets/icon_home_active.png" class="side-nav-icon">   Home</a>
+                    <a *ngIf="sideNav.isHome==true" 
+                        (click)="makeActive('Home')" 
+                        [routerLink]="['home']">
+                            <img src="/assets/icon_home_active.png" 
+                                class="side-nav-icon">   Home</a>
+                    <a *ngIf="sideNav.isHome==false" 
+                        (click)="makeActive('Home')" 
+                        [routerLink]="['home']">
+                            <img src="/assets/icon_home.png" 
+                                class="side-nav-icon">   Home</a>
                 </li>
                 <li [ngClass] = "{active:sideNav.isPromotions}">
-                    <a (click)="makeActive('Promotions')" [routerLink]="['promotions']"><img src="/assets/icon_promotions_active.png" class="side-nav-icon">   Promotions</a>
+                    <a *ngIf="sideNav.isPromotions==true" 
+                        (click)="makeActive('Promotions')" 
+                        [routerLink]="['promotions']">
+                            <img src="/assets/icon_promotions_active.png" 
+                                class="side-nav-icon">   Promotions</a>
+                    <a *ngIf="sideNav.isPromotions==false" 
+                        (click)="makeActive('Promotions')" 
+                        [routerLink]="['promotions']">
+                            <img src="/assets/icon_promotions.png" 
+                            class="side-nav-icon">   Promotions</a>
                 </li>
                 <li [ngClass] = "{active:sideNav.isComplaints}">
-                    <a (click)="makeActive('Complaints')" [routerLink]="['complaints']"><img src="/assets/icon_complaints_active.png" class="side-nav-icon">   Complaints</a>
+                    <a *ngIf="sideNav.isComplaints==true" 
+                        (click)="makeActive('Complaints')" 
+                        [routerLink]="['complaints']">
+                            <img src="/assets/icon_complaints_active.png" 
+                            class="side-nav-icon">   Complaints</a>
+                    <a *ngIf="sideNav.isComplaints==false" 
+                        (click)="makeActive('Complaints')" 
+                        [routerLink]="['complaints']">
+                            <img src="/assets/icon_complaints.png" 
+                            class="side-nav-icon">   Complaints</a>
                 </li>
-                <li [ngClass] = "{active:sideNav.isProfile}">
-                    <a (click)="makeActive('Profile')" [routerLink]="['profile']"><img src="/assets/icon_profile_active.png" class="side-nav-icon">   Profile</a>
+                <li *ngIf="isUserLoggedIn==true" 
+                    [ngClass] = "{active:sideNav.isProfile}">
+                    <a *ngIf="sideNav.isProfile==true" 
+                    (click)="makeActive('Profile')" 
+                    [routerLink]="['profile']">
+                    <img src="/assets/icon_profile_active.png" 
+                    class="side-nav-icon">   User Profile</a>
+                    <a *ngIf="sideNav.isProfile==false" 
+                    (click)="makeActive('Profile')" 
+                    [routerLink]="['profile']">
+                    <img src="/assets/icon_profile.png" 
+                    class="side-nav-icon">   User Profile</a>
                 </li>
-                <li [ngClass] = "{active:sideNav.isPayment}">
-                    <a (click)="makeActive('Payment')" [routerLink]="['payment']"><img src="/assets/icon_settings_active.png" class="side-nav-icon">   Payment</a>
+                <li *ngIf="isUserLoggedIn==true" 
+                [ngClass] = "{active:sideNav.isPayment}">
+                    <a *ngIf="sideNav.isPayment==true" 
+                    (click)="makeActive('Payment')" 
+                    [routerLink]="['payment']">
+                     <img src="/assets/icon_wallet_active.png" 
+                    class="side-nav-icon">   Wallet</a>
+                    <a *ngIf="sideNav.isPayment==false" 
+                    (click)="makeActive('Payment')" 
+                    [routerLink]="['payment']">
+                    <img src="/assets/icon_wallet.png" 
+                    class="side-nav-icon">   Wallet</a> 
+                </li>
+                <li [ngClass] = "{active:sideNav.isInfo}">
+                    <a *ngIf="sideNav.isInfo==true" 
+                        (click)="makeActive('Info')" 
+                        [routerLink]="['info']">
+                            <img src="/assets/icon_terms_active.png" 
+                            class="side-nav-icon">   Info</a>
+                    <a *ngIf="sideNav.isInfo==false" 
+                        (click)="makeActive('Info')" 
+                        [routerLink]="['info']">
+                            <img src="/assets/icon_terms.png" 
+                            class="side-nav-icon">   Info</a>
                 </li>
             </ul>
         </div>
@@ -96,7 +155,10 @@
                                     style="opacity: 0" 
                                     accept="image/*" 
                                     id="imgUploadField"
-                                    (change)="onImgUpload($event)"/>
+                                    (change)="fileChange($event)"/>
+                                <div>  
+                                    <img src='{{ img }}' alt="">
+                                </div> 
                                 <input type="file" 
                                     #video 
                                     name="video" 
@@ -104,6 +166,9 @@
                                     accept="video/*" 
                                     id="videoUploadField"
                                     (change)="onVideoUpload($event)"/>
+                                <div>  
+                                    <video src='{{ video }}' alt=""></video>
+                                </div> 
                                 <input type="file" 
                                     #audio 
                                     name="audio" 
@@ -111,6 +176,9 @@
                                     accept="audio/*" 
                                     id="audioUploadField"
                                     (change)="onAudioUpload($event)"/>
+                                <div>  
+                                    <audio src='{{ audio }}' alt=""></audio>
+                                </div> 
                                 <div class="formImg"><a>
                                     <img src = "/assets/icon_camera_active.png" 
                                         (click)="img.click();"
