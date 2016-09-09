@@ -7,14 +7,14 @@ import {RoostService} from '../services/roost.service';
 import {Roost} from '../shared/roost';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
-import {MODAL_DIRECTIVES} from 'ng2-modal';
+import {MODAL_DIRECTIVES, Modal} from 'ng2-modal';
 
 
 @Component({
     selector: 'promotions',
     templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
-    providers: [Roost, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService],
+    providers: [Roost, PromotionsService, HTTP_PROVIDERS, PaginationService, RoostService, Modal],
     pipes: [PaginatePipe]
 })
 export class PromotionsComponent {
@@ -32,7 +32,8 @@ export class PromotionsComponent {
     constructor(private _promotionsService: PromotionsService, 
             private router:Router,
             private _cacheService: CacheService,
-            private _roostService: RoostService){
+            private _roostService: RoostService,
+            private myModal: Modal){
         if(null == this._cacheService.get('accessTokenRooster')){
             this.router.navigate(['home']);
         }
@@ -88,6 +89,7 @@ export class PromotionsComponent {
                     this.roosts[index].isListened = false;
                     this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
+                this.myModal.open();
                 });;
     }
 
@@ -100,6 +102,7 @@ export class PromotionsComponent {
                     this.roosts[index].isShout = false;
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
+                this.myModal.open();
                 });
     }
 

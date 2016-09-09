@@ -9,13 +9,13 @@ import {Observable} from 'rxjs/Rx';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
-import {MODAL_DIRECTIVES} from 'ng2-modal';
+import {MODAL_DIRECTIVES, Modal} from 'ng2-modal';
 
 @Component({
     selector: 'home',
     templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink, CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
-    providers: [RoostService, HTTP_PROVIDERS, PaginationService],
+    providers: [RoostService, HTTP_PROVIDERS, PaginationService, Modal],
     pipes: [PaginatePipe]
 })
 export class HomeComponent implements OnInit{
@@ -30,7 +30,8 @@ export class HomeComponent implements OnInit{
     displayList: boolean = false;
     displayListTitle: string;
 
-    constructor(private _roostService: RoostService){
+    constructor(private _roostService: RoostService,
+        private myModal: Modal){
     }
     
    ngOnInit() {
@@ -87,6 +88,7 @@ export class HomeComponent implements OnInit{
                     this.roosts[index].isListened = false;
                     this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
+                this.myModal.open();
             });
     }
 
@@ -99,6 +101,7 @@ export class HomeComponent implements OnInit{
                     this.roosts[index].isShout = false;
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
+                this.myModal.open();
             });
     }
 

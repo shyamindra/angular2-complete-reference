@@ -8,13 +8,13 @@ import {ConfigService} from '../services/config.service';
 import {Roost} from '../shared/roost';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
-import {MODAL_DIRECTIVES} from 'ng2-modal';
+import {MODAL_DIRECTIVES, Modal} from 'ng2-modal';
 
 @Component({
     selector: 'complaints',
     templateUrl: 'app/shared/rooster.component.html',
     directives: [RouterLink,CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
-    providers: [Roost, ComplaintsService, ConfigService, HTTP_PROVIDERS, PaginationService, RoostService],
+    providers: [Roost, ComplaintsService, ConfigService, HTTP_PROVIDERS, PaginationService, RoostService, Modal],
     pipes: [PaginatePipe]
 })
 export class ComplaintsComponent {
@@ -32,7 +32,8 @@ export class ComplaintsComponent {
     constructor(private _complaintsService: ComplaintsService, 
                 private _router: Router,
                 private _cacheService: CacheService,
-                private _roostService: RoostService){
+                private _roostService: RoostService,
+                private myModal: Modal){
         if(null == this._cacheService.get('accessTokenRooster')){
             this._router.navigate(['home']);
         }
@@ -89,7 +90,8 @@ export class ComplaintsComponent {
                     this.roosts[index].isListened = false;
                     this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
-                });;
+                this.myModal.open();
+                });
     }
 
     toggleListen(index: number){
@@ -101,6 +103,7 @@ export class ComplaintsComponent {
                     this.roosts[index].isShout = false;
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
+                this.myModal.open();
                 });
     }
 

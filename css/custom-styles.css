@@ -121,3 +121,15 @@ a {
     cursor: pointer;
 }
 
+.infoLink{
+    clear: both;
+    color: black;
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: bold;
+    padding: 15px;
+}
+
+.infoLink a{
+    color: black;
+}

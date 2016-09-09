@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild } from '@angular/core';
 import {Routes, Router, RouterModule, ROUTER_DIRECTIVES} from '@angular/router';
 import {NgClass, NgStyle} from '@angular/common';
 import {HTTP_PROVIDERS} from '@angular/http';
@@ -13,13 +13,16 @@ import {SideNavDisplay} from './shared/sideNav.component';
 import {Widget} from './shared/widget.component';
 import {Roost} from './shared/roost';
 import {Tag} from './shared/tag';
+import {GoogleplaceDirective} from './shared/googleplace.directive';
+
+import {MODAL_DIRECTIVES, Modal } from 'ng2-modal';
 
 
 @Component({
     selector: 'my-app',
     templateUrl: 'app/app.component.html',
-    directives: [ROUTER_DIRECTIVES, NgClass, NgStyle],
-    providers: [UserService, RoostService, SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget, Roost]
+    directives: [ROUTER_DIRECTIVES, NgClass, NgStyle, MODAL_DIRECTIVES, GoogleplaceDirective],
+    providers: [UserService, RoostService, SessionService, HTTP_PROVIDERS, FacebookService, SideNavDisplay, Widget, Roost, Modal]
 })
 export class AppComponent implements OnInit{
     searchText: string = '';
@@ -35,6 +38,12 @@ export class AppComponent implements OnInit{
     tags: string;
     complaintDesc: string;
     filesToUpload: Array<File>;
+    loginText: string;
+    firstName: string;
+    lastName: string;
+    userImg: string;
+    @ViewChild('loginModal')
+    loginModal: Modal;
 
    
     constructor(private sideNav: SideNavDisplay,
@@ -47,9 +56,9 @@ export class AppComponent implements OnInit{
             private userService: UserService,
             private roost: Roost){
         let fbParams: FacebookInitParams = {
-                        appId: '1730242673902791',
+                        appId: '1682807852004621',
                         xfbml: true,
-                        version: 'v2.7'
+                        version: 'v2.5'
                         };
         this.fb.init(fbParams);
     }
@@ -73,7 +82,27 @@ export class AppComponent implements OnInit{
         this.filesToUpload = <Array<File>> fileInput.target.files;
     }
 
+    validatePromotions(){
+        if(this.isUserLoggedIn == true){
+            this._router.navigate(['promotions']);
+            this.sideNav.makeActive('Promotions');
+        }
+        else{
+            if(this.loginModal != null)
+                this.loginModal.open();
+        }
+    }
 
+    validateComplaints(){
+        if(this.isUserLoggedIn == true){
+            this._router.navigate(['complaints']);
+            this.sideNav.makeActive('Complaints');
+        }
+        else{
+            if(this.loginModal != null)
+                this.loginModal.open();
+        }
+    }
 
     handleLogin(): void {
         this.fb.login().then(
@@ -94,6 +123,12 @@ export class AppComponent implements OnInit{
                 console.log(JSON.stringify(response));
                 this._cacheService.set('accessTokenRooster', response.token);
                 this._cacheService.set('userIdRooster', response.user.id);
+                this.firstName = response.user.name;
+                this.lastName = response.user.surname;
+                this.userImg = response.user.profile_image;
+                this._cacheService.set('userFirstName', response.user.name);
+                this._cacheService.set('userLastName', response.user.surname);
+                this._cacheService.set('userImg', response.user.profile_image);
             });
     }
 

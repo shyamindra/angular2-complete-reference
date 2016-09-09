@@ -19,11 +19,12 @@ const ng2_cache_1 = require('ng2-cache/ng2-cache');
 const ng2_pagination_1 = require('ng2-pagination');
 const ng2_modal_1 = require('ng2-modal');
 let PromotionsComponent = class PromotionsComponent {
-    constructor(_promotionsService, router, _cacheService, _roostService) {
+    constructor(_promotionsService, router, _cacheService, _roostService, myModal) {
         this._promotionsService = _promotionsService;
         this.router = router;
         this._cacheService = _cacheService;
         this._roostService = _roostService;
+        this.myModal = myModal;
         this.header = "Promotions Page";
         this.isLoading = true;
         this.displayList = false;
@@ -75,6 +76,7 @@ let PromotionsComponent = class PromotionsComponent {
                 this.roosts[index].isListened = false;
                 this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
+            this.myModal.open();
         });
         ;
     }
@@ -87,6 +89,7 @@ let PromotionsComponent = class PromotionsComponent {
                 this.roosts[index].isShout = false;
                 this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
+            this.myModal.open();
         });
     }
     displayShoutsList(id) {
@@ -113,10 +116,10 @@ PromotionsComponent = __decorate([
         selector: 'promotions',
         templateUrl: 'app/shared/rooster.component.html',
         directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-        providers: [roost_1.Roost, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
+        providers: [roost_1.Roost, promotion_service_1.PromotionsService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService, ng2_modal_1.Modal],
         pipes: [ng2_pagination_1.PaginatePipe]
     }), 
-    __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService])
+    __metadata('design:paramtypes', [promotion_service_1.PromotionsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService, ng2_modal_1.Modal])
 ], PromotionsComponent);
 exports.PromotionsComponent = PromotionsComponent;
 //# sourceMappingURL=promotions.component.js.map

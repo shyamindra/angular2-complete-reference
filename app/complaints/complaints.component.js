@@ -20,11 +20,12 @@ const ng2_cache_1 = require('ng2-cache/ng2-cache');
 const ng2_pagination_1 = require('ng2-pagination');
 const ng2_modal_1 = require('ng2-modal');
 let ComplaintsComponent = class ComplaintsComponent {
-    constructor(_complaintsService, _router, _cacheService, _roostService) {
+    constructor(_complaintsService, _router, _cacheService, _roostService, myModal) {
         this._complaintsService = _complaintsService;
         this._router = _router;
         this._cacheService = _cacheService;
         this._roostService = _roostService;
+        this.myModal = myModal;
         this.header = "Complaints page";
         this.isLoading = true;
         this.displayList = false;
@@ -77,8 +78,8 @@ let ComplaintsComponent = class ComplaintsComponent {
                 this.roosts[index].isListened = false;
                 this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
+            this.myModal.open();
         });
-        ;
     }
     toggleListen(index) {
         this._roostService.listen(this.roosts[index].id)
@@ -89,6 +90,7 @@ let ComplaintsComponent = class ComplaintsComponent {
                 this.roosts[index].isShout = false;
                 this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
+            this.myModal.open();
         });
     }
     displayShoutsList(id) {
@@ -115,10 +117,10 @@ ComplaintsComponent = __decorate([
         selector: 'complaints',
         templateUrl: 'app/shared/rooster.component.html',
         directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-        providers: [roost_1.Roost, complaint_service_1.ComplaintsService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService],
+        providers: [roost_1.Roost, complaint_service_1.ComplaintsService, config_service_1.ConfigService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, roost_service_1.RoostService, ng2_modal_1.Modal],
         pipes: [ng2_pagination_1.PaginatePipe]
     }), 
-    __metadata('design:paramtypes', [complaint_service_1.ComplaintsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService])
+    __metadata('design:paramtypes', [complaint_service_1.ComplaintsService, router_1.Router, ng2_cache_1.CacheService, roost_service_1.RoostService, ng2_modal_1.Modal])
 ], ComplaintsComponent);
 exports.ComplaintsComponent = ComplaintsComponent;
 //# sourceMappingURL=complaints.component.js.map

@@ -7,15 +7,15 @@
   global.angular2ModalVer = angular2ModalVer;
   // map tells the System loader where to look for things
   var map = {
-    'app':                            'app', // 'dist',
-    '@angular':                       'node_modules/@angular',
-    'angular2-in-memory-web-api':     'node_modules/angular2-in-memory-web-api',
-    'rxjs':                           'node_modules/rxjs',
-    '@angular2-material':             'node_modules/@angular2-material',
-    'ng2-cache':                      'node_modules/ng2-cache',
-    'ng2-facebook-sdk':               'node_modules/ng2-facebook-sdk/dist',
-    'ng2-modal':                      'node_modules/ng2-modal',
-    'ng2-pagination':                 'node_modules/ng2-pagination'    
+    'app':                                'app', // 'dist',
+    '@angular':                           'node_modules/@angular',
+    'angular2-in-memory-web-api':         'node_modules/angular2-in-memory-web-api',
+    'rxjs':                               'node_modules/rxjs',
+    '@angular2-material':                 'node_modules/@angular2-material',
+    'ng2-cache':                          'node_modules/ng2-cache',
+    'ng2-facebook-sdk':                   'node_modules/ng2-facebook-sdk/dist',
+    'ng2-modal':                          'node_modules/ng2-modal',
+    'ng2-pagination':                     'node_modules/ng2-pagination'    
   };
 
 

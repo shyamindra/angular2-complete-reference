@@ -21,6 +21,8 @@ const sideNav_component_1 = require('./shared/sideNav.component');
 const widget_component_1 = require('./shared/widget.component');
 const roost_1 = require('./shared/roost');
 const tag_1 = require('./shared/tag');
+const googleplace_directive_1 = require('./shared/googleplace.directive');
+const ng2_modal_1 = require('ng2-modal');
 let AppComponent = class AppComponent {
     constructor(sideNav, widget, _router, roostService, _cacheService, fb, _sessionService, userService, roost) {
         this.sideNav = sideNav;
@@ -37,9 +39,9 @@ let AppComponent = class AppComponent {
         this.needsToggle = false;
         this.isUserLoggedIn = false;
         let fbParams = {
-            appId: '1730242673902791',
+            appId: '1682807852004621',
             xfbml: true,
-            version: 'v2.7'
+            version: 'v2.5'
         };
         this.fb.init(fbParams);
     }
@@ -61,6 +63,26 @@ let AppComponent = class AppComponent {
     onImgUpload(fileInput) {
         this.filesToUpload = fileInput.target.files;
     }
+    validatePromotions() {
+        if (this.isUserLoggedIn == true) {
+            this._router.navigate(['promotions']);
+            this.sideNav.makeActive('Promotions');
+        }
+        else {
+            if (this.loginModal != null)
+                this.loginModal.open();
+        }
+    }
+    validateComplaints() {
+        if (this.isUserLoggedIn == true) {
+            this._router.navigate(['complaints']);
+            this.sideNav.makeActive('Complaints');
+        }
+        else {
+            if (this.loginModal != null)
+                this.loginModal.open();
+        }
+    }
     handleLogin() {
         this.fb.login().then((response) => {
             this._cacheService.set('userIdFB', response.authResponse.userID);
@@ -76,6 +98,12 @@ let AppComponent = class AppComponent {
             console.log(JSON.stringify(response));
             this._cacheService.set('accessTokenRooster', response.token);
             this._cacheService.set('userIdRooster', response.user.id);
+            this.firstName = response.user.name;
+            this.lastName = response.user.surname;
+            this.userImg = response.user.profile_image;
+            this._cacheService.set('userFirstName', response.user.name);
+            this._cacheService.set('userLastName', response.user.surname);
+            this._cacheService.set('userImg', response.user.profile_image);
         });
     }
     triggerSearch(searchTxt) {
@@ -148,12 +176,16 @@ let AppComponent = class AppComponent {
         return tags;
     }
 };
+__decorate([
+    core_1.ViewChild('loginModal'), 
+    __metadata('design:type', ng2_modal_1.Modal)
+], AppComponent.prototype, "loginModal", void 0);
 AppComponent = __decorate([
     core_1.Component({
         selector: 'my-app',
         templateUrl: 'app/app.component.html',
-        directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass, common_1.NgStyle],
-        providers: [user_service_1.UserService, roost_service_1.RoostService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget, roost_1.Roost]
+        directives: [router_1.ROUTER_DIRECTIVES, common_1.NgClass, common_1.NgStyle, ng2_modal_1.MODAL_DIRECTIVES, googleplace_directive_1.GoogleplaceDirective],
+        providers: [user_service_1.UserService, roost_service_1.RoostService, session_service_1.SessionService, http_1.HTTP_PROVIDERS, ng2_facebook_sdk_1.FacebookService, sideNav_component_1.SideNavDisplay, widget_component_1.Widget, roost_1.Roost, ng2_modal_1.Modal]
     }), 
     __metadata('design:paramtypes', [sideNav_component_1.SideNavDisplay, widget_component_1.Widget, router_1.Router, roost_service_1.RoostService, ng2_cache_1.CacheService, (typeof (_a = typeof ng2_facebook_sdk_1.FacebookService !== 'undefined' && ng2_facebook_sdk_1.FacebookService) === 'function' && _a) || Object, session_service_1.SessionService, user_service_1.UserService, roost_1.Roost])
 ], AppComponent);

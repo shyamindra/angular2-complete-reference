@@ -18,8 +18,9 @@ require('rxjs/add/operator/do');
 const ng2_pagination_1 = require('ng2-pagination');
 const ng2_modal_1 = require('ng2-modal');
 let HomeComponent = class HomeComponent {
-    constructor(_roostService) {
+    constructor(_roostService, myModal) {
         this._roostService = _roostService;
+        this.myModal = myModal;
         this.header = "Home Page";
         this.isLoading = true;
         this.displayList = false;
@@ -72,6 +73,7 @@ let HomeComponent = class HomeComponent {
                 this.roosts[index].isListened = false;
                 this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
+            this.myModal.open();
         });
     }
     toggleListen(index) {
@@ -83,6 +85,7 @@ let HomeComponent = class HomeComponent {
                 this.roosts[index].isShout = false;
                 this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
+            this.myModal.open();
         });
     }
     displayShoutsList(id) {
@@ -109,10 +112,10 @@ HomeComponent = __decorate([
         selector: 'home',
         templateUrl: 'app/shared/rooster.component.html',
         directives: [router_1.RouterLink, common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-        providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+        providers: [roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, ng2_modal_1.Modal],
         pipes: [ng2_pagination_1.PaginatePipe]
     }), 
-    __metadata('design:paramtypes', [roost_service_1.RoostService])
+    __metadata('design:paramtypes', [roost_service_1.RoostService, ng2_modal_1.Modal])
 ], HomeComponent);
 exports.HomeComponent = HomeComponent;
 //# sourceMappingURL=home.component.js.map

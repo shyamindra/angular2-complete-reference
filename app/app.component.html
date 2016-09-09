@@ -1,11 +1,20 @@
 <div (click)="handleOffClick()">
 <nav class = "navbar navbar-default navbar-fixed-top navbar-rooster" role = "navigation"> 
     <div class = "navbar-header" style="width:100%">
-        <div style="float:left;">
+        <div *ngIf="isUserLoggedIn==false" style="float:left;">
             <a class="pull-left"><img src="/assets/ab_logo.png" class="logo"></a>
         </div>
-        <div style="float:left; width:40%">
+        <div *ngIf="isUserLoggedIn==false" style="float:left; width:40%">
             <a [routerLink]="['home']" class = "navbar-brand navbar-header-custom">Rooster</a>
+        </div>
+        <div *ngIf="isUserLoggedIn==false" style="float:left;">
+            <a class="pull-left"><img src="/assets/ab_logo.png" class="logo"></a>
+        </div>
+        <div *ngIf="isUserLoggedIn==false" style="float:left;">
+            <a class="pull-left"><img src="{{ userImg }}" class="logo"></a>
+        </div>
+        <div *ngIf="isUserLoggedIn==true" style="float:left; width:40%">
+            <a [routerLink]="['profile']" class = "navbar-brand navbar-header-custom">{{ firstName }}</a>
         </div>
         <div *ngIf="isUserLoggedIn==true" style="float:left; width:40%">
             <form class="navbar-form navbar-left search-custom" role="search">
@@ -25,12 +34,12 @@
             <a [routerLink]="['signUp']" (click)="setActiveFlagsFalse()" class = "navbar-brand navbar-header-custom-right">Sign Up</a>
         </div>
         <div *ngIf="isUserLoggedIn==true">
-            <div class ="userDetailsDiv">
+            <!--<div class ="userDetailsDiv">
                 <a class="pull-left"><img src="/assets/ab_logo.png" class="userDetailsImg"></a>
-            </div>
-            <div style="float:right; width:5%; max-width: 40px">
+            </div>-->
+            <div style="float:right; padding-right: 30px; width:10%; max-width: 60px">
                 <div id="nav">
-                    <div (click)="toggleNotifications();" id="notification_li" style="cursor:pointer">
+                    <div (click)="toggleNotifications();" id="notification_li">
                         <a id="notificationLink">
                             <span *ngIf="notificationCount>0" id="notification_count">{{ notificationCount }}</span>
                             <span class="glyphicon glyphicon-bell notification-custom">
@@ -65,25 +74,21 @@
                 </li>
                 <li [ngClass] = "{active:sideNav.isPromotions}">
                     <a *ngIf="sideNav.isPromotions==true" 
-                        (click)="makeActive('Promotions')" 
-                        [routerLink]="['promotions']">
+                        (click)="validatePromotions();">
                             <img src="/assets/icon_promotions_active.png" 
                                 class="side-nav-icon">   Promotions</a>
                     <a *ngIf="sideNav.isPromotions==false" 
-                        (click)="makeActive('Promotions')" 
-                        [routerLink]="['promotions']">
+                        (click)="validatePromotions();">
                             <img src="/assets/icon_promotions.png" 
                             class="side-nav-icon">   Promotions</a>
                 </li>
                 <li [ngClass] = "{active:sideNav.isComplaints}">
                     <a *ngIf="sideNav.isComplaints==true" 
-                        (click)="makeActive('Complaints')" 
-                        [routerLink]="['complaints']">
+                        (click)="validateComplaints();">
                             <img src="/assets/icon_complaints_active.png" 
                             class="side-nav-icon">   Complaints</a>
                     <a *ngIf="sideNav.isComplaints==false" 
-                        (click)="makeActive('Complaints')" 
-                        [routerLink]="['complaints']">
+                        (click)="validateComplaints();">
                             <img src="/assets/icon_complaints.png" 
                             class="side-nav-icon">   Complaints</a>
                 </li>
@@ -210,6 +215,14 @@
                                     name="complaintLocation" 
                                     placeholder="Add your location" 
                                     type="text"/>
+
+                                <input 
+                                    class="form-control widget-control form-location" 
+                                    name="complaintLocation" 
+                                    placeholder="Add your location" 
+                                    type="text"
+                                    [(ngModel)] = "complaintLocation"
+                                    (setAddress) = "getAddress($event)" googleplace/>
                                 <input 
                                     class="form-control widget-control form-tags" 
                                     id="tags" 
@@ -272,3 +285,12 @@
     </div>
     <!-- /#wrapper -->
     </div>
+
+    <modal #loginModal>
+        <modal-content>
+            Please login to continue
+        </modal-content>
+        <modal-footer>
+            <button class="btn btn-primary" (click)="loginModal.close()">close</button>
+        </modal-footer>
+    </modal>

@@ -17,10 +17,11 @@ const roost_service_1 = require('../services/roost.service');
 const ng2_pagination_1 = require('ng2-pagination');
 const ng2_modal_1 = require('ng2-modal');
 let SearchComponent = class SearchComponent {
-    constructor(route, _roostService, _router) {
+    constructor(route, _roostService, _router, myModal) {
         this.route = route;
         this._roostService = _roostService;
         this._router = _router;
+        this.myModal = myModal;
         this.isLoading = true;
         this.displayList = false;
         this.sub = this.route.params
@@ -71,6 +72,7 @@ let SearchComponent = class SearchComponent {
                 this.roosts[index].isListened = false;
                 this.roosts[index].listeners = this.roosts[index].listeners - 1;
             }
+            this.myModal.open();
         });
         ;
     }
@@ -83,6 +85,7 @@ let SearchComponent = class SearchComponent {
                 this.roosts[index].isShout = false;
                 this.roosts[index].shouts = this.roosts[index].shouts - 1;
             }
+            this.myModal.open();
         });
     }
     displayShoutsList(id) {
@@ -109,10 +112,10 @@ SearchComponent = __decorate([
         selector: 'search',
         templateUrl: 'app/shared/rooster.component.html',
         directives: [common_1.CORE_DIRECTIVES, ng2_pagination_1.PaginationControlsCmp, ng2_modal_1.MODAL_DIRECTIVES],
-        providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService],
+        providers: [user_service_1.UserService, roost_service_1.RoostService, http_1.HTTP_PROVIDERS, ng2_pagination_1.PaginationService, ng2_modal_1.Modal],
         pipes: [ng2_pagination_1.PaginatePipe]
     }), 
-    __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService, router_1.Router])
+    __metadata('design:paramtypes', [router_1.ActivatedRoute, roost_service_1.RoostService, router_1.Router, ng2_modal_1.Modal])
 ], SearchComponent);
 exports.SearchComponent = SearchComponent;
 //# sourceMappingURL=search.component.js.map

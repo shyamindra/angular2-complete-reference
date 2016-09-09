@@ -7,13 +7,13 @@ import {UserService} from '../services/user.service';
 import {RoostService} from '../services/roost.service';
 import {Roost} from '../shared/roost';
 import {PaginatePipe, PaginationControlsCmp, PaginationService} from 'ng2-pagination';
-import {MODAL_DIRECTIVES} from 'ng2-modal';
+import {MODAL_DIRECTIVES, Modal} from 'ng2-modal';
 
 @Component({
     selector: 'search',
     templateUrl: 'app/shared/rooster.component.html',
     directives: [CORE_DIRECTIVES, PaginationControlsCmp, MODAL_DIRECTIVES],
-    providers: [UserService, RoostService, HTTP_PROVIDERS, PaginationService],
+    providers: [UserService, RoostService, HTTP_PROVIDERS, PaginationService, Modal],
     pipes: [PaginatePipe]
 })
 export class SearchComponent implements OnInit{
@@ -32,7 +32,8 @@ export class SearchComponent implements OnInit{
 
 constructor(private route: ActivatedRoute, 
     private _roostService: RoostService,
-    private _router: Router){
+    private _router: Router,
+    private myModal: Modal){
     this.sub = this.route.params
         .subscribe(params => {
             this.searchQry = params['searchKey'];
@@ -87,6 +88,7 @@ redirectToGMaps(latitude: number, longitude: number){
                     this.roosts[index].isListened = false;
                     this.roosts[index].listeners = this.roosts[index].listeners - 1;
                 }
+                this.myModal.open();
                 });;
     }
 
@@ -99,6 +101,7 @@ redirectToGMaps(latitude: number, longitude: number){
                     this.roosts[index].isShout = false;
                     this.roosts[index].shouts = this.roosts[index].shouts - 1;
                 }
+                this.myModal.open();
                 });
     }
 
