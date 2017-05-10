@@ -1,0 +1,438 @@
+
+<div *ngIf="isLoading">
+    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw spinner-custom"></i>
+</div>
+<div *ngIf="searchQry != null">
+    <div class="searchResults">Results for {{searchQry}}</div>
+    <hr/>
+</div>
+<div style="float:left; width:100%">
+    <div *ngFor="let feed of roosts| paginate: {   itemsPerPage: pageSize,
+                                                   currentPage: page,
+                                                   totalItems: total }; let i = index">
+            <div class="profile-feed">
+                <div (click)="showDetail(feed, true);" style="cursor: pointer;">
+                <div class="profile-feed-header">
+                    <h4>{{ feed.title }}</h4>
+                </div>
+                <div class="tags-div">
+                    <div *ngFor="let tag of feed.tags" class="tags">
+                            #{{ tag.tag }}
+                    </div>
+                </div>
+                </div>
+                <a (click)="redirectToGMaps(feed.lat,feed.lng)">
+                    <div id="location-div">
+                        <div id="location">
+                            <img src="assets/icon_tf_location_active.png">
+                        </div>
+                        <div id="location-address">
+                            {{ feed.location }}
+                        </div>
+                    </div>
+                </a>
+                <div id="date" (click)="showDetail(feed, true);">
+                    <img src="assets/time_icon.png">
+                    {{ extractDate(feed.created_at) }}
+                </div>
+                 <!--<video controls>
+                        <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + 87 + '.mp4'}}" type="video/mp4">
+                </video>-->
+                <div id="media-div" (click)="showMedia(feed);">
+                    <div *ngIf="feed.media_type=='IMG'">
+                        <img src= "{{feed.image}}" onerror="this.src='assets/placeholder.png'" />
+                    </div>
+                    <div *ngIf="feed.media_type=='VID'" class="videoContainer">
+                        <video poster="{{feed.image}}" controls>
+                            <source src= "{{feed.video}}" onerror="this.src='assets/placeholder.png'" type="video/mp4">
+                        </video>
+                        <div class="player-buttons"></div>
+                    </div>
+                    <div *ngIf="feed.media_type=='AUD'" class="audio">
+                        <audio controls>
+                            <source src= "{{feed.audio}}" type="audio/mpeg">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <div id="Comments">
+                    <div *ngIf="feed.type=='PROMO'" class="commentDiv"><a (click)="displayShoutsList(feed);">
+                            {{ feed.shouts }} Follow</a> &nbsp;&#8226;</div>
+                    <div *ngIf="feed.type=='COMPLAIN'" class="commentDiv"><a (click)="displayShoutsList(feed);">
+                            {{ feed.shouts }} Shouts</a> &nbsp;&#8226;</div>
+                    <div *ngIf="feed.type=='PROMO'" class="commentDiv"><a (click)="displayListenersList(feed);">
+                            {{ feed.listeners }} Reach</a>  &nbsp;&#8226;</div>
+                    <div *ngIf="feed.type=='COMPLAIN'" class="commentDiv"><a (click)="displayListenersList(feed);">
+                            {{ feed.listeners }} Listeners</a>  &nbsp;&#8226;</div>
+                    <div class="commentDiv">
+                        <a (click)="displayCommentsList(feed);">{{ feed.comments }} Discussions</a></div>
+                </div>
+                <div style="clear:both">
+                <hr/>
+                </div>
+                <div id="icons">
+                    <div *ngIf="feed.isShout==false" (click) = "toggleShout(feed)" class="icon">
+                        <div *ngIf="feed.type=='PROMO'">
+                            <a><img src="assets/icon_promotions_follow.png"></a>
+                        </div>
+                        <div *ngIf="feed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_support.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="feed.isShout==true" (click) = "toggleShout(feed)" class="icon">
+                        <div *ngIf="feed.type=='PROMO'">
+                            <a><img src="assets/icon_promotions_follow_active.png"></a>
+                        </div>
+                        <div *ngIf="feed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_support_active.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="feed.isListened==false" (click) = "toggleListen(feed)" class="icon">
+                        <div *ngIf="feed.type=='PROMO'">
+                            <a><img src="assets/icon_reach.png"></a>
+                        </div>
+                        <div *ngIf="feed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_listners.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="feed.isListened==true" (click) = "toggleListen(feed)" class="icon">
+                        <div *ngIf="feed.type=='PROMO'">
+                            <a><img src="assets/icon_reach_active.png"></a>
+                        </div>
+                        <div *ngIf="feed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_listners_active.png"></a>
+                        </div>
+                    </div>
+                    <div class="icon" (click)="displayCommentsList(feed);">
+                        <a><img src="assets/icon_comment.png"></a>
+                    </div>
+                    <div class="icon_share" (click)="shareRoost(feed);">
+                        <a>Share <img src="assets/icon_share.png"></a>
+                    </div>
+                </div>
+            </div>
+	</div>
+</div>
+<pagination-controls (pageChange)="getPage($event)"></pagination-controls>
+<div class="userActionsModal">
+<modal #myModal>
+    <modal-header>
+        <h4>&nbsp;{{ displayListTitle }}</h4>
+    </modal-header>
+    <modal-content>
+        <div *ngFor="let list of lists">
+            <div class="userActions-modal-div">
+            <div *ngIf="list.shout_by != null">
+                <div class="userDetailsDiv" style="clear:both; padding:1px;">
+                    <div class="userDetailsImg"><img #usrImg src="{{ list.shout_by.profile_image }}" (error)="imgError(usrImg, list.shout_by.facebook_id)"></div>
+                    <div class="userDetails">{{ list.shout_by.get_full_name }}</div> </div>
+                </div>
+            <div *ngIf="list.listened_by != null">
+                <div class="userDetailsDiv" style="clear:both;padding:1px;">
+                    <div class="userDetailsImg"><img #usrImg src="{{ list.listened_by.profile_image }}" (error)="imgError(usrImg, list.listened_by.facebook_id)"></div>
+                    <div class="userDetails">{{ list.listened_by.get_full_name }}</div></div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="lists == ''"> <h5>No {{displayListTitle}} at the moment</h5> </div>
+    </modal-content>
+</modal>
+</div>
+<div class="commentsModal">
+<modal #commentsModal>
+    <modal-header>
+        <h4>&nbsp;{{ displayListTitle }}</h4>
+    </modal-header>
+    <modal-content>
+        <div *ngFor="let list of comments">
+            <div class="comments-modal-div">
+                <div class="commentImg"><img #usrImg src="{{ list.user.profile_image }}" (error)="imgError(usrImg, list.user.facebook_id)"></div>
+                <div class="commentDetails"><div class="comment-name">{{ list.user.get_full_name }}</div>
+                <div>{{ list.comment }}</div> </div>
+                <div class="comment-date">
+                    <img src="assets/time_icon.png">
+                    {{ extractDate(list.createdAt) }}
+                </div>
+            </div>
+        </div>
+        <div *ngIf="lists == ''"> <h5>No discussions at the moment</h5> </div>
+    </modal-content>
+    <modal-footer>
+        <input #commentText
+                        class="comment"
+                        placeholder="Enter your comment here"
+                        (keyup.enter)="addComment(commentText);"/>
+        <img src="assets/icon_send_active@2x.png" (click)="addComment(commentText);">
+    </modal-footer>
+</modal>
+</div>
+
+<div class="detailModal">
+<modal #detailModal>
+    <modal-header>
+        <div *ngIf="profileFeed != null">
+            <h4>&nbsp;Roost Detail</h4>
+        </div>
+    </modal-header>
+    <modal-content>
+                <div *ngIf="profileFeed != null" class="detail-profile-feed">
+                <div id="media-div">
+                    <div *ngIf="profileFeed.media_type=='IMG'">
+                        <img src= "{{profileFeed.image}}"  onerror="this.src='assets/placeholder.png'"/>
+                    </div>
+                    <div *ngIf="profileFeed.media_type=='VID'">
+                        <video poster="{{profileFeed.image}}" controls>
+                            <source src= "{{profileFeed.video}}" onerror="this.src='assets/placeholder.png'" type="video/mp4">
+                        </video>
+                    </div>
+                    <div *ngIf="profileFeed.media_type=='AUD'" class="audio">
+                        <audio controls>
+                            <source src= "{{profileFeed.audio}}">
+                            Your browser does not support the audio element.
+                        </audio>
+                    </div>
+                </div>
+                <div id="Comments">
+                    <div *ngIf="profileFeed.type=='PROMO'" class="commentDiv">
+                            {{ profileFeed.shouts }} Follow &nbsp;&#8226;</div>
+                    <div *ngIf="profileFeed.type=='COMPLAIN'" class="commentDiv">
+                            {{ profileFeed.shouts }} Shouts &nbsp;&#8226;</div>
+                    <div *ngIf="profileFeed.type=='PROMO'" class="commentDiv">
+                            {{ profileFeed.listeners }} Reach  &nbsp;&#8226;</div>
+                    <div *ngIf="profileFeed.type=='COMPLAIN'" class="commentDiv">
+                            {{ profileFeed.listeners }} Listeners  &nbsp;&#8226;</div>
+                    <div class="commentDiv">
+                            {{ profileFeed.comments }} Discussons</div>
+                </div>
+                <div style="clear:both">
+                <hr/>
+                </div>
+                <div id="icons">
+                    <div *ngIf="profileFeed.isShout==false" (click) = "toggleShout(profileFeed)" class="icon">
+                        <div *ngIf="profileFeed.type=='PROMO'">
+                            <a><img src="assets/icon_promotions_follow.png"></a>
+                        </div>
+                        <div *ngIf="profileFeed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_support.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="profileFeed.isShout==true" (click) = "toggleShout(profileFeed)" class="icon">
+                        <div *ngIf="profileFeed.type=='PROMO'">
+                            <a><img src="assets/icon_promotions_follow_active.png"></a>
+                        </div>
+                        <div *ngIf="profileFeed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_support_active.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="profileFeed.isListened==false" (click) = "toggleListen(profileFeed)" class="icon">
+                        <div *ngIf="profileFeed.type=='PROMO'">
+                            <a><img src="assets/icon_reach.png"></a>
+                        </div>
+                        <div *ngIf="profileFeed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_listners.png"></a>
+                        </div>
+                    </div>
+                    <div *ngIf="profileFeed.isListened==true" (click) = "toggleListen(profileFeed)" class="icon">
+                        <div *ngIf="profileFeed.type=='PROMO'">
+                            <a><img src="assets/icon_reach_active.png"></a>
+                        </div>
+                        <div *ngIf="profileFeed.type=='COMPLAIN'">
+                            <a><img src="assets/icon_listners_active.png"></a>
+                        </div>
+                    </div>
+                    <div class="icon" (click)="displayCommentsList(profileFeed);">
+                        <a><img src="assets/icon_comment.png"></a>
+                    </div>
+                    <div class="icon_share" (click)="shareRoost(profileFeed);">
+                        <a>Share <img src="assets/icon_share.png"></a>
+                    </div>
+                </div>
+                <div style="clear:both;padding:1px;">&nbsp;</div>
+                <div>
+                 <div class="detailTitle">
+                    <h4>{{ profileFeed.title }}</h4>
+                </div>
+                <div *ngIf="userId==profileFeed.user.id" style="float: right;">
+                        <button type="button" class="btn btn-danger" (click)="leave(profileFeed);">Leave</button>
+                </div>
+                </div>
+                 <div class="tags-div">
+                    <div *ngFor="let tag of profileFeed.tags" class="tags">
+                            #{{ tag.tag }}
+                    </div>
+                </div>
+                <a (click)="redirectToGMaps(profileFeed.lat,profileFeed.lng)">
+                    <div id="location-div">
+                        <div id="location">
+                            <img src="assets/icon_tf_location_active.png">
+                        </div>
+                        <div id="location-address">
+                            {{ profileFeed.location }}
+                        </div>
+                    </div>
+                </a>
+                <div id="date">
+                    <img src="assets/time_icon.png">
+                    {{ extractDate(profileFeed.created_at) }}
+                </div>
+                 <!--<video controls>
+                        <source src= "{{ 'https://s3.amazonaws.com/' + 'roosterbucket/roost/' + 87 + '.mp4'}}" type="video/mp4">
+                </video>-->
+                <div class="detailsLabel">
+                    <h4>Details</h4>
+                </div>
+                <div class="profileDetailText">
+                    <p> {{ profileFeed.text }}
+                </div>
+                <div class="detailsLabel">
+                    <h4>Posted By</h4>
+                </div>
+                <div style="clear:both">
+                    <div class="userDetailsDiv">
+                        <div class="userDetailsImg"><img #usrImg src="{{ profileFeed.user.profile_image }}" (error)="imgError(usrImg, profileFeed.user.facebook_id)"></div>
+                        <div class="userDetails">{{ profileFeed.user.get_full_name }}</div>
+                    </div>
+                </div>
+                <div class="commentsDiv"> <!-- Comments DIV    -->
+                <div *ngIf="profileFeed.type=='PROMO'" class="detailsLabel">
+                    <h4>Follow</h4>
+                </div>
+                <div *ngIf="profileFeed.type=='COMPLAIN'" class="detailsLabel">
+                    <h4>Shout</h4>
+                </div>
+                <div style="clear:both">
+                <div *ngFor="let list of shouts">
+                    <div *ngIf="list.shout_by != null">
+                    <div class="userDetailsDiv">
+                        <div class="userDetailsImg"><img #usrImg src="{{ list.shout_by.profile_image }}" (error)="imgError(usrImg, list.shout_by.facebook_id)"></div></div>
+                    </div>
+                </div>
+                </div>
+                <div *ngIf="shouts == ''" class="alignNewLine"> <h5>No followers at the moment</h5> </div>
+                <div *ngIf="profileFeed.type=='PROMO'" class="detailsLabel">
+                    <h4>Reach</h4>
+                </div>
+                <div *ngIf="profileFeed.type=='COMPLAIN'" class="detailsLabel">
+                    <h4>Listen</h4>
+                </div>
+                <div style="clear:both">
+                <div *ngFor="let list of listens">
+                <div *ngIf="list.listened_by != null">
+                    <div class="userDetailsDiv">
+                        <div class="userDetailsImg"><img #usrImg src="{{ list.listened_by.profile_image }}" (error)="imgError(usrImg, list.listened_by.facebook_id)"></div></div>
+                    </div>
+                </div>
+                </div>
+                <div *ngIf="listens == ''" class="alignNewLine"> <h5>No listeners at the moment</h5> </div>
+                </div>
+                <div>
+                <div *ngIf="profileFeed.type=='COMPLAIN'" class="detailsLabel">
+                    <h4>Discussions</h4>
+                </div>
+                <div *ngIf="profileFeed.type=='PROMO'" class="detailsLabel">
+                    <h4>Comments</h4>
+                </div>
+                <div style="float:right;">
+                    <button type="button" class="btn btn-primary" (click)="viewComments(profileFeed)">View All</button>
+                </div>
+                </div>
+                <div *ngIf="comments == ''" class="alignNewLine"> <h5>No discussions at the moment</h5> </div>
+                <div *ngFor="let list of detailComments" class="commentDetail">
+                     <div class="commentImg"><img #usrImg src="{{ list.user.profile_image }}" (error)="imgError(usrImg, list.user.facebook_id)"></div>
+                    <div class="commentDetails"><div class="comment-name">{{ list.user.get_full_name }}</div>
+                    <div>{{ list.comment }}</div> </div>
+                    <div class="comment-date">
+                        <img src="assets/time_icon.png">
+                        {{ extractDate(list.createdAt) }}
+                    </div>
+                </div>
+            </div>
+    </modal-content>
+</modal>
+</div>
+
+<div class="loginModal">
+    <modal #loginModal>
+         <modal-header>
+            <h4>&nbsp;Please login to continue</h4>
+        </modal-header>
+        <modal-content>
+        </modal-content>
+        <modal-footer>
+             <div class="buttonWrapper">
+                <button class="btn btn-lg btn-social btn-facebook" (click)="facebookLogin()">
+                        <i class="fa fa-facebook fa-fw"></i>Login with Facebook
+                </button>
+            </div>
+            <br/>
+            <div style="text-align: center;">(or)</div>
+            <br/>
+            <div class="buttonWrapper">
+                <button class="btn btn-primary btn-custom" name="submit" type="submit" (click)="loginMobile();">
+                    &nbsp;&nbsp;&nbsp;Login with Mobile&nbsp;&nbsp;&nbsp;
+                </button>
+            </div>
+        </modal-footer>
+    </modal>
+</div>
+
+<div class="alertModal">
+    <modal #alertModal>
+         <modal-header>
+             &nbsp; &nbsp;
+        </modal-header>
+        <modal-content>
+            <h4>&nbsp;Please shout to comment on this Roost</h4>
+        </modal-content>
+        <modal-footer>
+        </modal-footer>
+    </modal>
+</div>
+
+<div class="mediaModal">
+    <modal #mediaModal>
+            <modal-header>
+                <div *ngIf="null != mediaFeed">
+                <h4>&nbsp;&nbsp;{{ mediaFeed.title }}</h4>
+                </div>
+        </modal-header>
+        <modal-content>
+            <div *ngIf="null != mediaFeed">
+                <div *ngIf="mediaFeed.media_type=='IMG'">
+                        <img src= "{{mediaFeed.image}}"  onerror="this.src='assets/placeholder.png'"/>
+                </div>
+                <div *ngIf="mediaFeed.media_type=='VID'">
+                    <video poster="{{mediaFeed.image}}" controls>
+                        <source src= "{{mediaFeed.video}}" onerror="this.src='assets/placeholder.png'" type="video/mp4">
+                    </video>
+                </div>
+                <div *ngIf="mediaFeed.media_type=='AUD'" class="audio">
+                    <audio controls>
+                        <source src= "{{mediaFeed.audio}}">
+                        Your browser does not support the audio element.
+                    </audio>
+                </div>
+            </div>
+        </modal-content>
+        <modal-footer>
+
+        </modal-footer>
+    </modal>
+</div>
+
+<div class="shareModal">
+    <modal #shareModal>
+            <modal-header>
+                &nbsp; &nbsp;
+        </modal-header>
+        <modal-content>
+            <share-buttons [url]=linkToShare [whatsApp]="false"></share-buttons>
+        </modal-content>
+        <modal-footer>
+
+        </modal-footer>
+    </modal>
+</div>
+
+
+
