@@ -1,0 +1,433 @@
+<div (click)="handleOffClick()">
+<nav class = "navbar navbar-default navbar-fixed-top navbar-rooster" role = "navigation">
+    <div class = "navbar-header" style="width:100%">
+        <div style="float:left;">
+            <a [routerLink]="['home']" class="pull-left"><img src="/assets/ab_logo.png" (click)="makeActive('Home')" class="logo"></a>
+        </div>
+        <div style="float:left; width:25%">
+            <a [routerLink]="['home']" class = "navbar-brand navbar-header-custom" (click)="makeActive('Home')">RoosterApp</a>
+        </div>
+        <div style="float:left;">
+            <form class="navbar-form navbar-left search-custom" role="search">
+                <div class="inner-addon left-addon">
+                    <input #searchText
+                        class="form-control search-bar-custom"
+                        placeholder="Search"
+                        (keyup.enter)="triggerSearch(searchText.value)"/>
+                    <a><i class="glyphicon glyphicon-search search-icon-custom"></i></a>
+                </div>
+            </form>
+        </div>
+
+
+        <div style="float:right;">
+            <div *ngIf="isUserLoggedIn==true" style="float:left;">
+                <a class="pull-left"
+                    [routerLink]="['profile']"
+                    (click)="makeActive('Profile');">
+                <img #img src="{{ userImg }}" (error)="imgError(img);" class="logo"></a>
+            </div>
+            <div *ngIf="isUserLoggedIn==true" style="float:left;">
+                <a [routerLink]="['profile']"
+                    (click)="makeActive('Profile');"
+                    class = "navbar-brand navbar-header-custom">{{ firstName }}</a>
+            </div>
+
+            <div *ngIf="isUserLoggedIn==false" style="float:right; cursor:pointer">
+                <a (click)="handleLogin()" class = "navbar-brand navbar-header-custom-right">Log In</a>
+            </div>
+            <div *ngIf="isUserLoggedIn==true" style="float:right;cursor:pointer">
+                <a (click)="logout();"
+                    class = "navbar-brand navbar-header-custom-right">Logout</a>
+            </div>
+            <div *ngIf="isUserLoggedIn==true" style="float:right;">
+                <!--<div class ="userDetailsDiv">
+                    <a class="pull-left"><img src="/assets/ab_logo.png" class="userDetailsImg"></a>
+                </div>-->
+                <div style="float:right; padding:0 20 0 20; max-width: 60px">
+                    <div id="nav">
+                        <div (click)="toggleNotifications();" id="notification_li">
+                            <a id="notificationLink">
+                                <span *ngIf="notificationCount>0" id="notification_count">{{ notificationCount }}</span>
+                                <span class="glyphicon glyphicon-bell notification-custom">
+                                </span>
+                            </a>
+                            <div *ngIf="showNotifications==true">
+                            <div id="notificationContainer">
+                            <div id="notificationTitle">Notifications</div>
+                            <div id="notificationsBody" class="notifications">
+                                <div *ngFor="let notify of notifications" class="notify">
+                                    <div><img #img src="{{ notify.image }}" (error)="imgError(img);" class="notify_logo"></div>
+                                    <div class="notify_message">{{ notify.message }}</div>
+                                </div>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </nav>
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li [ngClass] = "{active:sideNav.isHome}">
+                    <a *ngIf="sideNav.isHome==true"
+                        (click)="makeActive('Home')"
+                        [routerLink]="['home']">
+                            <img src="/assets/icon_home_active.png"
+                                class="side-nav-icon">   Home</a>
+                    <a *ngIf="sideNav.isHome==false"
+                        (click)="makeActive('Home')"
+                        [routerLink]="['home']">
+                            <img src="/assets/icon_home.png"
+                                class="side-nav-icon">   Home</a>
+                </li>
+                <li [ngClass] = "{active:sideNav.isPromotions}">
+                    <a *ngIf="sideNav.isPromotions==true"
+                        (click)="makeActive('Promotions')"
+                        [routerLink]="['promotions']">
+                            <img src="/assets/icon_promotions_active.png"
+                                class="side-nav-icon">   Promotions</a>
+                    <a *ngIf="sideNav.isPromotions==false"
+                        (click)="makeActive('Promotions')"
+                        [routerLink]="['promotions']">
+                            <img src="/assets/icon_promotions.png"
+                            class="side-nav-icon">   Promotions</a>
+                </li>
+                <li [ngClass] = "{active:sideNav.isComplaints}">
+                    <a *ngIf="sideNav.isComplaints==true"
+                        (click)="makeActive('Complaints')"
+                        [routerLink]="['complaints']">
+                            <img src="/assets/icon_complaints_active.png"
+                            class="side-nav-icon">   Speak Up</a>
+                    <a *ngIf="sideNav.isComplaints==false"
+                        (click)="makeActive('Complaints')"
+                        [routerLink]="['complaints']">
+                            <img src="/assets/icon_complaints.png"
+                            class="side-nav-icon">   Speak Up</a>
+                </li>
+                <li
+                    [ngClass] = "{active:sideNav.isProfile}">
+                    <a *ngIf="sideNav.isProfile==true"
+                    (click)="navigate('Profile')"
+                    [routerLink]="['profile']">
+                    <img src="/assets/icon_profile_active.png"
+                    class="side-nav-icon">   Profile</a>
+                    <a *ngIf="sideNav.isProfile==false"
+                    (click)="navigate('Profile')"
+                    [routerLink]="['profile']">
+                    <img src="/assets/icon_profile.png"
+                    class="side-nav-icon">   Profile</a>
+                </li>
+                <li
+                [ngClass] = "{active:sideNav.isPayment}">
+                    <a *ngIf="sideNav.isPayment==true"
+                    (click)="navigate('Payment')">
+                     <img src="/assets/icon_wallet_active.png"
+                    class="side-nav-icon">   Wallet</a>
+                    <a *ngIf="sideNav.isPayment==false"
+                    (click)="navigate('Payment')">
+                    <img src="/assets/icon_wallet.png"
+                    class="side-nav-icon">   Wallet</a>
+                </li>
+                <li [ngClass] = "{active:sideNav.isInfo}">
+                    <a *ngIf="sideNav.isInfo==true"
+                        (click)="makeActive('Info')"
+                        [routerLink]="['info']">
+                            <img src="/assets/icon_terms_active.png"
+                            class="side-nav-icon">   Info</a>
+                    <a *ngIf="sideNav.isInfo==false"
+                        (click)="makeActive('Info')"
+                        [routerLink]="['info']">
+                            <img src="/assets/icon_terms.png"
+                            class="side-nav-icon">   Info</a>
+                </li>
+                <li [ngClass] = "{active:sideNav.isContactUs}">
+                  <a *ngIf="sideNav.isContactUs==true"
+                    (click)="makeActive('ContactUs')"
+                    [routerLink]="['contactUs']">
+                       <img src="/assets/contact_us_active.png"
+                       class="side-nav-icon">   Contact Us</a>
+                  <a *ngIf="sideNav.isContactUs==false"
+                    (click)="makeActive('ContactUs')"
+                    [routerLink]="['contactUs']">
+                       <img src="/assets/contact_us.png"
+                       class="side-nav-icon">  Contact Us</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div [ngClass]="{'blur-background': isBlur }">
+                            <router-outlet></router-outlet>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div [ngClass]="{'blur-widget': roostSubmitted }">
+                <div *ngIf="roostSubmitted==true">
+                    <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw spinner-widget"></i>
+                </div>
+                <div id="widget">
+                    <div id="widget_div">
+                        <div *ngIf="widget.showWidget==true" id="widgetContainer">
+                            <div class="navbar-widget">
+                                <div class = "widget-header"> {{ widget.navHeader }} </div>
+                                <div (click) = "closeWidget();"  class = "widget-close">
+                                    <img src="/assets/icon_cancel.png">
+                                </div>
+                            </div>
+
+                            <div class="formDiv">
+                                <form>
+                                <div *ngIf="fileUploadType=='IMG'" class="previewDiv">
+                                    <img id="previewImg" src="" alt="">
+                                </div>
+
+                                <div *ngIf="fileUploadType=='VID'" class="previewDiv">
+                                    <video #previewVid id="previewVid" src="" alt="" controls></video>
+                                </div>
+                                <div *ngIf="fileUploadType=='AUD'" class="previewDiv">
+                                    <div class="audio">
+                                        <audio id="previewAud" src="" alt="" controls>
+                                        </audio>
+                                    </div>
+                                </div>
+                                <div *ngIf="fileUploadType==null">
+                                    <input type="file"
+                                        #img
+                                        ngControl="img"
+                                        name="img"
+                                        style="opacity: 0"
+                                        accept="image/*"
+                                        id="imgUploadField"
+                                        (change)="imgChangeEvent($event);"/>
+                                    <input type="file"
+                                        #video
+                                        ngControl="video"
+                                        name="video"
+                                        style="opacity: 0"
+                                        accept="video/*"
+                                        id="videoUploadField"
+                                        (change)="vidChangeEvent($event);"/>
+                                    <input type="file"
+                                        #audio
+                                        ngControl="audio"
+                                        name="audio"
+                                        style="opacity: 0"
+                                        accept="audio/*"
+                                        id="audioUploadField"
+                                        (change)="audChangeEvent($event);"/>
+                                    <div class="formImg"><a>
+                                        <img src = "/assets/icon_camera_active.png"
+                                            (click)="img.click();"
+                                            class="widget-icon">
+                                        </a></div>
+                                    <div class="formImg"><a>
+                                        <img src = "/assets/icon_video_active.png"
+                                            (click)="video.click();"
+                                            class="widget-icon">
+                                        </a></div>
+                                    <div class="formImg"><a>
+                                        <img src = "/assets/icon_audio_active.png"
+                                            (click)="audio.click();"
+                                            class="widget-icon">
+                                        </a></div>
+                                    <div class="formImgText">Add a file of your choice</div>
+                                </div>
+                                <div class="widgetInput">
+                                <input
+                                    class="form-control widget-control complaint-title"
+                                    ngControl="complaintTitle"
+                                    id="complaintTitle"
+                                    maxlength="100"
+                                    [(ngModel)] = "complaintTitle"
+                                    name="complaintTitle"
+                                    placeholder="{{ widget.titleDescription }}"
+                                    (keyup)="countTitleChar()"
+                                    type="text"/>
+                                <div id="titleCharCount" class="charcount">(100/100)</div>
+                                <input
+                                    class="form-control widget-control form-location"
+                                    ngControl="complaintLocation"
+                                    name="complaintLocation"
+                                    placeholder="Add your location"
+                                    type="text"
+                                    [(ngModel)] = "address"
+                                    (setAddress) = "getAddress($event)" googleplace/>
+                                <input
+                                    class="form-control widget-control form-tags"
+                                    ngControl="tags"
+                                    maxlength="300"
+                                    id="tags"
+                                    [(ngModel)] = "tags"
+                                    name="tags"
+                                    placeholder="Add tags, use space to seperate"
+                                    (keyup)="countTagChar()"
+                                    type="text"/>
+                                <div id="tagCharCount" class="charcount">(300/300)</div>
+                                <textarea
+                                    rows="4" cols="50"
+                                    maxlength="1000"
+                                    class="form-control widget-control form-complaint-desc"
+                                    ngControl="complaintDesc"
+                                    id="complaintDesc"
+                                    [(ngModel)] = "complaintDesc"
+                                    name="complaintDesc"
+                                    placeholder="{{ widget.description }}"
+                                    (keyup)="countDescChar()"
+                                    type="text"></textarea>
+                                <div id="descCharCount" class="charcount">(1000/1000)</div>
+                                <div  class="widget-button">
+                                    <button
+                                        class="btn btn-primary btn-widget"
+                                        name="submit"
+                                        type="button"
+                                        (click)="submitRoost();">
+                                    Submit
+                                    </button>
+                                </div>
+                                </div>
+                                </form>
+                            </div>
+
+                        </div>
+                </div>
+                <div *ngIf="widget.showAddButtons==true" id="widgetButtonPromotion">
+                     <button type="button"
+                         (click)="showPromotionDiv()"
+                        class="btn btn-default btn-noBorder">
+                             <b>Post Promotion &nbsp;</b>    <img src="assets/icon_promotions_active.png" width="35" />
+                     </button>
+                </div>
+                <br/>
+                <br/>
+                <div *ngIf="widget.showAddButtons==true" id="widgetButtonComplaint">
+                     <button type="button"
+                         (click)="showComplaintDiv()"
+                        class="btn btn-default btn-noBorder">
+                             <b>Speak Up &nbsp;</b>     <img src="assets/icon_complaints_active.png" width="35" />
+                     </button>
+                </div>
+                <div *ngIf="widget.hideWidget==false">
+                    <div *ngIf="widget.showPlus==true" id="widgetButtonPlus">
+                        <button type="button"
+                            (click)="togglePlus()"
+                            class="btn btn-info btn-circle btn-xl">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </button>
+                    </div>
+                    <div *ngIf="widget.showPlus==false" id="widgetButtonCross">
+                        <button type="button"
+                            (click)="togglePlus()"
+                            class="btn btn-info btn-circle btn-xl">
+                            <i class="glyphicon glyphicon-remove"></i>
+                        </button>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+    </div>
+    <!-- /#wrapper -->
+    </div>
+    <div class="loginModal">
+    <modal #loginModal>
+         <modal-header>
+            <h4>&nbsp;Please login to continue</h4>
+        </modal-header>
+        <modal-content>
+        </modal-content>
+        <modal-footer>
+             <div class="buttonWrapper">
+                <button class="btn btn-lg btn-social btn-facebook" (click)="facebookLogin()">
+                        <i class="fa fa-facebook fa-fw"></i>Login with Facebook
+                </button>
+            </div>
+            <br/>
+            <div style="text-align: center;">(or)</div>
+            <br/>
+            <div class="buttonWrapper">
+                <button class="btn btn-primary btn-custom" name="submit" type="submit" (click)="loginMobile();">
+                    &nbsp;&nbsp;&nbsp;Login with Mobile&nbsp;&nbsp;&nbsp;
+                </button>
+            </div>
+        </modal-footer>
+    </modal>
+    </div>
+
+    <div class="logoutModal">
+    <modal #logoutModal>
+         <modal-header>
+        </modal-header>
+        <modal-content>
+        </modal-content>
+        <modal-footer>
+             &nbsp;You have been logged out.
+        </modal-footer>
+    </modal>
+    </div>
+
+     <div class="mobileLoginModal">
+    <modal #mobileLoginModal>
+         <modal-header>
+             &nbsp;&nbsp;&nbsp;Please enter your mobile number
+        </modal-header>
+        <modal-content>
+            <div class="mobileLogin">Mobile#: <input #mobile type="text" name="mobile" class="mobileInput"></div>
+            <div class="buttonWrapper">
+                <button class="btn btn-primary btn-custom" name="submit" type="submit" (click)="mobileLogin(mobile.value);">
+                    &nbsp;&nbsp;&nbsp;Login with Mobile&nbsp;&nbsp;&nbsp;
+                </button>
+            </div>
+        </modal-content>
+        <modal-footer>
+        </modal-footer>
+    </modal>
+    </div>
+
+    <div class="otpModal">
+    <modal #otpModal>
+         <modal-header>
+             &nbsp;&nbsp;&nbsp;&nbsp;Enter OTP
+        </modal-header>
+        <modal-content>
+            
+            <div class="mobileLogin">Please enter the OTP sent to your registered mobile number: 
+                <input #otp type="text" name="otp" style="width: 80px;"></div>
+            <div class="buttonWrapper">
+                <button class="btn btn-primary btn-custom" name="submit" type="submit" (click)="validateOtp(otp.value);">
+                    &nbsp;Validate OTP&nbsp;
+                </button>
+            </div>
+        </modal-content>
+        <modal-footer>
+        </modal-footer>
+    </modal>
+    </div>
+
+     <div class="fileUploadModal">
+    <modal #fileUploadModal>
+         <modal-header>
+             &nbsp;&nbsp;
+        </modal-header>
+        <modal-content>
+            Please Note that the uploaded file should not exceed 50MB.
+        </modal-content>
+        <modal-footer>
+        </modal-footer>
+    </modal>
+    </div>
+
+      <simple-notifications [options]="options"></simple-notifications>

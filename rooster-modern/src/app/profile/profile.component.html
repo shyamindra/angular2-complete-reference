@@ -1,0 +1,45 @@
+<md-card class="demo-card demo-basic">
+  <md-toolbar  class="md-warn">Profile</md-toolbar>
+  <md-card-content>
+    <form>
+      <br/>
+      <div style="text-align:center;">
+        <img id="profilePic" #profileImg src="{{ userProfile.profile_image }}" (error)="imgError(profileImg);"
+          align= "middle" class="profilePic" (click)="img.click();">
+      </div>
+      <input #img type="file" name="pic" style="opacity: 0" (change)="imgChangeEvent($event)" accept="image/*">
+      <br/>
+      <br/>
+      <table style="width: 100%" cellspacing="0"><tr>
+        <td><md-input [(ngModel)] = "userProfile.name" name = "first_name" placeholder="First name" style="width: 90%"></md-input></td>
+        <td><md-input [(ngModel)] = "userProfile.last_name" name = "last_name" placeholder="Last name" style="width: 90%"></md-input></td>
+        </tr>
+        <tr>
+        <td><md-input class="demo-full-width" [(ngModel)] = "userProfile.email" name = "email" placeholder="Email" style="width: 90%"></md-input></td>
+        <td><md-input class="demo-full-width" [(ngModel)] = "userProfile.mobile_number" name = "mobile_number" placeholder="Mobile#" style="width: 90%"></md-input></td> 
+      </tr>
+      <tr>
+        <td><md-input class="demo-full-width" [(ngModel)] = "userProfile.city" name = "city" placeholder="City" style="width: 90%"></md-input></td>
+        <td><md-input class="demo-full-width" [(ngModel)] = "userProfile.profession" name = "profession" placeholder="Profession" style="width: 90%"></md-input></td> 
+      </tr>
+      <tr><td><div class="dob">Date of birth </div>
+        <div style="float: left; padding: 10px;">
+          <ng2-datepicker [options]="options" [(ngModel)]="date" name="cal"></ng2-datepicker>
+          </div></td>
+        <td><p>
+        <md-radio-group [(ngModel)] = "userProfile.gender" name="gender" class="gender">
+          <md-radio-button value="0">Male</md-radio-button>
+          <md-radio-button value="1">Female</md-radio-button>
+        </md-radio-group>
+      </p></td></tr>
+      </table>
+      <br/>
+      <br/>
+      <div  class="buttonWrapper">
+       <button class="btn btn-primary " name="submit" type="submit" (click)="saveProfile();">
+        Save Profile
+       </button>
+      </div>
+    </form>
+  </md-card-content>
+</md-card>
