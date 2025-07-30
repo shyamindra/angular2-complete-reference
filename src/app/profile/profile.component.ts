@@ -1,12 +1,9 @@
 import {Component, OnInit, Output, EventEmitter} from '@angular/core';
+declare var $: any;
 import {CommonModule} from '@angular/common';
 import {Routes, Router, RouterModule} from '@angular/router';
 import {HttpModule} from '@angular/http';
 import {FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import {MatInputModule} from '@angular/material/input';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {MatCardModule} from '@angular/material/card';
 import {CacheService} from 'ng2-cache/ng2-cache';
 import {NotificationsService} from 'angular2-notifications';
 import { DatePickerOptions, DateModel } from 'ng2-datepicker';
@@ -20,8 +17,7 @@ import {User} from '../shared/user';
   selector: 'app-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.css'],
-  providers: [FormBuilder, User, UserService, HttpModule, CommonModule, FormsModule, , MdCoreModule, MdCardModule, 
-        MdInputModule, MdToolbarModule, MdRadioModule, MdUniqueSelectionDispatcher , RouterModule]
+  providers: [FormBuilder, User, UserService, HttpModule, CommonModule, FormsModule, RouterModule]
 })
 export class ProfileComponent implements OnInit {
 
