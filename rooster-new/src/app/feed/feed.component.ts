@@ -393,3 +393,4 @@ export class FeedComponent implements OnInit {
         img.src = (facebook_id !== null && facebook_id !== undefined) ?
             "https://graph.facebook.com/" + facebook_id + "/picture?type=large" : "/assets/ab_logo.png";
     }
+}
