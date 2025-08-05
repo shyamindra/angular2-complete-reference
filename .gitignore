@@ -3,9 +3,14 @@
 # compiled output
 /dist
 /tmp
+/out-tsc
+/bazel-out
 
 # dependencies
 /node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
 # IDEs and editors
 /.idea
@@ -14,6 +19,8 @@
 .c9/
 *.launch
 .settings/
+*.sublime-project
+*.sublime-workspace
 
 # IDE - VSCode
 .vscode/*
@@ -21,13 +28,13 @@
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+!.vscode/*.code-snippets
 
 # misc
 /.sass-cache
 /connect.lock
 /coverage/*
 /libpeerconnection.log
-npm-debug.log
 testem.log
 /typings
 
@@ -38,3 +45,119 @@ testem.log
 #System Files
 .DS_Store
 Thumbs.db
+
+# Angular specific
+.angular/
+.sass-cache/
+.nyc_output
+
+# Logs
+logs
+*.log
+
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Coverage directory used by tools like istanbul
+coverage/
+*.lcov
+
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Optional npm cache directory
+.npm
+
+# Optional eslint cache
+.eslintcache
+
+# Microbundle cache
+.rpt2_cache/
+.rts2_cache_cjs/
+.rts2_cache_es/
+.rts2_cache_umd/
+
+# Optional REPL history
+.node_repl_history
+
+# Output of 'npm pack'
+*.tgz
+
+# Yarn Integrity file
+.yarn-integrity
+
+# parcel-bundler cache (https://parceljs.org/)
+.cache
+.parcel-cache
+
+# next.js build output
+.next
+
+# nuxt.js build output
+.nuxt
+
+# vuepress build output
+.vuepress/dist
+
+# Serverless directories
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb/
+
+# TernJS port file
+.tern-port
+
+# Stores VSCode versions used for testing VSCode extensions
+.vscode-test
+
+# Temporary folders
+tmp/
+temp/
+
+# Editor directories and files
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Build artifacts
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Backup files
+*.bak
+*.backup
+*~
+
+# Lock files (keep package-lock.json but ignore others)
+yarn.lock
+pnpm-lock.yaml
+
+# Angular CLI
+.angular-cli.json
