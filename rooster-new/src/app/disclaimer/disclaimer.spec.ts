@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { Disclaimer } from './disclaimer';
+import { DisclaimerComponent } from './disclaimer';
 
-describe('Disclaimer', () => {
-  let component: Disclaimer;
-  let fixture: ComponentFixture<Disclaimer>;
+describe('DisclaimerComponent', () => {
+  let component: DisclaimerComponent;
+  let fixture: ComponentFixture<DisclaimerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Disclaimer]
+      imports: [DisclaimerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Disclaimer);
+    fixture = TestBed.createComponent(DisclaimerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

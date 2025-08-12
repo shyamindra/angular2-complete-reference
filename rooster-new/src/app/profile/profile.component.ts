@@ -94,12 +94,12 @@ export class ProfileComponent implements OnInit {
 
     public saveProfile(): void {
         this._userService.updateProfile(this.userProfile.facebook_id, 
-                    (typeof localStorage !== 'undefined' ? localStorage.getItem('accessTokenFB') : null), 
+                    (typeof localStorage !== 'undefined' ? localStorage.getItem('accessTokenFB') || '' : ''), 
                     this.userProfile.name, 
                     this.userProfile.last_name, 
                     this.userProfile.gender, 
                     this.userProfile.email, 
-                    this.date, // Use this.date directly
+                    this.date || '', // Use this.date directly
                     this.userProfile.city,
                     this.userProfile.profession,
                     this.userProfile.mobile_number)
