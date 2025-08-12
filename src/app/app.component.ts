@@ -2,6 +2,7 @@ import { Component, ElementRef, Renderer, Input, HostListener, HostBinding, OnIn
 import {Routes, Router, RouterModule} from '@angular/router';
 import {NgClass, NgStyle} from '@angular/common';
 import {HttpModule} from '@angular/http';
+declare var $: any;
 
 import {UserService} from './services/user.service';
 import {SessionService} from './services/session.service';

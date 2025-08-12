@@ -1,0 +1,49 @@
+<div class="profile-container">
+  <div class="profile-header">
+    <h4>Profile</h4>
+  </div>
+  <div class="profile-content">
+    <form>
+      <br/>
+      <div style="text-align:center;">
+        <img id="profilePic" #profileImg [src]="userProfile.profile_image" (error)="imgError(profileImg);"
+          align= "middle" class="profilePic" (click)="img.click();">
+      </div>
+      <input #img type="file" name="pic" style="opacity: 0" (change)="imgChangeEvent($event)" accept="image/*">
+      <br/>
+      <br/>
+      <table style="width: 100%" cellspacing="0"><tr>
+        <td><input [(ngModel)] = "userProfile.name" name = "first_name" placeholder="First name" style="width: 90%"></td>
+        <td><input [(ngModel)] = "userProfile.last_name" name = "last_name" placeholder="Last name" style="width: 90%"></td>
+        </tr>
+        <tr>
+        <td><input class="demo-full-width" [(ngModel)] = "userProfile.email" name = "email" placeholder="Email" style="width: 90%"></td>
+        <td><input class="demo-full-width" [(ngModel)] = "userProfile.mobile_number" name = "mobile_number" placeholder="Mobile#" style="width: 90%"></td> 
+      </tr>
+      <tr>
+        <td><input class="demo-full-width" [(ngModel)] = "userProfile.city" name = "city" placeholder="City" style="width: 90%"></td>
+        <td><input class="demo-full-width" [(ngModel)] = "userProfile.profession" name = "profession" placeholder="Profession" style="width: 90%"></td> 
+      </tr>
+      <tr><td><div class="dob">Date of birth </div>
+        <div style="float: left; padding: 10px;">
+          <input type="date" [(ngModel)]="date" name="dobInput">
+          </div></td>
+        <td><p>
+        <label>
+          <input type="radio" [(ngModel)] = "userProfile.gender" name="gender" value="0"> Male
+        </label>
+        <label>
+          <input type="radio" [(ngModel)] = "userProfile.gender" name="gender" value="1"> Female
+        </label>
+      </p></td></tr>
+      </table>
+      <br/>
+      <br/>
+      <div  class="buttonWrapper">
+       <button class="btn btn-primary " name="submit" type="submit" (click)="saveProfile();">
+        Save Profile
+       </button>
+      </div>
+    </form>
+  </div>
+</div>

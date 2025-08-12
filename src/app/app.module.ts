@@ -21,11 +21,6 @@ import { TermsComponent } from './terms/terms.component';
 import { GoogleplaceDirective } from './directives/googleplace.directive';
 import { AppRoutingModule } from './app-routing.module';
 
-import {MdCoreModule} from '@angular2-material/core';
-import {MdInputModule} from '@angular2-material/input';
-import {MdRadioModule} from '@angular2-material/radio';
-import {MdToolbarModule} from '@angular2-material/toolbar';
-import {MdCardModule} from '@angular2-material/card';
 import {ModalModule} from 'ng2-modal';
 import {Ng2PaginationModule} from 'ng2-pagination';
 import { LandingComponent } from './landing/landing.component';
@@ -73,11 +68,6 @@ import { ContactUsComponent } from './contact-us/contact-us.component';
     ModalModule,
     Ng2PaginationModule,
     HttpModule,
-    MdCoreModule,
-    MdInputModule,
-    MdToolbarModule,
-    MdRadioModule,
-    MdCardModule,
     AppRoutingModule,
     DatePickerModule,
     SimpleNotificationsModule,

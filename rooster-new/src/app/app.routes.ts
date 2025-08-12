@@ -1,0 +1,39 @@
+import { Routes } from '@angular/router';
+
+import { LandingComponent } from './landing/landing';
+import { HomeComponent } from './home/home';
+import { PromotionsComponent } from './promotions/promotions';
+import { ComplaintsComponent } from './complaints/complaints';
+import { PaymentComponent } from './payment/payment';
+import { ProfileComponent } from './profile/profile';
+import { SearchComponent } from './search/search';
+import { InfoComponent } from './info/info';
+import { AboutUsComponent } from './about-us/about-us';
+import { CancellationComponent } from './cancellation/cancellation';
+import { DisclaimerComponent } from './disclaimer/disclaimer';
+import { FaqComponent } from './faq/faq';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy';
+import { TermsComponent } from './terms/terms';
+import { ContactUsComponent } from './contact-us/contact-us';
+import { PayuPaymentComponent } from './payu-payment/payu-payment';
+
+export const routes: Routes = [
+    { path: 'rooster', component: LandingComponent },
+    { path: 'home', component: HomeComponent },
+    { path: 'home/:ct', component: HomeComponent },
+    { path: 'promotions', component: PromotionsComponent },
+    { path: 'complaints', component: ComplaintsComponent },
+    { path: 'payment', component: PaymentComponent },
+    { path: 'profile', component: ProfileComponent },
+    { path: 'search/:searchKey', component: SearchComponent },
+    { path: 'info', component: InfoComponent },
+    { path: 'info/aboutUs', component: AboutUsComponent },
+    { path: 'info/cancellation', component: CancellationComponent },
+    { path: 'info/disclaimer', component: DisclaimerComponent },
+    { path: 'info/faq', component: FaqComponent },
+    { path: 'info/privacy', component: PrivacyPolicyComponent },
+    { path: 'info/terms', component: TermsComponent },
+    { path: '', component: LandingComponent },
+    { path: 'contactUs', component: ContactUsComponent },
+    { path: 'payuPayment', component: PayuPaymentComponent }
+];

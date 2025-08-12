@@ -170,8 +170,8 @@ export class RoostService {
       formData.append("title", feed.title);
       formData.append("text", feed.text);
       formData.append("location", feed.location);
-      formData.append("lat", feed.lat);
-      formData.append("lng", feed.lng);  
+      formData.append("lat", feed.lat.toString());
+      formData.append("lng", feed.lng.toString());
       formData.append("media_type", feed.media_type);
       if(feed.media_type == 'IMG'){
           formData.append("image", feed.image);
